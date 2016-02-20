@@ -63,6 +63,6 @@ public class MethodResolver extends MemberResolver<Method> {
 
 	@Override
 	protected NoSuchMethodException notFoundException(String joinedNames) {
-		return new NoSuchMethodException("Could not resolve method for " + joinedNames);
+		return new NoSuchMethodException("Could not resolve method for " + joinedNames+ " in class " + this.clazz);
 	}
 }

@@ -68,6 +68,6 @@ public class FieldResolver extends MemberResolver<Field> {
 
 	@Override
 	protected NoSuchFieldException notFoundException(String joinedNames) {
-		return new NoSuchFieldException("Could not resolve field for " + joinedNames);
+		return new NoSuchFieldException("Could not resolve field for " + joinedNames + " in class " + this.clazz);
 	}
 }

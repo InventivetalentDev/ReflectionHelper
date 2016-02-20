@@ -65,4 +65,9 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 	protected Constructor resolveObject(ResolverQuery query) throws ReflectiveOperationException {
 		return AccessUtil.setAccessible(this.clazz.getDeclaredConstructor(query.getTypes()));
 	}
+
+	@Override
+	protected NoSuchMethodException notFoundException(String joinedNames) {
+		return new NoSuchMethodException("Could not resolve constructor for " + joinedNames + " in class " + this.clazz);
+	}
 }
