@@ -58,11 +58,11 @@ public class MethodResolver extends MemberResolver<Method> {
 
 	@Override
 	protected Method resolveObject(ResolverQuery query) throws ReflectiveOperationException {
-		return AccessUtil.setAccessible(this.clazz.getDeclaredMethod(query.getName()));
+		return AccessUtil.setAccessible(this.clazz.getDeclaredMethod(query.getName(), query.getTypes()));
 	}
 
 	@Override
 	protected NoSuchMethodException notFoundException(String joinedNames) {
-		return new NoSuchMethodException("Could not resolve method for " + joinedNames+ " in class " + this.clazz);
+		return new NoSuchMethodException("Could not resolve method for " + joinedNames + " in class " + this.clazz);
 	}
 }
