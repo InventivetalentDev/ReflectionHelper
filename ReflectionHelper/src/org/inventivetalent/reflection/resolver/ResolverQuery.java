@@ -37,7 +37,7 @@ public class ResolverQuery {
 	private String     name;
 	private Class<?>[] types;
 
-	public ResolverQuery(String name, Class<?>[] types) {
+	public ResolverQuery(String name, Class<?>... types) {
 		this.name = name;
 		this.types = types;
 	}
@@ -46,7 +46,7 @@ public class ResolverQuery {
 		this.name = name;
 	}
 
-	public ResolverQuery(Class<?>[] types) {
+	public ResolverQuery(Class<?>... types) {
 		this.types = types;
 	}
 
