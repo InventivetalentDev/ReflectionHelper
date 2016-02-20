@@ -42,9 +42,25 @@ public class MethodResolver extends MemberResolver<Method> {
 		super(className);
 	}
 
+	public Method resolveSilent(String... names) {
+		try {
+			return resolve(names);
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
 	@Override
 	public Method resolveSilent(ResolverQuery... queries) {
 		return super.resolveSilent(queries);
+	}
+
+	public Method resolve(String... names) throws NoSuchMethodException {
+		ResolverQuery.Builder builder = ResolverQuery.builder();
+		for (String name : names) {
+			builder.with(name);
+		}
+		return resolve(builder.build());
 	}
 
 	@Override
