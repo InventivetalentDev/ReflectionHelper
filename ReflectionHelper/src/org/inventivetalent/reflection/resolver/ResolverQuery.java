@@ -44,6 +44,7 @@ public class ResolverQuery {
 
 	public ResolverQuery(String name) {
 		this.name = name;
+		this.types = new Class[0];
 	}
 
 	public ResolverQuery(Class<?>... types) {
