@@ -32,6 +32,9 @@ import org.inventivetalent.reflection.util.AccessUtil;
 
 import java.lang.reflect.Method;
 
+/**
+ * Resolver for methods
+ */
 public class MethodResolver extends MemberResolver<Method> {
 
 	public MethodResolver(Class<?> clazz) {

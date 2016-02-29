@@ -32,6 +32,9 @@ import org.inventivetalent.reflection.util.AccessUtil;
 
 import java.lang.reflect.Constructor;
 
+/**
+ * Resolver for constructors
+ */
 public class ConstructorResolver extends MemberResolver<Constructor> {
 
 	public ConstructorResolver(Class<?> clazz) {

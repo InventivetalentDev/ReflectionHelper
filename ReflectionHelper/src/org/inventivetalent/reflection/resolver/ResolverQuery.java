@@ -32,6 +32,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Container class for resolver-queries
+ * Used by {@link MethodResolver}
+ *
+ * @see org.inventivetalent.reflection.resolver.ResolverQuery.Builder
+ */
 public class ResolverQuery {
 
 	private String     name;
@@ -91,6 +97,10 @@ public class ResolverQuery {
 		return new Builder();
 	}
 
+	/**
+	 * Builder class for {@link ResolverQuery}
+	 * Access using {@link ResolverQuery#builder()}
+	 */
 	public static class Builder {
 
 		private List<ResolverQuery> queryList = new ArrayList<ResolverQuery>();

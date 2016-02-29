@@ -32,8 +32,14 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+/**
+ * Helper class to set fields, methods & constructors accessible
+ */
 public abstract class AccessUtil {
 
+	/**
+	 * Sets the field accessible and removes final modifiers
+	 */
 	public static Field setAccessible(Field f) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		f.setAccessible(true);
 		Field modifiersField = Field.class.getDeclaredField("modifiers");
@@ -42,11 +48,17 @@ public abstract class AccessUtil {
 		return f;
 	}
 
+	/**
+	 * Sets the method accessible
+	 */
 	public static Method setAccessible(Method m) throws SecurityException, IllegalArgumentException, IllegalAccessException {
 		m.setAccessible(true);
 		return m;
 	}
 
+	/**
+	 * Sets the constructor accessible
+	 */
 	public static Constructor setAccessible(Constructor c) throws SecurityException, IllegalArgumentException, IllegalAccessException {
 		c.setAccessible(true);
 		return c;

@@ -30,6 +30,14 @@ package org.inventivetalent.reflection.resolver;
 
 import java.lang.reflect.Member;
 
+/**
+ * abstract class to resolve members
+ *
+ * @param <T> member type
+ * @see ConstructorResolver
+ * @see FieldResolver
+ * @see MethodResolver
+ */
 public abstract class MemberResolver<T extends Member> extends ResolverAbstract<T> {
 
 	protected Class<?> clazz;

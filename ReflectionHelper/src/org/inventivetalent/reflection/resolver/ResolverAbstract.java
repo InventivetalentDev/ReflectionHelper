@@ -32,6 +32,15 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Abstract resolver class
+ *
+ * @param <T> resolved type
+ * @see ClassResolver
+ * @see ConstructorResolver
+ * @see FieldResolver
+ * @see MethodResolver
+ */
 public abstract class ResolverAbstract<T> {
 
 	protected final Map<ResolverQuery, T> resolvedObjects = new ConcurrentHashMap<ResolverQuery, T>();

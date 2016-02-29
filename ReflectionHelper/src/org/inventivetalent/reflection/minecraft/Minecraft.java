@@ -34,8 +34,14 @@ import org.inventivetalent.reflection.util.AccessUtil;
 
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Helper class to access minecraft/bukkit specific objects
+ */
 public class Minecraft {
 
+	/**
+	 * @return the current NMS/OBC version (format <code>&lt;version&gt;.</code>
+	 */
 	public static String getVersion() {
 		String name = Bukkit.getServer().getClass().getPackage().getName();
 		String version = name.substring(name.lastIndexOf('.') + 1) + ".";

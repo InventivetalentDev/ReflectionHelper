@@ -28,6 +28,9 @@
 
 package org.inventivetalent.reflection.resolver;
 
+/**
+ * Default {@link ClassResolver}
+ */
 public class ClassResolver extends ResolverAbstract<Class> {
 
 	public Class resolveSilent(String... names) {

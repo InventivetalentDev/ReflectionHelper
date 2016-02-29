@@ -32,6 +32,9 @@ import org.inventivetalent.reflection.util.AccessUtil;
 
 import java.lang.reflect.Field;
 
+/**
+ * Resolver for fields
+ */
 public class FieldResolver extends MemberResolver<Field> {
 
 	public FieldResolver(Class<?> clazz) {
