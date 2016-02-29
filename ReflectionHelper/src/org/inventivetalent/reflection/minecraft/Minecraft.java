@@ -29,6 +29,7 @@
 package org.inventivetalent.reflection.minecraft;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.inventivetalent.reflection.util.AccessUtil;
 
 import java.lang.reflect.InvocationTargetException;
@@ -43,6 +44,10 @@ public class Minecraft {
 
 	public static Object getHandle(Object object) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 		return AccessUtil.setAccessible(object.getClass().getDeclaredMethod("getHandle")).invoke(object);
+	}
+
+	public static Entity getBukkitEntity(Object object) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+		return (Entity) AccessUtil.setAccessible(object.getClass().getDeclaredMethod("getBukkitEntity")).invoke(object);
 	}
 
 	public static Object getHandleSilent(Object object) {

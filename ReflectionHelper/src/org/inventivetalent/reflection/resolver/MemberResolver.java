@@ -36,12 +36,10 @@ public abstract class MemberResolver<T extends Member> extends ResolverAbstract<
 
 	public MemberResolver(Class<?> clazz) {
 		if (clazz == null) { throw new IllegalArgumentException("class cannot be null"); }
-		this.clazz=clazz;
+		this.clazz = clazz;
 	}
 
-	public MemberResolver(String className) throws ClassNotFoundException{
+	public MemberResolver(String className) throws ClassNotFoundException {
 		this(new ClassResolver().resolve(className));
 	}
-
-
 }
