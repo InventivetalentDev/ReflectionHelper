@@ -31,6 +31,9 @@ package org.inventivetalent.reflection.resolver.minecraft;
 import org.inventivetalent.reflection.minecraft.Minecraft;
 import org.inventivetalent.reflection.resolver.ClassResolver;
 
+/**
+ * {@link ClassResolver} for <code>org.bukkit.craftbukkit.*</code> classes
+ */
 public class OBCClassResolver extends ClassResolver {
 
 	@Override

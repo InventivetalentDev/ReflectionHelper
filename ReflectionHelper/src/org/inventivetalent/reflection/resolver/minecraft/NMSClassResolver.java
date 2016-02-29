@@ -31,6 +31,9 @@ package org.inventivetalent.reflection.resolver.minecraft;
 import org.inventivetalent.reflection.minecraft.Minecraft;
 import org.inventivetalent.reflection.resolver.ClassResolver;
 
+/**
+ * {@link ClassResolver} for <code>net.minecraft.server.*</code> classes
+ */
 public class NMSClassResolver extends ClassResolver {
 
 	@Override
