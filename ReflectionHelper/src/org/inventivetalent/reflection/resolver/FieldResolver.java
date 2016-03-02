@@ -73,6 +73,7 @@ public class FieldResolver extends MemberResolver<Field> {
 	 * Attempts to find the first field of the specified type
 	 *
 	 * @param type Type to find
+	 * @see #resolveByLastType(Class)
 	 */
 	public Field resolveByFirstType(Class<?> type) throws ReflectiveOperationException {
 		for (Field field : this.clazz.getDeclaredFields()) {
@@ -84,9 +85,24 @@ public class FieldResolver extends MemberResolver<Field> {
 	}
 
 	/**
+	 * Attempts to find the first field of the specified type
+	 *
+	 * @param type Type to find
+	 * @see #resolveByLastTypeSilent(Class)
+	 */
+	public Field resolveByFirstTypeSilent(Class<?> type) {
+		try {
+			return resolveByFirstType(type);
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	/**
 	 * Attempts to find the last field of the specified type
 	 *
 	 * @param type Type to find
+	 * @see #resolveByFirstType(Class)
 	 */
 	public Field resolveByLastType(Class<?> type) throws ReflectiveOperationException {
 		Field field = null;
@@ -95,8 +111,16 @@ public class FieldResolver extends MemberResolver<Field> {
 				field = field1;
 			}
 		}
-		if (field == null) { new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz); }
+		if (field == null) { throw new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz); }
 		return AccessUtil.setAccessible(field);
+	}
+
+	public Field resolveByLastTypeSilent(Class<?> type) {
+		try {
+			return resolveByLastType(type);
+		} catch (Exception e) {
+		}
+		return null;
 	}
 
 	@Override
