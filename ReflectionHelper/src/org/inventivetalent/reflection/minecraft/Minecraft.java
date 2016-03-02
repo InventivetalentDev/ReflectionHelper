@@ -77,26 +77,16 @@ public class Minecraft {
 			}
 		},
 
-		v1_7_2_R1(107021),
-		v1_7_2_R2(107022),
-		v1_7_2_R3(107023),
-		v1_7_2_R4(107024),
+		v1_7_R1(10701),
+		v1_7_R2(10702),
+		v1_7_R3(10703),
+		v1_7_R4(10704),
 
-		v1_7_5_R1(107051),
-		v1_7_8_R1(107081),
-		v1_7_9_R1(107091),
-		v1_7_9_R2(107092),
-		v1_7_9_R3(107093),
-
-		v1_7_10_R1(107101),
-
-		v1_8_R1(108001),
-		v1_8_3_R1(108031),
-		v1_8_4_R1(108041),
-		v1_8_5_R1(108051),
-		v1_8_6_R1(108061),
-		v1_8_7_R1(108071),
-		v1_8_8_R1(108081),
+		v1_8_R1(10801),
+		v1_8_R2(10802),
+		v1_8_R3(10803),
+		//Does this even exists?
+		v1_8_R4(10804),
 
 		v1_9_R1(109001);
 
@@ -148,6 +138,7 @@ public class Minecraft {
 			for (Version version : values()) {
 				if (version.matchesPackageName(versionPackage)) { return version; }
 			}
+			System.err.println("[ReflectionHelper] Failed to find version enum for '" + name + "'/'" + versionPackage + "'");
 			return UNKNOWN;
 		}
 
