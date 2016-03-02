@@ -28,7 +28,6 @@
 
 package org.inventivetalent.reflection.minecraft;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.inventivetalent.reflection.util.AccessUtil;
 
@@ -39,13 +38,18 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class Minecraft {
 
+	public static final Version VERSION;
+
+	static {
+		VERSION = Version.getVersion();
+		System.out.println("[ReflectionHelper] Version is " + VERSION);
+	}
+
 	/**
 	 * @return the current NMS/OBC version (format <code>&lt;version&gt;.</code>
 	 */
 	public static String getVersion() {
-		String name = Bukkit.getServer().getClass().getPackage().getName();
-		String version = name.substring(name.lastIndexOf('.') + 1) + ".";
-		return version;
+		return VERSION.name() + ".";
 	}
 
 	public static Object getHandle(Object object) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -62,6 +66,88 @@ public class Minecraft {
 		} catch (Exception e) {
 		}
 		return null;
+	}
+
+	public enum Version {
+		UNKNOWN(-1),
+
+		v1_7_2_R1(107021),
+		v1_7_2_R2(107022),
+		v1_7_2_R3(107023),
+		v1_7_2_R4(107024),
+
+		v1_7_5_R1(107051),
+		v1_7_8_R1(107081),
+		v1_7_9_R1(107091),
+		v1_7_9_R2(107092),
+		v1_7_9_R3(107093),
+
+		v1_7_10_R1(107101),
+
+		v1_8_R1(108001),
+		v1_8_3_R1(108031),
+		v1_8_4_R1(108041),
+		v1_8_5_R1(108051),
+		v1_8_6_R1(108061),
+		v1_8_7_R1(108071),
+		v1_8_8_R1(108081),
+
+		v1_9_R1(109001);
+
+		private int version;
+
+		Version(int version) {
+			this.version = version;
+		}
+
+		/**
+		 * @return the version-number
+		 */
+		public int version() {
+			return version;
+		}
+
+		/**
+		 * @param version the version to check
+		 * @return <code>true</code> if this version is older than the specified version
+		 */
+		public boolean olderThan(Version version) {
+			return version() < version.version();
+		}
+
+		/**
+		 * @param version the version to check
+		 * @return <code>true</code> if this version is newer than the specified version
+		 */
+		public boolean newerThan(Version version) {
+			return version() >= version.version();
+		}
+
+		/**
+		 * @param oldVersion The older version to check
+		 * @param newVersion The newer version to check
+		 * @return <code>true</code> if this version is newer than the oldVersion and older that the newVersion
+		 */
+		public boolean inRange(Version oldVersion, Version newVersion) {
+			return newerThan(oldVersion) && olderThan(newVersion);
+		}
+
+		public boolean matchesPackageName(String packageName) {
+			return packageName.toLowerCase().contains(name().toLowerCase());
+		}
+
+		public static Version getVersion() {
+			String versionPackage = Minecraft.getVersion();
+			for (Version version : values()) {
+				if (version.matchesPackageName(versionPackage)) { return version; }
+			}
+			return UNKNOWN;
+		}
+
+		@Override
+		public String toString() {
+			return name() + " (" + version() + ")";
+		}
 	}
 
 }
