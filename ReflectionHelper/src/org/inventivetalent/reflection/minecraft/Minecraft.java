@@ -141,7 +141,6 @@ public class Minecraft {
 			String name = Bukkit.getServer().getClass().getPackage().getName();
 			String versionPackage = name.substring(name.lastIndexOf('.') + 1) + ".";
 			for (Version version : values()) {
-				System.out.println(version);
 				if (version.matchesPackageName(versionPackage)) { return version; }
 			}
 			return UNKNOWN;
