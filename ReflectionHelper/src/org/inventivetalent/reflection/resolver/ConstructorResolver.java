@@ -69,6 +69,38 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 		return AccessUtil.setAccessible(this.clazz.getDeclaredConstructor(query.getTypes()));
 	}
 
+	public Constructor resolveFirstConstructor() throws ReflectiveOperationException {
+		for (Constructor constructor : this.clazz.getDeclaredConstructors()) {
+			return AccessUtil.setAccessible(constructor);
+		}
+		return null;
+	}
+
+	public Constructor resolveFirstConstructorSilent() {
+		try {
+			return resolveFirstConstructor();
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	public Constructor resolveLastConstructor() throws ReflectiveOperationException {
+		Constructor constructor = null;
+		for (Constructor constructor1 : this.clazz.getDeclaredConstructors()) {
+			constructor = constructor1;
+		}
+		if (constructor != null) { return AccessUtil.setAccessible(constructor); }
+		return null;
+	}
+
+	public Constructor resolveLastConstructorSilent() {
+		try {
+			return resolveLastConstructor();
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
 	@Override
 	protected NoSuchMethodException notFoundException(String joinedNames) {
 		return new NoSuchMethodException("Could not resolve constructor for " + joinedNames + " in class " + this.clazz);
