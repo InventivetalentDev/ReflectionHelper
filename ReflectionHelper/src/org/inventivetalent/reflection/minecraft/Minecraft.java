@@ -70,7 +70,12 @@ public class Minecraft {
 	}
 
 	public enum Version {
-		UNKNOWN(-1),
+		UNKNOWN(-1) {
+			@Override
+			public boolean matchesPackageName(String packageName) {
+				return false;
+			}
+		},
 
 		v1_7_2_R1(107021),
 		v1_7_2_R2(107022),
