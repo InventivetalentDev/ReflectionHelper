@@ -69,6 +69,36 @@ public class FieldResolver extends MemberResolver<Field> {
 		return AccessUtil.setAccessible(this.clazz.getDeclaredField(query.getName()));
 	}
 
+	/**
+	 * Attempts to find the first field of the specified type
+	 *
+	 * @param type Type to find
+	 */
+	public Field resolveByFirstType(Class<?> type) throws ReflectiveOperationException {
+		for (Field field : this.clazz.getDeclaredFields()) {
+			if (field.getType().equals(type)) {
+				return AccessUtil.setAccessible(field);
+			}
+		}
+		throw new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz);
+	}
+
+	/**
+	 * Attempts to find the last field of the specified type
+	 *
+	 * @param type Type to find
+	 */
+	public Field resolveByLastType(Class<?> type) throws ReflectiveOperationException {
+		Field field = null;
+		for (Field field1 : this.clazz.getDeclaredFields()) {
+			if (field1.getType().equals(type)) {
+				field = field1;
+			}
+		}
+		if (field == null) { new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz); }
+		return AccessUtil.setAccessible(field);
+	}
+
 	@Override
 	protected NoSuchFieldException notFoundException(String joinedNames) {
 		return new NoSuchFieldException("Could not resolve field for " + joinedNames + " in class " + this.clazz);
