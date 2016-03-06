@@ -35,6 +35,7 @@ import java.lang.reflect.Field;
 /**
  * Resolver for fields
  */
+//TODO: Add query for field-type
 public class FieldResolver extends MemberResolver<Field> {
 
 	public FieldResolver(Class<?> clazz) {
@@ -64,9 +65,38 @@ public class FieldResolver extends MemberResolver<Field> {
 		}
 	}
 
+	public Field resolveSilent(ResolverQuery... queries) {
+		try {
+			return resolve(queries);
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	public Field resolve(ResolverQuery... queries) throws NoSuchFieldException {
+		try {
+			return super.resolve(queries);
+		} catch (ReflectiveOperationException e) {
+			throw (NoSuchFieldException) e;
+		}
+	}
+
 	@Override
 	protected Field resolveObject(ResolverQuery query) throws ReflectiveOperationException {
-		return AccessUtil.setAccessible(this.clazz.getDeclaredField(query.getName()));
+		if (query.getTypes() == null || query.getTypes().length == 0) {
+			return AccessUtil.setAccessible(this.clazz.getDeclaredField(query.getName()));
+		} else {
+			for (Field field : this.clazz.getDeclaredFields()) {
+				if (field.getName().equals(query.getName())) {
+					for (Class type : query.getTypes()) {
+						if (field.getType().equals(type)) {
+							return field;
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
