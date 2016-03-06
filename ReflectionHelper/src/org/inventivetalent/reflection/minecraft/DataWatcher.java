@@ -147,11 +147,11 @@ public class DataWatcher {
 		//		}
 
 		public static Object getItem(Object dataWatcher, Object dataWatcherObject) throws ReflectiveOperationException {
-			return DataWatcherMethodResolver.resolve(new ResolverQuery("c", DataWatcherObject)).invoke(dataWatcher);
+			return DataWatcherMethodResolver.resolve(new ResolverQuery("c", DataWatcherObject)).invoke(dataWatcher, dataWatcherObject);
 		}
 
 		public static Object getValue(Object dataWatcher, Object dataWatcherObject) throws ReflectiveOperationException {
-			return DataWatcherMethodResolver.resolve("get").invoke(dataWatcher);
+			return DataWatcherMethodResolver.resolve("get").invoke(dataWatcher, dataWatcherObject);
 		}
 
 		public static Object getValue(Object dataWatcher, ValueType type) throws ReflectiveOperationException {
