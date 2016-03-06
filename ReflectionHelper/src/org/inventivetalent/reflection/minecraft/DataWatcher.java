@@ -62,7 +62,7 @@ public class DataWatcher {
 		if (Minecraft.VERSION.olderThan(Minecraft.Version.v1_9_R1)) {
 			return V1_8.setValue(dataWatcher, index, value);
 		} else {
-			return V1_9.setValue(dataWatcher, index, dataWatcherObject, value);
+			return V1_9.setItem(dataWatcher, index, dataWatcherObject, value);
 		}
 	}
 
@@ -75,7 +75,7 @@ public class DataWatcher {
 			return V1_8.setValue(dataWatcher, index, value);
 		} else {
 			Object dataWatcherObject = dataWatcherObjectFieldResolver.resolve(dataWatcherObjectFieldNames).get(null/*Should be a static field*/);
-			return V1_9.setValue(dataWatcher, index, dataWatcherObject, value);
+			return V1_9.setItem(dataWatcher, index, dataWatcherObject, value);
 		}
 	}
 
@@ -131,11 +131,11 @@ public class DataWatcher {
 			return DataWatcherItemConstructorResolver.resolveFirstConstructor().newInstance(dataWatcherObject, value);
 		}
 
-		public static Object setValue(Object dataWatcher, int index, Object dataWatcherObject, Object value) throws ReflectiveOperationException {
-			return setValue(dataWatcher, index, newDataWatcherItem(dataWatcherObject, value));
+		public static Object setItem(Object dataWatcher, int index, Object dataWatcherObject, Object value) throws ReflectiveOperationException {
+			return setItem(dataWatcher, index, newDataWatcherItem(dataWatcherObject, value));
 		}
 
-		public static Object setValue(Object dataWatcher, int index, Object dataWatcherItem) throws ReflectiveOperationException {
+		public static Object setItem(Object dataWatcher, int index, Object dataWatcherItem) throws ReflectiveOperationException {
 			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolve("c").get(dataWatcher);
 			map.put(index, dataWatcherItem);
 			return dataWatcher;
