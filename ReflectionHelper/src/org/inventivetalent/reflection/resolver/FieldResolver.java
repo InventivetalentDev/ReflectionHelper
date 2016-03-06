@@ -35,7 +35,6 @@ import java.lang.reflect.Field;
 /**
  * Resolver for fields
  */
-//TODO: Add query for field-type
 public class FieldResolver extends MemberResolver<Field> {
 
 	public FieldResolver(Class<?> clazz) {
