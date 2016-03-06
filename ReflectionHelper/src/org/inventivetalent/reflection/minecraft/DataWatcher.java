@@ -52,6 +52,7 @@ public class DataWatcher {
 	static FieldResolver DataWatcherFieldResolver = new FieldResolver(DataWatcher);
 
 	static MethodResolver TIntObjectHashMapMethodResolver = new MethodResolver(TIntObjectHashMap);
+	static MethodResolver DataWatcherMethodResolver       = new MethodResolver(DataWatcher);
 
 	public static Object newDataWatcher(@Nullable Object entity) throws ReflectiveOperationException {
 		return DataWacherConstructorResolver.resolve(new Class[] { Entity }).newInstance(entity);
@@ -140,9 +141,21 @@ public class DataWatcher {
 			return dataWatcher;
 		}
 
-		public static Object getValue(Object dataWatcher, int index) throws ReflectiveOperationException {
-			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolve("c").get(dataWatcher);
-			return map.get(index);
+		//		public static Object getValue(Object dataWatcher, int index) throws ReflectiveOperationException {
+		//			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolve("c").get(dataWatcher);
+		//			return map.get(index);
+		//		}
+
+		public static Object getItem(Object dataWatcher, Object dataWatcherObject) throws ReflectiveOperationException {
+			return DataWatcherMethodResolver.resolve(new ResolverQuery("c", DataWatcherObject)).invoke(dataWatcher);
+		}
+
+		public static Object getValue(Object dataWatcher, Object dataWatcherObject) throws ReflectiveOperationException {
+			return DataWatcherMethodResolver.resolve("get").invoke(dataWatcher);
+		}
+
+		public static Object getValue(Object dataWatcher, ValueType type) throws ReflectiveOperationException {
+			return getValue(dataWatcher, type.getType());
 		}
 
 		public static Object getItemObject(Object item) throws ReflectiveOperationException {
