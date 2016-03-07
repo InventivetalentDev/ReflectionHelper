@@ -273,7 +273,7 @@ public class DataWatcher {
 			/**
 			 * Byte
 			 */
-			ENTITY_HUMAN_SETTINGS("EntityHuman", "bp"),
+			ENTITY_HUMAN_SKIN_LAYERS("EntityHuman", "bp"),
 
 			/**
 			 * Byte (0 = left, 1 = right)
