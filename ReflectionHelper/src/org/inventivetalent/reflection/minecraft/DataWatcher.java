@@ -258,7 +258,27 @@ public class DataWatcher {
 			ENTITY_WITHER_bv("EntityWither", "bv"),
 
 			//TODO: Add EntityWither#bw (Integer)
-			ENTITY_WITHER_bw("EntityWither", "bw");
+			ENTITY_WITHER_bw("EntityWither", "bw"),
+
+			/**
+			 * Float
+			 */
+			ENTITY_HUMAN_ABSORPTION_HEARTS("EntityHuman", "a"),
+
+			/**
+			 * Integer
+			 */
+			ENTITY_HUMAN_SCORE("EntityHuman", "b"),
+
+			/**
+			 * Byte
+			 */
+			ENTITY_HUMAN_SETTINGS("EntityHuman", "bp"),
+
+			/**
+			 * Byte (0 = left, 1 = right)
+			 */
+			ENTITY_HUMAN_MAIN_HAND("EntityHuman", "bq");
 
 			private Object type;
 
