@@ -243,7 +243,22 @@ public class DataWatcher {
 			/**
 			 * Integer
 			 */
-			ENTITY_SLIME_SIZE("EntitySlime", "bt");
+			ENTITY_SLIME_SIZE("EntitySlime", "bt"),
+
+			//TODO: Add EntityWither#a (Integer)
+			ENTITY_WITHER_a("EntityWither", "a"),
+
+			//TODO:  Add EntityWither#b (Integer)
+			ENTITY_WIHER_b("EntityWither", "b"),
+
+			//TODO: Add EntityWither#c (Integer)
+			ENTITY_WITHER_c("EntityWither", "c"),
+
+			//TODO: Add EntityWither#bv (Integer) - (DataWatcherObject<Integer>[] bv)
+			ENTITY_WITHER_bv("EntityWither", "bv"),
+
+			//TODO: Add EntityWither#bw (Integer)
+			ENTITY_WITHER_bw("EntityWither", "bw");
 
 			private Object type;
 
