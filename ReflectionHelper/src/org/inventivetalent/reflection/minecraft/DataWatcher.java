@@ -254,7 +254,7 @@ public class DataWatcher {
 			//TODO: Add EntityWither#c (Integer)
 			ENTITY_WITHER_c("EntityWither", "c"),
 
-			//TODO: Add EntityWither#bv (Integer) - (DataWatcherObject<Integer>[] bv)
+			//TODO: Add EntityWither#bv (Integer) - (DataWatcherObject<Integer>[] bv, seems to be an array of {a, b, c})
 			ENTITY_WITHER_bv("EntityWither", "bv"),
 
 			//TODO: Add EntityWither#bw (Integer)
