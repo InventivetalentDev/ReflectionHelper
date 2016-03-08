@@ -44,11 +44,17 @@ public class Minecraft {
 	public static final Version VERSION;
 
 	private static OBCClassResolver obcClassResolver = new OBCClassResolver();
-	private static Class<?>         CraftEntity      = obcClassResolver.resolveSilent("entity.CraftEntity");
+	private static Class<?> CraftEntity;
 
 	static {
 		VERSION = Version.getVersion();
 		System.out.println("[ReflectionHelper] Version is " + VERSION);
+
+		try {
+			CraftEntity = obcClassResolver.resolve("entity.CraftEntity");
+		} catch (ReflectiveOperationException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
