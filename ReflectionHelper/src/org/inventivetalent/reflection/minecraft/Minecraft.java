@@ -30,9 +30,11 @@ package org.inventivetalent.reflection.minecraft;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.inventivetalent.reflection.resolver.minecraft.OBCClassResolver;
 import org.inventivetalent.reflection.util.AccessUtil;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Helper class to access minecraft/bukkit specific objects
@@ -40,6 +42,9 @@ import java.lang.reflect.InvocationTargetException;
 public class Minecraft {
 
 	public static final Version VERSION;
+
+	private static OBCClassResolver obcClassResolver = new OBCClassResolver();
+	private static Class<?>         CraftEntity      = obcClassResolver.resolveSilent("entity.CraftEntity");
 
 	static {
 		VERSION = Version.getVersion();
@@ -54,11 +59,23 @@ public class Minecraft {
 	}
 
 	public static Object getHandle(Object object) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return AccessUtil.setAccessible(object.getClass().getDeclaredMethod("getHandle")).invoke(object);
+		Method method;
+		try {
+			method = AccessUtil.setAccessible(object.getClass().getDeclaredMethod("getHandle"));
+		} catch (ReflectiveOperationException e) {
+			method = AccessUtil.setAccessible(CraftEntity.getDeclaredMethod("getHandle"));
+		}
+		return method.invoke(object);
 	}
 
 	public static Entity getBukkitEntity(Object object) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return (Entity) AccessUtil.setAccessible(object.getClass().getDeclaredMethod("getBukkitEntity")).invoke(object);
+		Method method;
+		try {
+			method = AccessUtil.setAccessible(object.getClass().getDeclaredMethod("getBukkitEntity"));
+		} catch (ReflectiveOperationException e) {
+			method = AccessUtil.setAccessible(CraftEntity.getDeclaredMethod("getHandle"));
+		}
+		return (Entity) method.invoke(object);
 	}
 
 	public static Object getHandleSilent(Object object) {
