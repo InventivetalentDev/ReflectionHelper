@@ -39,20 +39,20 @@ public class DataWatcher {
 	static ClassResolver    classResolver    = new ClassResolver();
 	static NMSClassResolver nmsClassResolver = new NMSClassResolver();
 
-	static Class<?> ItemStack         = nmsClassResolver.resolveSilent("ItemStack");
-	static Class<?> ChunkCoordinates  = nmsClassResolver.resolveSilent("ChunkCoordinates");
-	static Class<?> BlockPosition     = nmsClassResolver.resolveSilent("BlockPosition");
-	static Class<?> Vector3f          = nmsClassResolver.resolveSilent("Vector3f");
-	static Class<?> DataWatcher       = nmsClassResolver.resolveSilent("DataWatcher");
-	static Class<?> Entity            = nmsClassResolver.resolveSilent("Entity");
-	static Class<?> TIntObjectHashMap = classResolver.resolveSilent("gnu.trove.map.TIntObjectMap", "net.minecraft.util.gnu.trove.map.TIntObjectHashMap");
+	static Class<?> ItemStack        = nmsClassResolver.resolveSilent("ItemStack");
+	static Class<?> ChunkCoordinates = nmsClassResolver.resolveSilent("ChunkCoordinates");
+	static Class<?> BlockPosition    = nmsClassResolver.resolveSilent("BlockPosition");
+	static Class<?> Vector3f         = nmsClassResolver.resolveSilent("Vector3f");
+	static Class<?> DataWatcher      = nmsClassResolver.resolveSilent("DataWatcher");
+	static Class<?> Entity           = nmsClassResolver.resolveSilent("Entity");
+	static Class<?> TIntObjectMap    = classResolver.resolveSilent("gnu.trove.map.TIntObjectMap", "net.minecraft.util.gnu.trove.map.TIntObjectMap");
 
 	static ConstructorResolver DataWacherConstructorResolver = new ConstructorResolver(DataWatcher);
 
 	static FieldResolver DataWatcherFieldResolver = new FieldResolver(DataWatcher);
 
-	static MethodResolver TIntObjectHashMapMethodResolver = new MethodResolver(TIntObjectHashMap);
-	static MethodResolver DataWatcherMethodResolver       = new MethodResolver(DataWatcher);
+	static MethodResolver TIntObjectMapMethodResolver = new MethodResolver(TIntObjectMap);
+	static MethodResolver DataWatcherMethodResolver   = new MethodResolver(DataWatcher);
 
 	public static Object newDataWatcher(@Nullable Object entity) throws ReflectiveOperationException {
 		return DataWacherConstructorResolver.resolve(new Class[] { Entity }).newInstance(entity);
@@ -326,7 +326,7 @@ public class DataWatcher {
 			int type = getValueType(value);
 
 			Object map = DataWatcherFieldResolver.resolve("dataValues").get(dataWatcher);
-			TIntObjectHashMapMethodResolver.resolve(new ResolverQuery("put", int.class, Object.class)).invoke(map, index, newWatchableObject(type, index, value));
+			TIntObjectMapMethodResolver.resolve(new ResolverQuery("put", int.class, Object.class)).invoke(map, index, newWatchableObject(type, index, value));
 
 			return dataWatcher;
 		}
@@ -334,7 +334,7 @@ public class DataWatcher {
 		public static Object getValue(Object dataWatcher, int index) throws ReflectiveOperationException {
 			Object map = DataWatcherFieldResolver.resolve("dataValues").get(dataWatcher);
 
-			return TIntObjectHashMapMethodResolver.resolve(new ResolverQuery("get", int.class)).invoke(map, index);
+			return TIntObjectMapMethodResolver.resolve(new ResolverQuery("get", int.class)).invoke(map, index);
 		}
 
 		public static int getWatchableObjectIndex(Object object) throws ReflectiveOperationException {
