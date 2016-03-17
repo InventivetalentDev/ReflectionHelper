@@ -32,6 +32,8 @@ import org.inventivetalent.reflection.resolver.*;
 import org.inventivetalent.reflection.resolver.minecraft.NMSClassResolver;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 public class DataWatcher {
@@ -175,11 +177,21 @@ public class DataWatcher {
 			return index;
 		}
 
-		//TODO: Check if it's actually the type (and not the index)
-		public static int getItemType(Object item) throws ReflectiveOperationException {
+		public static Type getItemType(Object item) throws ReflectiveOperationException {
 			if (DataWatcherObjectFieldResolver == null) { DataWatcherObjectFieldResolver = new FieldResolver(DataWatcherObject); }
 			Object object = getItemObject(item);
-			return DataWatcherObjectFieldResolver.resolve("a").getInt(object);
+			Object serializer = DataWatcherObjectFieldResolver.resolve("b").get(object);
+			Type[] genericInterfaces = serializer.getClass().getGenericInterfaces();
+			if (genericInterfaces.length > 0) {
+				Type type = genericInterfaces[0];
+				if (type instanceof ParameterizedType) {
+					Type[] actualTypes = ((ParameterizedType) type).getActualTypeArguments();
+					if (actualTypes.length > 0) {
+						return actualTypes[0];
+					}
+				}
+			}
+			return null;
 		}
 
 		public static Object getItemValue(Object item) throws ReflectiveOperationException {
@@ -188,9 +200,6 @@ public class DataWatcher {
 		}
 
 		public static void setItemValue(Object item, Object value) throws ReflectiveOperationException {
-			int itemType = getItemType(item);
-			int valueType = getValueType(value);
-			if (valueType != itemType) { throw new IllegalArgumentException("Item-type mismatch: Cannot set Item of type #" + itemType + " to #" + valueType + "(" + value.getClass() + ")"); }
 			DataWatcherItemFieldResolver.resolve("b").set(item, value);
 		}
 
