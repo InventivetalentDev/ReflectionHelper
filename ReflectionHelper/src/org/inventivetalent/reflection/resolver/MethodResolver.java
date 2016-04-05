@@ -28,6 +28,7 @@
 
 package org.inventivetalent.reflection.resolver;
 
+import org.inventivetalent.reflection.resolver.wrapper.MethodWrapper;
 import org.inventivetalent.reflection.util.AccessUtil;
 
 import java.lang.reflect.Method;
@@ -43,6 +44,14 @@ public class MethodResolver extends MemberResolver<Method> {
 
 	public MethodResolver(String className) throws ClassNotFoundException {
 		super(className);
+	}
+
+	public <T> MethodWrapper<T> resolveWrapper(String... names) {
+		return new MethodWrapper<>(resolveSilent(names));
+	}
+
+	public <T> MethodWrapper<T> resolveWrapper(ResolverQuery... queries) {
+		return new MethodWrapper<>(resolveSilent(queries));
 	}
 
 	public Method resolveSilent(String... names) {

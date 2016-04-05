@@ -26,45 +26,55 @@
  *  either expressed or implied, of anybody else.
  */
 
-package org.inventivetalent.reflection.resolver;
+package org.inventivetalent.reflection.resolver.wrapper;
 
-import org.inventivetalent.reflection.resolver.wrapper.ClassWrapper;
+import java.lang.reflect.Method;
 
-/**
- * Default {@link ClassResolver}
- */
-public class ClassResolver extends ResolverAbstract<Class> {
+public class MethodWrapper<T> {
 
-	public <T> ClassWrapper<T> resolveWrapper(String... names) {
-		return new ClassWrapper<>(resolveSilent(names));
+	private final Method method;
+
+	public MethodWrapper(Method method) {
+		this.method = method;
 	}
 
-	public Class resolveSilent(String... names) {
+	public String getName() {
+		return this.method.getName();
+	}
+
+	public T invoke(Object object, Object... args) {
 		try {
-			return resolve(names);
+			return (T) this.method.invoke(object, args);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public T invokeSilent(Object object, Object... args) {
+		try {
+			return (T) this.method.invoke(object, args);
 		} catch (Exception e) {
 		}
 		return null;
 	}
 
-	public Class resolve(String... names) throws ClassNotFoundException {
-		ResolverQuery.Builder builder = ResolverQuery.builder();
-		for (String name : names)
-			builder.with(name);
-		try {
-			return super.resolve(builder.build());
-		} catch (ReflectiveOperationException e) {
-			throw (ClassNotFoundException) e;
-		}
+	public Method getMethod() {
+		return method;
 	}
 
 	@Override
-	protected Class resolveObject(ResolverQuery query) throws ReflectiveOperationException {
-		return Class.forName(query.getName());
+	public boolean equals(Object object) {
+		if (this == object) { return true; }
+		if (object == null || getClass() != object.getClass()) { return false; }
+
+		MethodWrapper<?> that = (MethodWrapper<?>) object;
+
+		return method != null ? method.equals(that.method) : that.method == null;
+
 	}
 
 	@Override
-	protected ClassNotFoundException notFoundException(String joinedNames) {
-		return new ClassNotFoundException("Could not resolve class for " + joinedNames);
+	public int hashCode() {
+		return method != null ? method.hashCode() : 0;
 	}
 }

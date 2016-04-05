@@ -26,45 +26,71 @@
  *  either expressed or implied, of anybody else.
  */
 
-package org.inventivetalent.reflection.resolver;
+package org.inventivetalent.reflection.resolver.wrapper;
 
-import org.inventivetalent.reflection.resolver.wrapper.ClassWrapper;
+import java.lang.reflect.Field;
 
-/**
- * Default {@link ClassResolver}
- */
-public class ClassResolver extends ResolverAbstract<Class> {
+public class FieldWrapper<T> {
 
-	public <T> ClassWrapper<T> resolveWrapper(String... names) {
-		return new ClassWrapper<>(resolveSilent(names));
+	private final Field field;
+
+	public FieldWrapper(Field field) {
+		this.field = field;
 	}
 
-	public Class resolveSilent(String... names) {
+	public String getName() {
+		return this.field.getName();
+	}
+
+	public T get(Object object) {
 		try {
-			return resolve(names);
+			return (T) this.field.get(object);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public T getSilent(Object object) {
+		try {
+			return (T) this.field.get(object);
 		} catch (Exception e) {
 		}
 		return null;
 	}
 
-	public Class resolve(String... names) throws ClassNotFoundException {
-		ResolverQuery.Builder builder = ResolverQuery.builder();
-		for (String name : names)
-			builder.with(name);
+	public void set(Object object, T value) {
 		try {
-			return super.resolve(builder.build());
-		} catch (ReflectiveOperationException e) {
-			throw (ClassNotFoundException) e;
+			this.field.set(object, value);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
-	@Override
-	protected Class resolveObject(ResolverQuery query) throws ReflectiveOperationException {
-		return Class.forName(query.getName());
+	public void setSilent(Object object, T value) {
+		try {
+			this.field.set(object, value);
+		} catch (Exception e) {
+		}
+	}
+
+	public Field getField() {
+		return field;
 	}
 
 	@Override
-	protected ClassNotFoundException notFoundException(String joinedNames) {
-		return new ClassNotFoundException("Could not resolve class for " + joinedNames);
+	public boolean equals(Object object) {
+		if (this == object) { return true; }
+		if (object == null || getClass() != object.getClass()) { return false; }
+
+		FieldWrapper<?> that = (FieldWrapper<?>) object;
+
+		if (field != null ? !field.equals(that.field) : that.field != null) { return false; }
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return field != null ? field.hashCode() : 0;
 	}
 }

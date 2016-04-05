@@ -28,6 +28,7 @@
 
 package org.inventivetalent.reflection.resolver;
 
+import org.inventivetalent.reflection.resolver.wrapper.FieldWrapper;
 import org.inventivetalent.reflection.util.AccessUtil;
 
 import java.lang.reflect.Field;
@@ -43,6 +44,10 @@ public class FieldResolver extends MemberResolver<Field> {
 
 	public FieldResolver(String className) throws ClassNotFoundException {
 		super(className);
+	}
+
+	public <T> FieldWrapper<T> resolveWrapper(String... names) {
+		return new FieldWrapper<>(resolveSilent(names));
 	}
 
 	public Field resolveSilent(String... names) {

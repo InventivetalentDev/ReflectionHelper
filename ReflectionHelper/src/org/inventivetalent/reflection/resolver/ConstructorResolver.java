@@ -28,6 +28,7 @@
 
 package org.inventivetalent.reflection.resolver;
 
+import org.inventivetalent.reflection.resolver.wrapper.ConstructorWrapper;
 import org.inventivetalent.reflection.util.AccessUtil;
 
 import java.lang.reflect.Constructor;
@@ -43,6 +44,10 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 
 	public ConstructorResolver(String className) throws ClassNotFoundException {
 		super(className);
+	}
+
+	public <T> ConstructorWrapper<T> resolveWrapper(Class<?>[]... types) {
+		return new ConstructorWrapper<>(resolveSilent(types));
 	}
 
 	public Constructor resolveSilent(Class<?>[]... types) {

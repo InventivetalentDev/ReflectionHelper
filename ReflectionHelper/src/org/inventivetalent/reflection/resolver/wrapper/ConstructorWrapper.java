@@ -26,45 +26,55 @@
  *  either expressed or implied, of anybody else.
  */
 
-package org.inventivetalent.reflection.resolver;
+package org.inventivetalent.reflection.resolver.wrapper;
 
-import org.inventivetalent.reflection.resolver.wrapper.ClassWrapper;
+import java.lang.reflect.Constructor;
 
-/**
- * Default {@link ClassResolver}
- */
-public class ClassResolver extends ResolverAbstract<Class> {
+public class ConstructorWrapper<T> {
 
-	public <T> ClassWrapper<T> resolveWrapper(String... names) {
-		return new ClassWrapper<>(resolveSilent(names));
+	private final Constructor<T> constructor;
+
+	public ConstructorWrapper(Constructor<T> constructor) {
+		this.constructor = constructor;
 	}
 
-	public Class resolveSilent(String... names) {
+	public T newInstance(Object... args) {
 		try {
-			return resolve(names);
+			return this.constructor.newInstance(args);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public T newInstanceSilent(Object... args) {
+		try {
+			return this.constructor.newInstance(args);
 		} catch (Exception e) {
 		}
 		return null;
 	}
 
-	public Class resolve(String... names) throws ClassNotFoundException {
-		ResolverQuery.Builder builder = ResolverQuery.builder();
-		for (String name : names)
-			builder.with(name);
-		try {
-			return super.resolve(builder.build());
-		} catch (ReflectiveOperationException e) {
-			throw (ClassNotFoundException) e;
-		}
+	public Class<?>[] getParameterTypes() {
+		return this.constructor.getParameterTypes();
+	}
+
+	public Constructor<T> getConstructor() {
+		return constructor;
 	}
 
 	@Override
-	protected Class resolveObject(ResolverQuery query) throws ReflectiveOperationException {
-		return Class.forName(query.getName());
+	public boolean equals(Object object) {
+		if (this == object) { return true; }
+		if (object == null || getClass() != object.getClass()) { return false; }
+
+		ConstructorWrapper<?> that = (ConstructorWrapper<?>) object;
+
+		return constructor != null ? constructor.equals(that.constructor) : that.constructor == null;
+
 	}
 
 	@Override
-	protected ClassNotFoundException notFoundException(String joinedNames) {
-		return new ClassNotFoundException("Could not resolve class for " + joinedNames);
+	public int hashCode() {
+		return constructor != null ? constructor.hashCode() : 0;
 	}
 }
