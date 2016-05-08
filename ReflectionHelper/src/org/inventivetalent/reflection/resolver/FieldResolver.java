@@ -107,6 +107,7 @@ public class FieldResolver extends MemberResolver<Field> {
 	 * Attempts to find the first field of the specified type
 	 *
 	 * @param type Type to find
+	 * @return the Field
 	 * @see #resolveByLastType(Class)
 	 */
 	public Field resolveByFirstType(Class<?> type) throws ReflectiveOperationException {
@@ -122,6 +123,7 @@ public class FieldResolver extends MemberResolver<Field> {
 	 * Attempts to find the first field of the specified type
 	 *
 	 * @param type Type to find
+	 * @return the Field
 	 * @see #resolveByLastTypeSilent(Class)
 	 */
 	public Field resolveByFirstTypeSilent(Class<?> type) {
@@ -136,6 +138,7 @@ public class FieldResolver extends MemberResolver<Field> {
 	 * Attempts to find the last field of the specified type
 	 *
 	 * @param type Type to find
+	 * @return the Field
 	 * @see #resolveByFirstType(Class)
 	 */
 	public Field resolveByLastType(Class<?> type) throws ReflectiveOperationException {

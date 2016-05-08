@@ -39,29 +39,38 @@ public abstract class AccessUtil {
 
 	/**
 	 * Sets the field accessible and removes final modifiers
+	 *
+	 * @param field Field to set accessible
+	 * @return the Field
 	 */
-	public static Field setAccessible(Field f) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-		f.setAccessible(true);
+	public static Field setAccessible(Field field) throws ReflectiveOperationException {
+		field.setAccessible(true);
 		Field modifiersField = Field.class.getDeclaredField("modifiers");
 		modifiersField.setAccessible(true);
-		modifiersField.setInt(f, f.getModifiers() & 0xFFFFFFEF);
-		return f;
+		modifiersField.setInt(field, field.getModifiers() & 0xFFFFFFEF);
+		return field;
 	}
 
 	/**
 	 * Sets the method accessible
+	 *
+	 * @param method Method to set accessible
+	 * @return the Method
 	 */
-	public static Method setAccessible(Method m) throws SecurityException, IllegalArgumentException, IllegalAccessException {
-		m.setAccessible(true);
-		return m;
+	public static Method setAccessible(Method method) throws ReflectiveOperationException {
+		method.setAccessible(true);
+		return method;
 	}
 
 	/**
 	 * Sets the constructor accessible
+	 *
+	 * @param constructor Constructor to set accessible
+	 * @return the Constructor
 	 */
-	public static Constructor setAccessible(Constructor c) throws SecurityException, IllegalArgumentException, IllegalAccessException {
-		c.setAccessible(true);
-		return c;
+	public static Constructor setAccessible(Constructor constructor) throws ReflectiveOperationException {
+		constructor.setAccessible(true);
+		return constructor;
 	}
 
 }

@@ -116,7 +116,7 @@ public class DataWatcher {
 	}
 
 	/**
-	 * Helper class for versions >= 1.9
+	 * Helper class for versions newer than 1.9
 	 */
 	public static class V1_9 {
 
@@ -309,7 +309,7 @@ public class DataWatcher {
 	}
 
 	/**
-	 * Helper class for versions <= 1.8
+	 * Helper class for versions older than 1.8
 	 */
 	public static class V1_8 {
 
