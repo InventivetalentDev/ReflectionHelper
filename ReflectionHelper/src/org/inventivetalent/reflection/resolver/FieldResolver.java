@@ -109,6 +109,7 @@ public class FieldResolver extends MemberResolver<Field> {
 	 * @param type Type to find
 	 * @return the Field
 	 * @see #resolveByLastType(Class)
+	 *  @throws ReflectiveOperationException (usually never)
 	 */
 	public Field resolveByFirstType(Class<?> type) throws ReflectiveOperationException {
 		for (Field field : this.clazz.getDeclaredFields()) {
@@ -139,6 +140,7 @@ public class FieldResolver extends MemberResolver<Field> {
 	 *
 	 * @param type Type to find
 	 * @return the Field
+	 * @throws ReflectiveOperationException  (usually never)
 	 * @see #resolveByFirstType(Class)
 	 */
 	public Field resolveByLastType(Class<?> type) throws ReflectiveOperationException {

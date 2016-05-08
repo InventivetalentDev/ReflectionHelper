@@ -214,8 +214,7 @@ public class DataWatcher {
 			 */
 			ENTITY_NAME("Entity", "az"),
 			/**
-			 * Byte < 1.9
-			 * Boolean >= 1.9
+			 * Byte &lt; 1.9 Boolean &gt; 1.9
 			 */
 			ENTITY_NAME_VISIBLE("Entity", "aA"),
 			/**
