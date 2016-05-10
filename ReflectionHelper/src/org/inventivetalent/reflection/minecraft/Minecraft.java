@@ -110,7 +110,8 @@ public class Minecraft {
 		//Does this even exists?
 		v1_8_R4(10804),
 
-		v1_9_R1(109001);
+		v1_9_R1(109001),
+		v1_9_R2(109002);
 
 		private int version;
 
