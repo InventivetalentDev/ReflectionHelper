@@ -30,7 +30,7 @@ package org.inventivetalent.reflection.resolver.wrapper;
 
 import java.lang.reflect.Field;
 
-public class FieldWrapper<T> {
+public class FieldWrapper<T> extends WrapperAbstract<T> {
 
 	private final Field field;
 

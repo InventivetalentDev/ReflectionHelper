@@ -28,7 +28,7 @@
 
 package org.inventivetalent.reflection.resolver.wrapper;
 
-public class ClassWrapper<T> {
+public class ClassWrapper<T> extends WrapperAbstract<T> {
 
 	private final Class<T> clazz;
 

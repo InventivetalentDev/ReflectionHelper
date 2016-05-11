@@ -30,7 +30,7 @@ package org.inventivetalent.reflection.resolver.wrapper;
 
 import java.lang.reflect.Constructor;
 
-public class ConstructorWrapper<T> {
+public class ConstructorWrapper<T> extends WrapperAbstract<T> {
 
 	private final Constructor<T> constructor;
 

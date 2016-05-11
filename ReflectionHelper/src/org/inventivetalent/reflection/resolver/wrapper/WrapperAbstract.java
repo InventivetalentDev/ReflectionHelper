@@ -28,53 +28,5 @@
 
 package org.inventivetalent.reflection.resolver.wrapper;
 
-import java.lang.reflect.Method;
-
-public class MethodWrapper<T> extends WrapperAbstract<T> {
-
-	private final Method method;
-
-	public MethodWrapper(Method method) {
-		this.method = method;
-	}
-
-	public String getName() {
-		return this.method.getName();
-	}
-
-	public T invoke(Object object, Object... args) {
-		try {
-			return (T) this.method.invoke(object, args);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public T invokeSilent(Object object, Object... args) {
-		try {
-			return (T) this.method.invoke(object, args);
-		} catch (Exception e) {
-		}
-		return null;
-	}
-
-	public Method getMethod() {
-		return method;
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) { return true; }
-		if (object == null || getClass() != object.getClass()) { return false; }
-
-		MethodWrapper<?> that = (MethodWrapper<?>) object;
-
-		return method != null ? method.equals(that.method) : that.method == null;
-
-	}
-
-	@Override
-	public int hashCode() {
-		return method != null ? method.hashCode() : 0;
-	}
+public abstract class WrapperAbstract<T> {
 }
