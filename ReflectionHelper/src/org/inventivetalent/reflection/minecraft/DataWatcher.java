@@ -209,28 +209,28 @@ public class DataWatcher {
 			/**
 			 * Byte
 			 */
-			ENTITY_FLAG("Entity", "ax", "ay"),
+			ENTITY_FLAG("Entity", 57 /*"ax", "ay"*/),
 			/**
 			 * Integer
 			 */
-			ENTITY_AIR_TICKS("Entity", "ay", "az"),
+			ENTITY_AIR_TICKS("Entity", 58/*"ay", "az"*/),
 			/**
 			 * String
 			 */
-			ENTITY_NAME("Entity", "az", "aA"),
+			ENTITY_NAME("Entity", 59/*"az", "aA"*/),
 			/**
 			 * Byte &lt; 1.9 Boolean &gt; 1.9
 			 */
-			ENTITY_NAME_VISIBLE("Entity", "aA", "aB"),
+			ENTITY_NAME_VISIBLE("Entity", 60/*"aA", "aB"*/),
 			/**
 			 * Boolean
 			 */
-			ENTITY_SILENT("Entity", "aB", "aC"),
+			ENTITY_SILENT("Entity", 61/*"aB", "aC"*/),
 
 			//////////
 
 			//TODO: Add EntityLiving#as (Byte)
-			ENTITY_as("EntityLivin", "as", "at"),
+			ENTITY_as("EntityLiving", 2/* "as", "at"*/),
 
 			/**
 			 * Float
@@ -238,66 +238,66 @@ public class DataWatcher {
 			ENTITY_LIVING_HEALTH("EntityLiving", "HEALTH"),
 
 			//TODO: Add EntityLiving#f (Integer) - Maybe active potions?
-			ENTITY_LIVING_f("EntityLiving", "f"),
+			ENTITY_LIVING_f("EntityLiving", 2/*"f"*/),
 
 			//TODO: Add EntityLiving#g (Boolean) - Maybe ambient potions?
-			ENTITY_LIVING_g("EntityLiving", "g"),
+			ENTITY_LIVING_g("EntityLiving", 3/*"g"*/),
 
 			//TODO: Add EntityLiving#h (Integer)
-			ENTITY_LIVING_h("EntityLiving", "h"),
+			ENTITY_LIVING_h("EntityLiving", 4/*"h"*/),
 
 			//////////
 
 			/**
 			 * Byte
 			 */
-			ENTITY_INSENTIENT_FLAG("EntityInsentient", "a"),
+			ENTITY_INSENTIENT_FLAG("EntityInsentient", 0/* "a"*/),
 
 			///////////
 
 			/**
 			 * Integer
 			 */
-			ENTITY_SLIME_SIZE("EntitySlime", "bt", "bu"),
+			ENTITY_SLIME_SIZE("EntitySlime", 0/* "bt", "bu"*/),
 
 			/////////////
 
 			//TODO: Add EntityWither#a (Integer)
-			ENTITY_WITHER_a("EntityWither", "a"),
+			ENTITY_WITHER_a("EntityWither", 0/*"a"*/),
 
 			//TODO:  Add EntityWither#b (Integer)
-			ENTITY_WIHER_b("EntityWither", "b"),
+			ENTITY_WIHER_b("EntityWither", 1/*"b"*/),
 
 			//TODO: Add EntityWither#c (Integer)
-			ENTITY_WITHER_c("EntityWither", "c"),
+			ENTITY_WITHER_c("EntityWither", 2/*"c"*/),
 
 			//TODO: Add EntityWither#bv (Integer) - (DataWatcherObject<Integer>[] bv, seems to be an array of {a, b, c})
-			ENTITY_WITHER_bv("EntityWither", "bv", "bw"),
+			ENTITY_WITHER_bv("EntityWither", 3/*"bv", "bw"*/),
 
 			//TODO: Add EntityWither#bw (Integer)
-			ENTITY_WITHER_bw("EntityWither", "bw", "bx"),
+			ENTITY_WITHER_bw("EntityWither", 4/*"bw", "bx"*/),
 
 			///////////
 
 			/**
 			 * Float
 			 */
-			ENTITY_HUMAN_ABSORPTION_HEARTS("EntityHuman", "a"),
+			ENTITY_HUMAN_ABSORPTION_HEARTS("EntityHuman", 0 /*"a"*/),
 
 			/**
 			 * Integer
 			 */
-			ENTITY_HUMAN_SCORE("EntityHuman", "b"),
+			ENTITY_HUMAN_SCORE("EntityHuman", 1 /*"b"*/),
 
 			/**
 			 * Byte
 			 */
-			ENTITY_HUMAN_SKIN_LAYERS("EntityHuman", "bp", "bq"),
+			ENTITY_HUMAN_SKIN_LAYERS("EntityHuman", 2 /*"bp", "bq"*/),
 
 			/**
 			 * Byte (0 = left, 1 = right)
 			 */
-			ENTITY_HUMAN_MAIN_HAND("EntityHuman", "bq", "br");
+			ENTITY_HUMAN_MAIN_HAND("EntityHuman", 3/*"bq", "br"*/);
 
 			private Object type;
 
@@ -313,7 +313,7 @@ public class DataWatcher {
 
 			ValueType(String className, int index) {
 				try {
-					this.type = new FieldResolver(nmsClassResolver.resolve(className)).resolveIndex(index);
+					this.type = new FieldResolver(nmsClassResolver.resolve(className)).resolveIndex(index).get(null);
 				} catch (Exception e) {
 					if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_9_R1)) {
 						System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + index);
