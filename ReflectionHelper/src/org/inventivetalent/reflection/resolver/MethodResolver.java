@@ -60,6 +60,11 @@ public class MethodResolver extends MemberResolver<Method> {
 		return null;
 	}
 
+	@Override
+	public <T> MethodWrapper<T> resolveIndexWrapper(int index) {
+		return new MethodWrapper<>(resolveIndexSilent(index));
+	}
+
 	public <T> MethodWrapper<T> resolveWrapper(String... names) {
 		return new MethodWrapper<>(resolveSilent(names));
 	}

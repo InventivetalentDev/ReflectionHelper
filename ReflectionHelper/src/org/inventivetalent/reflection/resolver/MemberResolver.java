@@ -28,6 +28,8 @@
 
 package org.inventivetalent.reflection.resolver;
 
+import org.inventivetalent.reflection.resolver.wrapper.WrapperAbstract;
+
 import java.lang.reflect.Member;
 
 /**
@@ -67,5 +69,13 @@ public abstract class MemberResolver<T extends Member> extends ResolverAbstract<
 	 * @return the member or <code>null</code>
 	 */
 	public abstract T resolveIndexSilent(int index);
+
+	/**
+	 * Resolce member wrapper by its index
+	 *
+	 * @param index index
+	 * @return the wrapped member
+	 */
+	public abstract <T> WrapperAbstract<T> resolveIndexWrapper(int index);
 
 }

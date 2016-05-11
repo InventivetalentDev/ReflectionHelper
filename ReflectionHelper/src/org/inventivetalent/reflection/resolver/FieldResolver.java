@@ -60,6 +60,11 @@ public class FieldResolver extends MemberResolver<Field> {
 		return null;
 	}
 
+	@Override
+	public <T> FieldWrapper<T> resolveIndexWrapper(int index) {
+		return new FieldWrapper<>(resolveIndexSilent(index));
+	}
+
 	public <T> FieldWrapper<T> resolveWrapper(String... names) {
 		return new FieldWrapper<>(resolveSilent(names));
 	}
