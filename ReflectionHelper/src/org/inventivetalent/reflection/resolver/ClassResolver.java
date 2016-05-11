@@ -35,7 +35,7 @@ import org.inventivetalent.reflection.resolver.wrapper.ClassWrapper;
  */
 public class ClassResolver extends ResolverAbstract<Class> {
 
-	public <T> ClassWrapper<T> resolveWrapper(String... names) {
+	public ClassWrapper resolveWrapper(String... names) {
 		return new ClassWrapper<>(resolveSilent(names));
 	}
 
