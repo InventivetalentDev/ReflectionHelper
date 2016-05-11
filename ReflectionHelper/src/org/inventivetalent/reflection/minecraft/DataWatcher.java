@@ -305,7 +305,9 @@ public class DataWatcher {
 				try {
 					this.type = new FieldResolver(nmsClassResolver.resolve(className)).resolve(fieldNames).get(null);
 				} catch (Exception e) {
-					System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " " + Arrays.toString(fieldNames));
+					if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_9_R1)) {
+						System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " " + Arrays.toString(fieldNames));
+					}
 				}
 			}
 
@@ -313,7 +315,9 @@ public class DataWatcher {
 				try {
 					this.type = new FieldResolver(nmsClassResolver.resolve(className)).resolveIndex(index);
 				} catch (Exception e) {
-					System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + index);
+					if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_9_R1)) {
+						System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + index);
+					}
 				}
 			}
 
