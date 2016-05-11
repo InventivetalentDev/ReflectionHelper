@@ -38,6 +38,11 @@ public class FieldWrapper<T> extends WrapperAbstract<T> {
 		this.field = field;
 	}
 
+	@Override
+	public boolean exists() {
+		return this.field != null;
+	}
+
 	public String getName() {
 		return this.field.getName();
 	}

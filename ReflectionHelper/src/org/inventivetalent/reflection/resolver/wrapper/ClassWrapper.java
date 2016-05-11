@@ -36,6 +36,11 @@ public class ClassWrapper<T> extends WrapperAbstract<T> {
 		this.clazz = clazz;
 	}
 
+	@Override
+	public boolean exists() {
+		return this.clazz != null;
+	}
+
 	public Class<T> getClazz() {
 		return clazz;
 	}

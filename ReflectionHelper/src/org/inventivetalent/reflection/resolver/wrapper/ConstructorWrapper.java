@@ -38,6 +38,11 @@ public class ConstructorWrapper<T> extends WrapperAbstract<T> {
 		this.constructor = constructor;
 	}
 
+	@Override
+	public boolean exists() {
+		return this.constructor != null;
+	}
+
 	public T newInstance(Object... args) {
 		try {
 			return this.constructor.newInstance(args);

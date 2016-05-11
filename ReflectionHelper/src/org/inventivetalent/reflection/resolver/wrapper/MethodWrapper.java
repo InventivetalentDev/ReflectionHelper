@@ -38,6 +38,11 @@ public class MethodWrapper<T> extends WrapperAbstract<T> {
 		this.method = method;
 	}
 
+	@Override
+	public boolean exists() {
+		return this.method != null;
+	}
+
 	public String getName() {
 		return this.method.getName();
 	}
