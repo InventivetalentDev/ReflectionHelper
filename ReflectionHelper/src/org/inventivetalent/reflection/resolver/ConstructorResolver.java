@@ -46,6 +46,20 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 		super(className);
 	}
 
+	@Override
+	public Constructor resolveIndex(int index) throws IndexOutOfBoundsException {
+		return this.clazz.getDeclaredConstructors()[index];
+	}
+
+	@Override
+	public Constructor resolveIndexSilent(int index) {
+		try {
+			return resolveIndex(index);
+		} catch (IndexOutOfBoundsException ignored) {
+		}
+		return null;
+	}
+
 	public <T> ConstructorWrapper<T> resolveWrapper(Class<?>[]... types) {
 		return new ConstructorWrapper<>(resolveSilent(types));
 	}

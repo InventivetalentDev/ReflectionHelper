@@ -46,6 +46,20 @@ public class MethodResolver extends MemberResolver<Method> {
 		super(className);
 	}
 
+	@Override
+	public Method resolveIndex(int index) throws IndexOutOfBoundsException {
+		return this.clazz.getDeclaredMethods()[index];
+	}
+
+	@Override
+	public Method resolveIndexSilent(int index) {
+		try {
+			return resolveIndex(index);
+		} catch (IndexOutOfBoundsException ignored) {
+		}
+		return null;
+	}
+
 	public <T> MethodWrapper<T> resolveWrapper(String... names) {
 		return new MethodWrapper<>(resolveSilent(names));
 	}

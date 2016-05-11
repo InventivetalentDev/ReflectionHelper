@@ -46,6 +46,20 @@ public class FieldResolver extends MemberResolver<Field> {
 		super(className);
 	}
 
+	@Override
+	public Field resolveIndex(int index) throws IndexOutOfBoundsException {
+		return this.clazz.getDeclaredFields()[index];
+	}
+
+	@Override
+	public Field resolveIndexSilent(int index) {
+		try {
+			return resolveIndex(index);
+		} catch (IndexOutOfBoundsException ignored) {
+		}
+		return null;
+	}
+
 	public <T> FieldWrapper<T> resolveWrapper(String... names) {
 		return new FieldWrapper<>(resolveSilent(names));
 	}

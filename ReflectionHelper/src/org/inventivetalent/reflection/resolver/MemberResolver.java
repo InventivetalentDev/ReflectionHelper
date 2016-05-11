@@ -50,4 +50,22 @@ public abstract class MemberResolver<T extends Member> extends ResolverAbstract<
 	public MemberResolver(String className) throws ClassNotFoundException {
 		this(new ClassResolver().resolve(className));
 	}
+
+	/**
+	 * Resolve a member by its index
+	 *
+	 * @param index index
+	 * @return the member
+	 * @throws IndexOutOfBoundsException if the specified index is out of the available member bounds
+	 */
+	public abstract T resolveIndex(int index) throws IndexOutOfBoundsException;
+
+	/**
+	 * Resolve member by its index (without exceptions)
+	 *
+	 * @param index index
+	 * @return the member or <code>null</code>
+	 */
+	public abstract T resolveIndexSilent(int index);
+
 }
