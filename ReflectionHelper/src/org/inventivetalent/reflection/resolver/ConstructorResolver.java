@@ -47,15 +47,15 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 	}
 
 	@Override
-	public Constructor resolveIndex(int index) throws IndexOutOfBoundsException {
-		return this.clazz.getDeclaredConstructors()[index];
+	public Constructor resolveIndex(int index) throws IndexOutOfBoundsException, ReflectiveOperationException {
+		return AccessUtil.setAccessible(this.clazz.getDeclaredConstructors()[index]);
 	}
 
 	@Override
 	public Constructor resolveIndexSilent(int index) {
 		try {
 			return resolveIndex(index);
-		} catch (IndexOutOfBoundsException ignored) {
+		} catch (IndexOutOfBoundsException | ReflectiveOperationException ignored) {
 		}
 		return null;
 	}

@@ -47,15 +47,15 @@ public class MethodResolver extends MemberResolver<Method> {
 	}
 
 	@Override
-	public Method resolveIndex(int index) throws IndexOutOfBoundsException {
-		return this.clazz.getDeclaredMethods()[index];
+	public Method resolveIndex(int index) throws IndexOutOfBoundsException, ReflectiveOperationException {
+		return AccessUtil.setAccessible(this.clazz.getDeclaredMethods()[index]);
 	}
 
 	@Override
 	public Method resolveIndexSilent(int index) {
 		try {
 			return resolveIndex(index);
-		} catch (IndexOutOfBoundsException ignored) {
+		} catch (IndexOutOfBoundsException | ReflectiveOperationException ignored) {
 		}
 		return null;
 	}

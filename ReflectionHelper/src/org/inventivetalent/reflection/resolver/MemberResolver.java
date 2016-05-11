@@ -58,9 +58,10 @@ public abstract class MemberResolver<T extends Member> extends ResolverAbstract<
 	 *
 	 * @param index index
 	 * @return the member
-	 * @throws IndexOutOfBoundsException if the specified index is out of the available member bounds
+	 * @throws IndexOutOfBoundsException    if the specified index is out of the available member bounds
+	 * @throws ReflectiveOperationException if the object could not be set accessible
 	 */
-	public abstract T resolveIndex(int index) throws IndexOutOfBoundsException;
+	public abstract T resolveIndex(int index) throws IndexOutOfBoundsException, ReflectiveOperationException;
 
 	/**
 	 * Resolve member by its index (without exceptions)

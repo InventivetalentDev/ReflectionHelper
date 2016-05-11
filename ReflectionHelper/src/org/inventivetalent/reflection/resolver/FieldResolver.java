@@ -47,15 +47,15 @@ public class FieldResolver extends MemberResolver<Field> {
 	}
 
 	@Override
-	public Field resolveIndex(int index) throws IndexOutOfBoundsException {
-		return this.clazz.getDeclaredFields()[index];
+	public Field resolveIndex(int index) throws IndexOutOfBoundsException, ReflectiveOperationException {
+		return AccessUtil.setAccessible(this.clazz.getDeclaredFields()[index]);
 	}
 
 	@Override
 	public Field resolveIndexSilent(int index) {
 		try {
 			return resolveIndex(index);
-		} catch (IndexOutOfBoundsException ignored) {
+		} catch (IndexOutOfBoundsException | ReflectiveOperationException ignored) {
 		}
 		return null;
 	}
