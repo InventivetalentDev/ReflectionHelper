@@ -61,11 +61,11 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 	}
 
 	@Override
-	public <T> ConstructorWrapper<T> resolveIndexWrapper(int index) {
+	public ConstructorWrapper resolveIndexWrapper(int index) {
 		return new ConstructorWrapper<>(resolveIndexSilent(index));
 	}
 
-	public <T> ConstructorWrapper<T> resolveWrapper(Class<?>[]... types) {
+	public ConstructorWrapper resolveWrapper(Class<?>[]... types) {
 		return new ConstructorWrapper<>(resolveSilent(types));
 	}
 

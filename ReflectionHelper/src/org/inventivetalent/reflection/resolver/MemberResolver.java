@@ -76,6 +76,6 @@ public abstract class MemberResolver<T extends Member> extends ResolverAbstract<
 	 * @param index index
 	 * @return the wrapped member
 	 */
-	public abstract <T> WrapperAbstract<T> resolveIndexWrapper(int index);
+	public abstract WrapperAbstract resolveIndexWrapper(int index);
 
 }

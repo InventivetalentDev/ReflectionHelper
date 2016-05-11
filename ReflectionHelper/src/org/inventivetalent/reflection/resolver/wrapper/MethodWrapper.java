@@ -30,7 +30,7 @@ package org.inventivetalent.reflection.resolver.wrapper;
 
 import java.lang.reflect.Method;
 
-public class MethodWrapper<T> extends WrapperAbstract<T> {
+public class MethodWrapper<R> extends WrapperAbstract {
 
 	private final Method method;
 
@@ -47,17 +47,17 @@ public class MethodWrapper<T> extends WrapperAbstract<T> {
 		return this.method.getName();
 	}
 
-	public T invoke(Object object, Object... args) {
+	public R invoke(Object object, Object... args) {
 		try {
-			return (T) this.method.invoke(object, args);
+			return (R) this.method.invoke(object, args);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public T invokeSilent(Object object, Object... args) {
+	public R invokeSilent(Object object, Object... args) {
 		try {
-			return (T) this.method.invoke(object, args);
+			return (R) this.method.invoke(object, args);
 		} catch (Exception e) {
 		}
 		return null;

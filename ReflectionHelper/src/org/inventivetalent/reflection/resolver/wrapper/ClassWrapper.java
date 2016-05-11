@@ -28,11 +28,11 @@
 
 package org.inventivetalent.reflection.resolver.wrapper;
 
-public class ClassWrapper<T> extends WrapperAbstract<T> {
+public class ClassWrapper<R> extends WrapperAbstract {
 
-	private final Class<T> clazz;
+	private final Class<R> clazz;
 
-	public ClassWrapper(Class<T> clazz) {
+	public ClassWrapper(Class<R> clazz) {
 		this.clazz = clazz;
 	}
 
@@ -41,7 +41,7 @@ public class ClassWrapper<T> extends WrapperAbstract<T> {
 		return this.clazz != null;
 	}
 
-	public Class<T> getClazz() {
+	public Class<R> getClazz() {
 		return clazz;
 	}
 
@@ -49,7 +49,7 @@ public class ClassWrapper<T> extends WrapperAbstract<T> {
 		return this.clazz.getName();
 	}
 
-	public T newInstance() {
+	public R newInstance() {
 		try {
 			return this.clazz.newInstance();
 		} catch (Exception e) {
@@ -57,7 +57,7 @@ public class ClassWrapper<T> extends WrapperAbstract<T> {
 		}
 	}
 
-	public T newInstanceSilent() {
+	public R newInstanceSilent() {
 		try {
 			return this.clazz.newInstance();
 		} catch (Exception e) {

@@ -30,11 +30,11 @@ package org.inventivetalent.reflection.resolver.wrapper;
 
 import java.lang.reflect.Constructor;
 
-public class ConstructorWrapper<T> extends WrapperAbstract<T> {
+public class ConstructorWrapper<R> extends WrapperAbstract {
 
-	private final Constructor<T> constructor;
+	private final Constructor<R> constructor;
 
-	public ConstructorWrapper(Constructor<T> constructor) {
+	public ConstructorWrapper(Constructor<R> constructor) {
 		this.constructor = constructor;
 	}
 
@@ -43,7 +43,7 @@ public class ConstructorWrapper<T> extends WrapperAbstract<T> {
 		return this.constructor != null;
 	}
 
-	public T newInstance(Object... args) {
+	public R newInstance(Object... args) {
 		try {
 			return this.constructor.newInstance(args);
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class ConstructorWrapper<T> extends WrapperAbstract<T> {
 		}
 	}
 
-	public T newInstanceSilent(Object... args) {
+	public R newInstanceSilent(Object... args) {
 		try {
 			return this.constructor.newInstance(args);
 		} catch (Exception e) {
@@ -63,7 +63,7 @@ public class ConstructorWrapper<T> extends WrapperAbstract<T> {
 		return this.constructor.getParameterTypes();
 	}
 
-	public Constructor<T> getConstructor() {
+	public Constructor<R> getConstructor() {
 		return constructor;
 	}
 

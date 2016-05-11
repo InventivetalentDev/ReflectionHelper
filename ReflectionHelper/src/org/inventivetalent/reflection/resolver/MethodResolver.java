@@ -61,15 +61,15 @@ public class MethodResolver extends MemberResolver<Method> {
 	}
 
 	@Override
-	public <T> MethodWrapper<T> resolveIndexWrapper(int index) {
+	public MethodWrapper resolveIndexWrapper(int index) {
 		return new MethodWrapper<>(resolveIndexSilent(index));
 	}
 
-	public <T> MethodWrapper<T> resolveWrapper(String... names) {
+	public MethodWrapper resolveWrapper(String... names) {
 		return new MethodWrapper<>(resolveSilent(names));
 	}
 
-	public <T> MethodWrapper<T> resolveWrapper(ResolverQuery... queries) {
+	public MethodWrapper resolveWrapper(ResolverQuery... queries) {
 		return new MethodWrapper<>(resolveSilent(queries));
 	}
 

@@ -28,7 +28,7 @@
 
 package org.inventivetalent.reflection.resolver.wrapper;
 
-public abstract class WrapperAbstract<T> {
+public abstract class WrapperAbstract {
 
 	/**
 	 * Check whether the wrapped object exists (i.e. is not null)

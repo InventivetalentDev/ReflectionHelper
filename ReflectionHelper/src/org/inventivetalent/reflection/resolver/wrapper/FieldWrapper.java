@@ -30,7 +30,7 @@ package org.inventivetalent.reflection.resolver.wrapper;
 
 import java.lang.reflect.Field;
 
-public class FieldWrapper<T> extends WrapperAbstract<T> {
+public class FieldWrapper<R> extends WrapperAbstract {
 
 	private final Field field;
 
@@ -47,23 +47,23 @@ public class FieldWrapper<T> extends WrapperAbstract<T> {
 		return this.field.getName();
 	}
 
-	public T get(Object object) {
+	public R get(Object object) {
 		try {
-			return (T) this.field.get(object);
+			return (R) this.field.get(object);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public T getSilent(Object object) {
+	public R getSilent(Object object) {
 		try {
-			return (T) this.field.get(object);
+			return (R) this.field.get(object);
 		} catch (Exception e) {
 		}
 		return null;
 	}
 
-	public void set(Object object, T value) {
+	public void set(Object object, R value) {
 		try {
 			this.field.set(object, value);
 		} catch (Exception e) {
@@ -71,7 +71,7 @@ public class FieldWrapper<T> extends WrapperAbstract<T> {
 		}
 	}
 
-	public void setSilent(Object object, T value) {
+	public void setSilent(Object object, R value) {
 		try {
 			this.field.set(object, value);
 		} catch (Exception e) {

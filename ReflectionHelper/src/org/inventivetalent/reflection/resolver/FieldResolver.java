@@ -61,11 +61,11 @@ public class FieldResolver extends MemberResolver<Field> {
 	}
 
 	@Override
-	public <T> FieldWrapper<T> resolveIndexWrapper(int index) {
+	public FieldWrapper resolveIndexWrapper(int index) {
 		return new FieldWrapper<>(resolveIndexSilent(index));
 	}
 
-	public <T> FieldWrapper<T> resolveWrapper(String... names) {
+	public FieldWrapper resolveWrapper(String... names) {
 		return new FieldWrapper<>(resolveSilent(names));
 	}
 
@@ -127,8 +127,8 @@ public class FieldResolver extends MemberResolver<Field> {
 	 *
 	 * @param type Type to find
 	 * @return the Field
+	 * @throws ReflectiveOperationException (usually never)
 	 * @see #resolveByLastType(Class)
-	 *  @throws ReflectiveOperationException (usually never)
 	 */
 	public Field resolveByFirstType(Class<?> type) throws ReflectiveOperationException {
 		for (Field field : this.clazz.getDeclaredFields()) {
@@ -159,7 +159,7 @@ public class FieldResolver extends MemberResolver<Field> {
 	 *
 	 * @param type Type to find
 	 * @return the Field
-	 * @throws ReflectiveOperationException  (usually never)
+	 * @throws ReflectiveOperationException (usually never)
 	 * @see #resolveByFirstType(Class)
 	 */
 	public Field resolveByLastType(Class<?> type) throws ReflectiveOperationException {
