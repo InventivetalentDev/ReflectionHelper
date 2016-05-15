@@ -30,15 +30,24 @@ package org.inventivetalent.reflection.minecraft;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.inventivetalent.reflection.resolver.ConstructorResolver;
+import org.inventivetalent.reflection.resolver.FieldResolver;
+import org.inventivetalent.reflection.resolver.MethodResolver;
 import org.inventivetalent.reflection.resolver.minecraft.OBCClassResolver;
 import org.inventivetalent.reflection.util.AccessUtil;
+import sun.reflect.ConstructorAccessor;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Helper class to access minecraft/bukkit specific objects
  */
 public class Minecraft {
+	static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9])_R([0-9])");
 
 	public static final Version VERSION;
 
@@ -110,8 +119,8 @@ public class Minecraft {
 		//Does this even exists?
 		v1_8_R4(10804),
 
-		v1_9_R1(109001),
-		v1_9_R2(109002);
+		v1_9_R1(10901),
+		v1_9_R2(10902);
 
 		private int version;
 
@@ -162,6 +171,46 @@ public class Minecraft {
 				if (version.matchesPackageName(versionPackage)) { return version; }
 			}
 			System.err.println("[ReflectionHelper] Failed to find version enum for '" + name + "'/'" + versionPackage + "'");
+
+			System.out.println("[ReflectionHelper] Generating dynamic constant...");
+			Matcher matcher = NUMERIC_VERSION_PATTERN.matcher(versionPackage);
+			while (matcher.find()) {
+				if (matcher.groupCount() < 3) { continue; }
+
+				String majorString = matcher.group(1);
+				String minorString = matcher.group(2);
+				if (minorString.length() == 1) { minorString = "0" + minorString; }
+				String patchString = matcher.group(3);
+				if (patchString.length() == 1) { patchString = "0" + patchString; }
+
+				String numVersionString = majorString + minorString + patchString;
+				int numVersion = Integer.parseInt(numVersionString);
+				String packge = versionPackage.substring(0, versionPackage.length() - 1);
+
+				try {
+					// Add enum value
+					Field valuesField = new FieldResolver(Version.class).resolve("$VALUES");
+					Version[] oldValues = (Version[]) valuesField.get(null);
+					Version[] newValues = new Version[oldValues.length + 1];
+					System.arraycopy(oldValues, 0, newValues, 0, oldValues.length);
+					Version dynamicVersion = (Version) newEnumInstance(Version.class, new Class[] {
+							String.class,
+							int.class,
+							int.class }, new Object[] {
+							packge,
+							newValues.length - 1,
+							numVersion });
+					newValues[newValues.length - 1] = dynamicVersion;
+					valuesField.set(null, newValues);
+
+					System.out.println("[ReflectionHelper] Injected dynamic version " + packge + " (#" + numVersion + ").");
+					System.out.println("[ReflectionHelper] Please inform inventivetalent about the outdated version, as this is not guaranteed to work.");
+					return dynamicVersion;
+				} catch (ReflectiveOperationException e) {
+					e.printStackTrace();
+				}
+			}
+
 			return UNKNOWN;
 		}
 
@@ -169,6 +218,18 @@ public class Minecraft {
 		public String toString() {
 			return name() + " (" + version() + ")";
 		}
+	}
+
+	public static Object newEnumInstance(Class clazz, Class[] types, Object[] values) throws ReflectiveOperationException {
+		Constructor constructor = new ConstructorResolver(clazz).resolve(types);
+		Field accessorField = new FieldResolver(Constructor.class).resolve("constructorAccessor");
+		ConstructorAccessor constructorAccessor = (ConstructorAccessor) accessorField.get(constructor);
+		if (constructorAccessor == null) {
+			new MethodResolver(Constructor.class).resolve("acquireConstructorAccessor").invoke(constructor);
+			constructorAccessor = (ConstructorAccessor) accessorField.get(constructor);
+		}
+		return constructorAccessor.newInstance(values);
+
 	}
 
 }
