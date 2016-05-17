@@ -38,7 +38,7 @@
 
     <build>
         <finalName>ReflectionHelper_v${project.version}</finalName>
-        <sourceDirectory>src</sourceDirectory>
+        <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
                 <directory>src/main/java</directory>
