@@ -34,7 +34,7 @@
 
     <groupId>org.inventivetalent</groupId>
     <artifactId>reflectionhelper</artifactId>
-    <version>1.8.0-SNAPSHOT</version>
+    <version>1.8.0</version>
 
     <build>
         <finalName>ReflectionHelper_v${project.version}</finalName>
