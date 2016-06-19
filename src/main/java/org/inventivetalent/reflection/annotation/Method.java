@@ -24,7 +24,7 @@ public @interface Method {
 	/**
 	 * Possible names of the method. Use <code>&gt;</code> or <code>&lt;</code> as a name prefix in combination with {@link #versions()} to specify versions newer- or older-than.
 	 *
-	 * @return
+	 * @return method names
 	 */
 	String[] value();
 
