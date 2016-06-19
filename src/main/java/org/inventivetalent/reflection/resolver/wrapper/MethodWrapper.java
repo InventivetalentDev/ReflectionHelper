@@ -82,4 +82,44 @@ public class MethodWrapper<R> extends WrapperAbstract {
 	public int hashCode() {
 		return method != null ? method.hashCode() : 0;
 	}
+
+	/**
+	 * Generates a method's signature.
+	 *
+	 * @param method         the method to get the signature for
+	 * @param fullClassNames whether to use the full class name
+	 * @return the method's signature
+	 */
+	public static String getMethodSignature(Method method, boolean fullClassNames) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		Class<?> returnType = method.getReturnType();
+		if (returnType.isPrimitive()) {
+			stringBuilder.append(returnType);
+		} else {
+			stringBuilder.append(fullClassNames ? returnType.getName() : returnType.getSimpleName());
+		}
+		stringBuilder.append(" ");
+		stringBuilder.append(method.getName());
+
+		stringBuilder.append("(");
+
+		boolean first = true;
+		for (Class clazz : method.getParameterTypes()) {
+			if (!first) { stringBuilder.append(","); }
+			stringBuilder.append(fullClassNames ? clazz.getName() : clazz.getSimpleName());
+			first = false;
+		}
+		return stringBuilder.append(")").toString();
+	}
+
+	/**
+	 * @param method Method to get the signature for
+	 * @return the signature
+	 * @see #getMethodSignature(Method, boolean)
+	 */
+	public static String getMethodSignature(Method method) {
+		return getMethodSignature(method, false);
+	}
+
 }
