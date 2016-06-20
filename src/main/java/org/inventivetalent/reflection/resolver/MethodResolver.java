@@ -46,6 +46,30 @@ public class MethodResolver extends MemberResolver<Method> {
 		super(className);
 	}
 
+	public Method resolveSignature(String... signatures)throws ReflectiveOperationException {
+		for (Method method : clazz.getDeclaredMethods()) {
+			String methodSignature = MethodWrapper.getMethodSignature(method);
+			for (String s : signatures) {
+				if (s.equals(methodSignature)) {
+					return AccessUtil.setAccessible(method);
+				}
+			}
+		}
+		return null;
+	}
+
+	public Method resolveSignatureSilent(String... signatures) {
+		try {
+			return resolveSignature(signatures);
+		} catch (ReflectiveOperationException ignored) {
+		}
+		return null;
+	}
+
+	public MethodWrapper resolveSignatureWrapper(String... signatures) {
+		return new MethodWrapper(resolveSignatureSilent(signatures));
+	}
+
 	@Override
 	public Method resolveIndex(int index) throws IndexOutOfBoundsException, ReflectiveOperationException {
 		return AccessUtil.setAccessible(this.clazz.getDeclaredMethods()[index]);
