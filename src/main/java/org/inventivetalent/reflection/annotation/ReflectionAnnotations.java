@@ -41,6 +41,7 @@ public class ReflectionAnnotations {
 
 			if (classAnnotation != null) {
 				List<String> nameList = parseAnnotationVersions(Class.class, classAnnotation);
+				if (nameList.isEmpty()) { throw new IllegalArgumentException("@Class names cannot be empty"); }
 				String[] names = nameList.toArray(new String[nameList.size()]);
 				for (int i = 0; i < names.length; i++) {// Replace NMS & OBC
 					names[i] = names[i]
@@ -64,6 +65,7 @@ public class ReflectionAnnotations {
 				}
 			} else if (fieldAnnotation != null) {
 				List<String> nameList = parseAnnotationVersions(Field.class, fieldAnnotation);
+				if (nameList.isEmpty()) { throw new IllegalArgumentException("@Field names cannot be empty"); }
 				String[] names = nameList.toArray(new String[nameList.size()]);
 				try {
 					FieldResolver fieldResolver = new FieldResolver(parseClass(Field.class, fieldAnnotation, toLoad));
@@ -83,6 +85,7 @@ public class ReflectionAnnotations {
 				}
 			} else if (methodAnnotation != null) {
 				List<String> nameList = parseAnnotationVersions(Method.class, methodAnnotation);
+				if (nameList.isEmpty()) { throw new IllegalArgumentException("@Method names cannot be empty"); }
 				String[] names = nameList.toArray(new String[nameList.size()]);
 				try {
 					MethodResolver methodResolver = new MethodResolver(parseClass(Method.class, methodAnnotation, toLoad));
