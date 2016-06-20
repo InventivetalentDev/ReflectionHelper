@@ -87,12 +87,28 @@ public class ReflectionAnnotations {
 				List<String> nameList = parseAnnotationVersions(Method.class, methodAnnotation);
 				if (nameList.isEmpty()) { throw new IllegalArgumentException("@Method names cannot be empty"); }
 				String[] names = nameList.toArray(new String[nameList.size()]);
+
+				boolean isSignature = names[0].contains(" ");// Only signatures can contain spaces (e.g. "void aMethod()")
+				for (String s : names) {
+					if (s.contains(" ") != isSignature) {
+						throw new IllegalArgumentException("Inconsistent method names: Cannot have mixed signatures/names");
+					}
+				}
+
 				try {
 					MethodResolver methodResolver = new MethodResolver(parseClass(Method.class, methodAnnotation, toLoad));
 					if (MethodWrapper.class.isAssignableFrom(field.getType())) {
-						field.set(toLoad, methodResolver.resolveWrapper(names));
+						if (isSignature) {
+							field.set(toLoad, methodResolver.resolveSignatureWrapper(names));
+						} else {
+							field.set(toLoad, methodResolver.resolveWrapper(names));
+						}
 					} else if (java.lang.reflect.Method.class.isAssignableFrom(field.getType())) {
-						field.set(toLoad, methodResolver.resolve(names));
+						if (isSignature) {
+							field.set(toLoad, methodResolver.resolveSignature(names));
+						} else {
+							field.set(toLoad, methodResolver.resolve(names));
+						}
 					} else {
 						throwInvalidFieldType(field, toLoad, "Method or MethodWrapper");
 						return;
