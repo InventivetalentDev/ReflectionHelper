@@ -20,6 +20,14 @@ public class Test {
 	public void voidDummyMethod(Character aCharacter, Class aClass, String aString) {
 	}
 
+	public int wildcardMethod1(String string) {
+		return 0;
+	}
+
+	public double wildcardMethod2(String string) {
+		return 0;
+	}
+
 	@org.junit.Test
 	public void primitiveSignatureTest() throws ReflectiveOperationException {
 		String signature = MethodWrapper.getMethodSignature(Test.class.getMethod("primitiveDummyMethod", String.class, double.class));
@@ -52,6 +60,15 @@ public class Test {
 		assertArrayEquals(new String[] {
 				"Thread",
 				"Exception" }, signature.getParameterTypes());
+	}
+
+	@org.junit.Test
+	public void signatureFromStringTest() {
+		MethodWrapper.MethodSignature signature = MethodWrapper.MethodSignature.fromString("java.lang.reflect.Method genericDummyMethod(java.lang.Thread,java.lang.Exception)");
+		assertEquals("java.lang.reflect.Method", signature.getReturnType());
+		assertEquals("genericDummyMethod", signature.getName());
+		assertEquals("java.lang.Thread", signature.getParameterType(0));
+		assertEquals("java.lang.Exception", signature.getParameterType(1));
 	}
 
 }

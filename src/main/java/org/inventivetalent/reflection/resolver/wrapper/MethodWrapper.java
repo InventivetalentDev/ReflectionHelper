@@ -30,6 +30,7 @@ package org.inventivetalent.reflection.resolver.wrapper;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MethodWrapper<R> extends WrapperAbstract {
@@ -127,6 +128,8 @@ public class MethodWrapper<R> extends WrapperAbstract {
 	}
 
 	public static class MethodSignature {
+		static final Pattern SIGNATURE_STRING_PATTERN = Pattern.compile("(.+) (.*)\\((.*)\\)");
+
 		private final String   returnType;
 		private final String   name;
 		private final String[] parameterTypes;
@@ -171,6 +174,19 @@ public class MethodWrapper<R> extends WrapperAbstract {
 			}
 
 			return new MethodSignature(returnTypeString, methodName, parameterTypeStrings);
+		}
+
+		public static MethodSignature fromString(String signatureString) {
+			if (signatureString == null) { return null; }
+			Matcher matcher = SIGNATURE_STRING_PATTERN.matcher(signatureString);
+			if (matcher.find()) {
+				if (matcher.groupCount() != 3) {
+					throw new IllegalArgumentException("invalid signature");
+				}
+				return new MethodSignature(matcher.group(1), matcher.group(2), matcher.group(3).split(","));
+			} else {
+				throw new IllegalArgumentException("invalid signature");
+			}
 		}
 
 		public String getReturnType() {
