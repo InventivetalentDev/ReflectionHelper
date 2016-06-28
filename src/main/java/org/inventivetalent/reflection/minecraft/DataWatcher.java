@@ -139,7 +139,7 @@ public class DataWatcher {
 		}
 
 		public static Object setItem(Object dataWatcher, int index, Object dataWatcherItem) throws ReflectiveOperationException {
-			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolve("c").get(dataWatcher);
+			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolveByLastTypeSilent(Map.class).get(dataWatcher);
 			map.put(index, dataWatcherItem);
 			return dataWatcher;
 		}
@@ -168,7 +168,7 @@ public class DataWatcher {
 
 		public static int getItemIndex(Object dataWatcher, Object item) throws ReflectiveOperationException {
 			int index = -1;//Return -1 if the item is not in the DataWatcher
-			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolve("c").get(dataWatcher);
+			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolveByLastTypeSilent(Map.class).get(dataWatcher);
 			for (Map.Entry<Integer, Object> entry : map.entrySet()) {
 				if (entry.getValue().equals(item)) {
 					index = entry.getKey();
