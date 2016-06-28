@@ -4,6 +4,7 @@ import org.inventivetalent.reflection.resolver.wrapper.MethodWrapper;
 
 import java.lang.reflect.Method;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class Test {
@@ -41,6 +42,16 @@ public class Test {
 	public void fullNameSignatureTest() throws ReflectiveOperationException {
 		String signature = MethodWrapper.getMethodSignature(Test.class.getMethod("genericDummyMethod", Thread.class, Exception.class), true);
 		assertEquals("java.lang.reflect.Method genericDummyMethod(java.lang.Thread,java.lang.Exception)", signature);
+	}
+
+	@org.junit.Test
+	public void signatureObjectTest() throws ReflectiveOperationException {
+		MethodWrapper.MethodSignature signature = MethodWrapper.MethodSignature.of(Test.class.getMethod("genericDummyMethod", Thread.class, Exception.class), false);
+		assertEquals("Method", signature.getReturnType());
+		assertEquals("genericDummyMethod", signature.getName());
+		assertArrayEquals(new String[] {
+				"Thread",
+				"Exception" }, signature.getParameterTypes());
 	}
 
 }

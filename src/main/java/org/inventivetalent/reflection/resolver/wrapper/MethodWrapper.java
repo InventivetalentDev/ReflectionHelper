@@ -91,26 +91,28 @@ public class MethodWrapper<R> extends WrapperAbstract {
 	 * @return the method's signature
 	 */
 	public static String getMethodSignature(Method method, boolean fullClassNames) {
-		StringBuilder stringBuilder = new StringBuilder();
+//		StringBuilder stringBuilder = new StringBuilder();
+//
+//		Class<?> returnType = method.getReturnType();
+//		if (returnType.isPrimitive()) {
+//			stringBuilder.append(returnType);
+//		} else {
+//			stringBuilder.append(fullClassNames ? returnType.getName() : returnType.getSimpleName());
+//		}
+//		stringBuilder.append(" ");
+//		stringBuilder.append(method.getName());
+//
+//		stringBuilder.append("(");
+//
+//		boolean first = true;
+//		for (Class clazz : method.getParameterTypes()) {
+//			if (!first) { stringBuilder.append(","); }
+//			stringBuilder.append(fullClassNames ? clazz.getName() : clazz.getSimpleName());
+//			first = false;
+//		}
+//		return stringBuilder.append(")").toString();
 
-		Class<?> returnType = method.getReturnType();
-		if (returnType.isPrimitive()) {
-			stringBuilder.append(returnType);
-		} else {
-			stringBuilder.append(fullClassNames ? returnType.getName() : returnType.getSimpleName());
-		}
-		stringBuilder.append(" ");
-		stringBuilder.append(method.getName());
-
-		stringBuilder.append("(");
-
-		boolean first = true;
-		for (Class clazz : method.getParameterTypes()) {
-			if (!first) { stringBuilder.append(","); }
-			stringBuilder.append(fullClassNames ? clazz.getName() : clazz.getSimpleName());
-			first = false;
-		}
-		return stringBuilder.append(")").toString();
+		return MethodSignature.of(method, fullClassNames).getSignature();
 	}
 
 	/**
@@ -120,6 +122,75 @@ public class MethodWrapper<R> extends WrapperAbstract {
 	 */
 	public static String getMethodSignature(Method method) {
 		return getMethodSignature(method, false);
+	}
+
+	public static class MethodSignature {
+		private final String   returnType;
+		private final String   name;
+		private final String[] parameterTypes;
+		private final String   signature;
+
+		public MethodSignature(String returnType, String name, String[] parameterTypes) {
+			this.returnType = returnType;
+			this.name = name;
+			this.parameterTypes = parameterTypes;
+
+			StringBuilder builder = new StringBuilder();
+			builder.append(returnType).append(" ").append(name).append("(");
+			boolean first = true;
+			for (String parameterType : parameterTypes) {
+				if (!first) {
+					builder.append(",");
+				}
+				builder.append(parameterType);
+				first = false;
+			}
+			this.signature = builder.append(")").toString();
+		}
+
+		public static MethodSignature of(Method method, boolean fullClassNames) {
+			Class<?> returnType = method.getReturnType();
+			Class<?>[] parameterTypes = method.getParameterTypes();
+
+			String returnTypeString;
+			if (returnType.isPrimitive()) {
+				returnTypeString = returnType.toString();
+			} else {
+				returnTypeString = fullClassNames ? returnType.getName() : returnType.getSimpleName();
+			}
+			String methodName = method.getName();
+			String[] parameterTypeStrings = new String[parameterTypes.length];
+			for (int i = 0; i < parameterTypeStrings.length; i++) {
+				if (parameterTypes[i].isPrimitive()) {
+					parameterTypeStrings[i] = parameterTypes[i].toString();
+				} else {
+					parameterTypeStrings[i] = fullClassNames ? parameterTypes[i].getName() : parameterTypes[i].getSimpleName();
+				}
+			}
+
+			return new MethodSignature(returnTypeString, methodName, parameterTypeStrings);
+		}
+
+		public String getReturnType() {
+			return returnType;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String[] getParameterTypes() {
+			return parameterTypes;
+		}
+
+		public String getSignature() {
+			return signature;
+		}
+
+		@Override
+		public String toString() {
+			return getSignature();
+		}
 	}
 
 }
