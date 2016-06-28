@@ -30,6 +30,7 @@ package org.inventivetalent.reflection.resolver.wrapper;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class MethodWrapper<R> extends WrapperAbstract {
 
@@ -177,7 +178,7 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		}
 
 		public boolean isReturnTypeWildcard() {
-			return "?".equals(returnType);
+			return "?".equals(returnType) || "*".equals(returnType);
 		}
 
 		public String getName() {
@@ -185,7 +186,7 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		}
 
 		public boolean isNameWildcard() {
-			return "?".equals(name);
+			return "?".equals(name) || "*".equals(name);
 		}
 
 		public String[] getParameterTypes() {
@@ -197,7 +198,7 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		}
 
 		public boolean isParameterWildcard(int index) throws IndexOutOfBoundsException {
-			return "?".equals(getParameterType(index));
+			return "?".equals(getParameterType(index)) || "*".equals(getParameterType(index));
 		}
 
 		public String getSignature() {
@@ -213,16 +214,29 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		public boolean matches(MethodSignature other) {
 			if (other == null) { return false; }
 
-			if (!returnType.equals(other.returnType)) {
-				if (!isReturnTypeWildcard()) { return false; }
+			//			if (!returnType.equals(other.returnType)) {
+			//				if (!isReturnTypeWildcard()) { return false; }
+			//			}
+			//			if (!name.equals(other.name)) {
+			//				if (!isNameWildcard()) { return false; }
+			//			}
+			//			if (parameterTypes.length != other.parameterTypes.length) { return false; }
+			//			for (int i = 0; i < parameterTypes.length; i++) {
+			//				if (!getParameterType(i).equals(other.getParameterType(i))) {
+			//					if (!isParameterWildcard(i)) { return false; }
+			//				}
+			//			}
+
+			if (!Pattern.compile(returnType.replace("?", "\\w").replace("*", "\\w*")).matcher(other.returnType).find()) {
+				return false;
 			}
-			if (!name.equals(other.name)) {
-				if (!isNameWildcard()) { return false; }
+			if (!Pattern.compile(name.replace("?", "\\w").replace("*", "\\w*")).matcher(other.name).find()) {
+				return false;
 			}
 			if (parameterTypes.length != other.parameterTypes.length) { return false; }
 			for (int i = 0; i < parameterTypes.length; i++) {
-				if (!getParameterType(i).equals(other.getParameterType(i))) {
-					if (!isParameterWildcard(i)) { return false; }
+				if (!Pattern.compile(getParameterType(i).replace("?", "\\w").replace("*", "\\w*")).matcher(other.getParameterType(i)).find()) {
+					return false;
 				}
 			}
 
