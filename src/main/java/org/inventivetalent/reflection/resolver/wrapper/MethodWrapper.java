@@ -91,26 +91,26 @@ public class MethodWrapper<R> extends WrapperAbstract {
 	 * @return the method's signature
 	 */
 	public static String getMethodSignature(Method method, boolean fullClassNames) {
-//		StringBuilder stringBuilder = new StringBuilder();
-//
-//		Class<?> returnType = method.getReturnType();
-//		if (returnType.isPrimitive()) {
-//			stringBuilder.append(returnType);
-//		} else {
-//			stringBuilder.append(fullClassNames ? returnType.getName() : returnType.getSimpleName());
-//		}
-//		stringBuilder.append(" ");
-//		stringBuilder.append(method.getName());
-//
-//		stringBuilder.append("(");
-//
-//		boolean first = true;
-//		for (Class clazz : method.getParameterTypes()) {
-//			if (!first) { stringBuilder.append(","); }
-//			stringBuilder.append(fullClassNames ? clazz.getName() : clazz.getSimpleName());
-//			first = false;
-//		}
-//		return stringBuilder.append(")").toString();
+		//		StringBuilder stringBuilder = new StringBuilder();
+		//
+		//		Class<?> returnType = method.getReturnType();
+		//		if (returnType.isPrimitive()) {
+		//			stringBuilder.append(returnType);
+		//		} else {
+		//			stringBuilder.append(fullClassNames ? returnType.getName() : returnType.getSimpleName());
+		//		}
+		//		stringBuilder.append(" ");
+		//		stringBuilder.append(method.getName());
+		//
+		//		stringBuilder.append("(");
+		//
+		//		boolean first = true;
+		//		for (Class clazz : method.getParameterTypes()) {
+		//			if (!first) { stringBuilder.append(","); }
+		//			stringBuilder.append(fullClassNames ? clazz.getName() : clazz.getSimpleName());
+		//			first = false;
+		//		}
+		//		return stringBuilder.append(")").toString();
 
 		return MethodSignature.of(method, fullClassNames).getSignature();
 	}
@@ -175,12 +175,28 @@ public class MethodWrapper<R> extends WrapperAbstract {
 			return returnType;
 		}
 
+		public boolean isReturnTypeWildcard() {
+			return "?".equals(returnType);
+		}
+
 		public String getName() {
 			return name;
 		}
 
+		public boolean isNameWildcard() {
+			return "?".equals(name);
+		}
+
 		public String[] getParameterTypes() {
 			return parameterTypes;
+		}
+
+		public String getParameterType(int index) throws IndexOutOfBoundsException {
+			return parameterTypes[index];
+		}
+
+		public boolean isParameterWildcard(int index) throws IndexOutOfBoundsException {
+			return "?".equals(getParameterType(index));
 		}
 
 		public String getSignature() {
