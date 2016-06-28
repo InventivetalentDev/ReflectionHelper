@@ -33,6 +33,7 @@ import org.bukkit.entity.Entity;
 import org.inventivetalent.reflection.resolver.ConstructorResolver;
 import org.inventivetalent.reflection.resolver.FieldResolver;
 import org.inventivetalent.reflection.resolver.MethodResolver;
+import org.inventivetalent.reflection.resolver.minecraft.NMSClassResolver;
 import org.inventivetalent.reflection.resolver.minecraft.OBCClassResolver;
 import org.inventivetalent.reflection.util.AccessUtil;
 import sun.reflect.ConstructorAccessor;
@@ -51,7 +52,9 @@ public class Minecraft {
 
 	public static final Version VERSION;
 
+	private static NMSClassResolver nmsClassResolver = new NMSClassResolver();
 	private static OBCClassResolver obcClassResolver = new OBCClassResolver();
+	private static Class<?> NmsEntity;
 	private static Class<?> CraftEntity;
 
 	static {
@@ -59,6 +62,7 @@ public class Minecraft {
 		System.out.println("[ReflectionHelper] Version is " + VERSION);
 
 		try {
+			NmsEntity = nmsClassResolver.resolve("Entity");
 			CraftEntity = obcClassResolver.resolve("entity.CraftEntity");
 		} catch (ReflectiveOperationException e) {
 			throw new RuntimeException(e);
@@ -85,7 +89,7 @@ public class Minecraft {
 	public static Entity getBukkitEntity(Object object) throws ReflectiveOperationException {
 		Method method;
 		try {
-			method = AccessUtil.setAccessible(object.getClass().getDeclaredMethod("getBukkitEntity"));
+			method = AccessUtil.setAccessible(NmsEntity.getDeclaredMethod("getBukkitEntity"));
 		} catch (ReflectiveOperationException e) {
 			method = AccessUtil.setAccessible(CraftEntity.getDeclaredMethod("getHandle"));
 		}
