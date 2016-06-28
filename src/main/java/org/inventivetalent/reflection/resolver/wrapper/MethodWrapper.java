@@ -29,6 +29,7 @@
 package org.inventivetalent.reflection.resolver.wrapper;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public class MethodWrapper<R> extends WrapperAbstract {
 
@@ -201,6 +202,30 @@ public class MethodWrapper<R> extends WrapperAbstract {
 
 		public String getSignature() {
 			return signature;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) { return true; }
+			if (o == null || getClass() != o.getClass()) { return false; }
+
+			MethodSignature signature1 = (MethodSignature) o;
+
+			if (!returnType.equals(signature1.returnType)) { return false; }
+			if (!name.equals(signature1.name)) { return false; }
+			// Probably incorrect - comparing Object[] arrays with Arrays.equals
+			if (!Arrays.equals(parameterTypes, signature1.parameterTypes)) { return false; }
+			return signature.equals(signature1.signature);
+
+		}
+
+		@Override
+		public int hashCode() {
+			int result = returnType.hashCode();
+			result = 31 * result + name.hashCode();
+			result = 31 * result + Arrays.hashCode(parameterTypes);
+			result = 31 * result + signature.hashCode();
+			return result;
 		}
 
 		@Override
