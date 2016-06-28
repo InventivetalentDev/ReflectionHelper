@@ -4,8 +4,7 @@ import org.inventivetalent.reflection.resolver.wrapper.MethodWrapper;
 
 import java.lang.reflect.Method;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class Test {
 
@@ -25,6 +24,14 @@ public class Test {
 	}
 
 	public double wildcardMethod2(String string) {
+		return 0;
+	}
+
+	public double wildcardMethod3(boolean b) {
+		return 0;
+	}
+
+	public int wildCardMethod4(String string) {
 		return 0;
 	}
 
@@ -69,6 +76,20 @@ public class Test {
 		assertEquals("genericDummyMethod", signature.getName());
 		assertEquals("java.lang.Thread", signature.getParameterType(0));
 		assertEquals("java.lang.Exception", signature.getParameterType(1));
+	}
+
+	@org.junit.Test
+	public void wildcardTest() throws ReflectiveOperationException {
+		MethodWrapper.MethodSignature wildcardSignature = MethodWrapper.MethodSignature.fromString("* wildcardMethod*(String)");
+		MethodWrapper.MethodSignature testSignature1 = MethodWrapper.MethodSignature.of(Test.class.getMethod("wildcardMethod1", String.class), false);
+		MethodWrapper.MethodSignature testSignature2 = MethodWrapper.MethodSignature.of(Test.class.getMethod("wildcardMethod2", String.class), false);
+		MethodWrapper.MethodSignature testSignature3 = MethodWrapper.MethodSignature.of(Test.class.getMethod("wildcardMethod3", boolean.class), false);
+		MethodWrapper.MethodSignature testSignature4 = MethodWrapper.MethodSignature.of(Test.class.getMethod("wildCardMethod4", String.class), false);
+
+		assertTrue(wildcardSignature.matches(testSignature1));
+		assertTrue(wildcardSignature.matches(testSignature2));
+		assertFalse(wildcardSignature.matches(testSignature3));
+		assertFalse(wildcardSignature.matches(testSignature4));
 	}
 
 }
