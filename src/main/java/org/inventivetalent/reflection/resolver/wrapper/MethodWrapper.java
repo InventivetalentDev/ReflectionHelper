@@ -204,6 +204,31 @@ public class MethodWrapper<R> extends WrapperAbstract {
 			return signature;
 		}
 
+		/**
+		 * Checks whether this signature matches another signature. Wildcards are checked in this signature, but not the other signature.
+		 *
+		 * @param other signature to check
+		 * @return whether the signatures match
+		 */
+		public boolean matches(MethodSignature other) {
+			if (other == null) { return false; }
+
+			if (!returnType.equals(other.returnType)) {
+				if (!isReturnTypeWildcard()) { return false; }
+			}
+			if (!name.equals(other.name)) {
+				if (!isNameWildcard()) { return false; }
+			}
+			if (parameterTypes.length != other.parameterTypes.length) { return false; }
+			for (int i = 0; i < parameterTypes.length; i++) {
+				if (!getParameterType(i).equals(other.getParameterType(i))) {
+					if (!isParameterWildcard(i)) { return false; }
+				}
+			}
+
+			return true;
+		}
+
 		@Override
 		public boolean equals(Object o) {
 			if (this == o) { return true; }
