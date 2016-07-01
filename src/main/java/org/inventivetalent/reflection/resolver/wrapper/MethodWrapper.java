@@ -243,15 +243,15 @@ public class MethodWrapper<R> extends WrapperAbstract {
 			//				}
 			//			}
 
-			if (!Pattern.compile(returnType.replace("?", "\\w").replace("*", "\\w*")).matcher(other.returnType).find()) {
+			if (!Pattern.compile(returnType.replace("?", "\\w").replace("*", "\\w*")).matcher(other.returnType).matches()) {
 				return false;
 			}
-			if (!Pattern.compile(name.replace("?", "\\w").replace("*", "\\w*")).matcher(other.name).find()) {
+			if (!Pattern.compile(name.replace("?", "\\w").replace("*", "\\w*")).matcher(other.name).matches()) {
 				return false;
 			}
 			if (parameterTypes.length != other.parameterTypes.length) { return false; }
 			for (int i = 0; i < parameterTypes.length; i++) {
-				if (!Pattern.compile(getParameterType(i).replace("?", "\\w").replace("*", "\\w*")).matcher(other.getParameterType(i)).find()) {
+				if (!Pattern.compile(getParameterType(i).replace("?", "\\w").replace("*", "\\w*")).matcher(other.getParameterType(i)).matches()) {
 					return false;
 				}
 			}
