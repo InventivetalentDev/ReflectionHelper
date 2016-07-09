@@ -66,7 +66,7 @@ public class DataWatcher {
 		if (Minecraft.VERSION.olderThan(Minecraft.Version.v1_9_R1)) {
 			return V1_8.setValue(dataWatcher, index, value);
 		} else {
-			return V1_9.setItem(dataWatcher, index, dataWatcherObject, value);
+			return V1_9.setValue(dataWatcher, dataWatcherObject, value);
 		}
 	}
 
@@ -79,7 +79,7 @@ public class DataWatcher {
 			return V1_8.setValue(dataWatcher, index, value);
 		} else {
 			Object dataWatcherObject = dataWatcherObjectFieldResolver.resolve(dataWatcherObjectFieldNames).get(null/*Should be a static field*/);
-			return V1_9.setItem(dataWatcher, index, dataWatcherObject, value);
+			return V1_9.setValue(dataWatcher, dataWatcherObject, value);
 		}
 	}
 
@@ -142,6 +142,11 @@ public class DataWatcher {
 		public static Object setItem(Object dataWatcher, int index, Object dataWatcherItem) throws ReflectiveOperationException {
 			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolveByLastTypeSilent(Map.class).get(dataWatcher);
 			map.put(index, dataWatcherItem);
+			return dataWatcher;
+		}
+
+		public static Object setValue(Object dataWatcher, Object dataWatcherObject, Object value) throws ReflectiveOperationException {
+			DataWatcherMethodResolver.resolve("set").invoke(dataWatcher, dataWatcherObject, value);
 			return dataWatcher;
 		}
 
