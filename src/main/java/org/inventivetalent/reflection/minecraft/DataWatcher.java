@@ -100,7 +100,7 @@ public class DataWatcher {
 		if (Minecraft.VERSION.olderThan(Minecraft.Version.v1_9_R1)) {
 			return V1_8.getValue(dataWatcher, index);
 		} else {
-			return V1_9.getItem(dataWatcher, dataWatcherObject);
+			return V1_9.getValue(dataWatcher, dataWatcherObject);
 		}
 	}
 
