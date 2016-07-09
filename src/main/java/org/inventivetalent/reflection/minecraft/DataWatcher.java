@@ -83,11 +83,24 @@ public class DataWatcher {
 		}
 	}
 
+	@Deprecated
 	public static Object getValue(DataWatcher dataWatcher, int index) throws ReflectiveOperationException {
 		if (Minecraft.VERSION.olderThan(Minecraft.Version.v1_9_R1)) {
 			return V1_8.getValue(dataWatcher, index);
 		} else {
 			return V1_9.getValue(dataWatcher, index);
+		}
+	}
+
+	public static Object getValue(Object dataWatcher, int index, V1_9.ValueType type) throws ReflectiveOperationException {
+		return getValue(dataWatcher, index, type.getType());
+	}
+
+	public static Object getValue(Object dataWatcher, int index, Object dataWatcherObject/*1.9*/) throws ReflectiveOperationException {
+		if (Minecraft.VERSION.olderThan(Minecraft.Version.v1_9_R1)) {
+			return V1_8.getValue(dataWatcher, index);
+		} else {
+			return V1_9.getItem(dataWatcher, dataWatcherObject);
 		}
 	}
 
