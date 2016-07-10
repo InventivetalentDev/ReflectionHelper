@@ -98,7 +98,7 @@ public class DataWatcher {
 
 	public static Object getValue(Object dataWatcher, int index, Object dataWatcherObject/*1.9*/) throws ReflectiveOperationException {
 		if (Minecraft.VERSION.olderThan(Minecraft.Version.v1_9_R1)) {
-			return V1_8.getValue(dataWatcher, index);
+			return V1_8.getWatchableObjectValue(V1_8.getValue(dataWatcher, index));
 		} else {
 			return V1_9.getValue(dataWatcher, dataWatcherObject);
 		}
