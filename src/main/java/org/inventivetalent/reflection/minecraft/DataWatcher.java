@@ -394,16 +394,16 @@ public class DataWatcher {
 		public static Object setValue(Object dataWatcher, int index, Object value) throws ReflectiveOperationException {
 			int type = getValueType(value);
 
-			Object map = DataWatcherFieldResolver.resolve("dataValues").get(dataWatcher);
-			TIntObjectMapMethodResolver.resolve(new ResolverQuery("put", int.class, Object.class)).invoke(map, index, newWatchableObject(type, index, value));
+			Map map = (Map) DataWatcherFieldResolver.resolveByLastType(Map.class).get(dataWatcher);
+			map.put(index, newWatchableObject(type, index, value));
 
 			return dataWatcher;
 		}
 
 		public static Object getValue(Object dataWatcher, int index) throws ReflectiveOperationException {
-			Object map = DataWatcherFieldResolver.resolve("dataValues").get(dataWatcher);
+			Map map = (Map) DataWatcherFieldResolver.resolveByLastType(Map.class).get(dataWatcher);
 
-			return TIntObjectMapMethodResolver.resolve(new ResolverQuery("get", int.class)).invoke(map, index);
+			return map.get(index);
 		}
 
 		public static int getWatchableObjectIndex(Object object) throws ReflectiveOperationException {
