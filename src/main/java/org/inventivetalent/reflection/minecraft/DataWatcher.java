@@ -296,7 +296,20 @@ public class DataWatcher {
 			//TODO: Add EntityWither#bw (Integer)
 			ENTITY_WITHER_bw("EntityWither", 4, 4/*"bw", "bx"*/),
 
+			//////////
+
+			ENTITY_AGEABLE_CHILD("EntityAgeable", 0, 0),
+
 			///////////
+
+			ENTITY_HORSE_STATUS("EntityHorse", 3, 0),
+			ENTITY_HORSE_HORSE_TYPE("EntityHorse", 4, 1),
+			ENTITY_HORSE_HORSE_VARIANT("EntityHorse", 5, 2),
+			ENTITY_HORSE_OWNER_UUID("EntityHorse", 6, 3),
+			ENTITY_HORSE_HORSE_ARMOR("EntityHorse", 7, 4),
+
+			/////////
+
 
 			/**
 			 * Float
