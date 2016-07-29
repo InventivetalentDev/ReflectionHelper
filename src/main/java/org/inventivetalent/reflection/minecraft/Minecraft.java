@@ -59,7 +59,6 @@ public class Minecraft {
 
 	static {
 		VERSION = Version.getVersion();
-		System.out.println("[ReflectionHelper] Version is " + VERSION);
 
 		try {
 			NmsEntity = nmsClassResolver.resolve("Entity");
