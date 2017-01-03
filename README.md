@@ -1,6 +1,6 @@
 # ReflectionHelper
 
-[![Build Status](http://ci.inventivetalent.org/job/ReflectionHelper/badge/icon)](https://ci.inventivetalent.org/job/ReflectionHelper)
+[![Build Status](https://travis-ci.org/InventivetalentDev/ReflectionHelper.svg?branch=master)](https://travis-ci.org/InventivetalentDev/ReflectionHelper)
 
 API for accessing various classes and their members using reflection.
 
