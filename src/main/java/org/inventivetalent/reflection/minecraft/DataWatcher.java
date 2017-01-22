@@ -31,7 +31,6 @@ package org.inventivetalent.reflection.minecraft;
 import org.inventivetalent.reflection.resolver.*;
 import org.inventivetalent.reflection.resolver.minecraft.NMSClassResolver;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -58,7 +57,7 @@ public class DataWatcher {
 	static MethodResolver TIntObjectMapMethodResolver = new MethodResolver(TIntObjectMap);
 	static MethodResolver DataWatcherMethodResolver   = new MethodResolver(DataWatcher);
 
-	public static Object newDataWatcher(@Nullable Object entity) throws ReflectiveOperationException {
+	public static Object newDataWatcher(Object entity) throws ReflectiveOperationException {
 		return DataWacherConstructorResolver.resolve(new Class[] { Entity }).newInstance(entity);
 	}
 
