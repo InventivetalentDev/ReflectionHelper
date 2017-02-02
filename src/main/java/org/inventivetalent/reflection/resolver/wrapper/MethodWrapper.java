@@ -103,13 +103,17 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		static final Pattern SIGNATURE_STRING_PATTERN = Pattern.compile("(.+) (.*)\\((.*)\\)");
 
 		private final String   returnType;
+		private final Pattern  returnTypePattern;
 		private final String   name;
+		private final Pattern  namePattern;
 		private final String[] parameterTypes;
 		private final String   signature;
 
 		public MethodSignature(String returnType, String name, String[] parameterTypes) {
 			this.returnType = returnType;
+			this.returnTypePattern = Pattern.compile(returnType.replace("?", "\\w").replace("*", "\\w*"));
 			this.name = name;
+			this.namePattern = Pattern.compile(name.replace("?", "\\w").replace("*", "\\w*"));
 			this.parameterTypes = parameterTypes;
 
 			StringBuilder builder = new StringBuilder();
@@ -215,10 +219,10 @@ public class MethodWrapper<R> extends WrapperAbstract {
 			//				}
 			//			}
 
-			if (!Pattern.compile(returnType.replace("?", "\\w").replace("*", "\\w*")).matcher(other.returnType).matches()) {
+			if (!returnTypePattern.matcher(other.returnType).matches()) {
 				return false;
 			}
-			if (!Pattern.compile(name.replace("?", "\\w").replace("*", "\\w*")).matcher(other.name).matches()) {
+			if (!namePattern.matcher(other.name).matches()) {
 				return false;
 			}
 			if (parameterTypes.length != other.parameterTypes.length) { return false; }
