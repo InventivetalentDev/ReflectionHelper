@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  * Helper class to access minecraft/bukkit specific objects
  */
 public class Minecraft {
-	static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9])*_R([0-9])");
+	static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
 
 	public static final Version VERSION;
 
@@ -100,7 +100,9 @@ public class Minecraft {
 
 		v1_10_R1(11001),
 
-		v1_11_R1(11101);
+		v1_11_R1(11101),
+		
+		v1_12_R1(11201);
 
 		private int version;
 
