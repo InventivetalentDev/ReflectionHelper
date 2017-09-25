@@ -42,8 +42,12 @@ public class ConstructorWrapper<R> extends WrapperAbstract {
 
 	@Override
 	public boolean equals(Object object) {
-		if (this == object) { return true; }
-		if (object == null || getClass() != object.getClass()) { return false; }
+		if (this == object) {
+			return true;
+		}
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
 
 		ConstructorWrapper<?> that = (ConstructorWrapper<?>) object;
 

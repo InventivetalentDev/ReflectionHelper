@@ -142,7 +142,9 @@ public class FieldResolver extends MemberResolver<Field> {
 				field = field1;
 			}
 		}
-		if (field == null) { throw new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz); }
+		if (field == null) {
+			throw new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz);
+		}
 		return AccessUtil.setAccessible(field);
 	}
 

@@ -14,52 +14,6 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		this.method = method;
 	}
 
-	@Override
-	public boolean exists() {
-		return this.method != null;
-	}
-
-	public String getName() {
-		return this.method.getName();
-	}
-
-	@SuppressWarnings("unchecked")
-	public R invoke(Object object, Object... args) {
-		try {
-			return (R) this.method.invoke(object, args);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public R invokeSilent(Object object, Object... args) {
-		try {
-			return (R) this.method.invoke(object, args);
-		} catch (Exception ignored) {
-		}
-		return null;
-	}
-
-	public Method getMethod() {
-		return method;
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) { return true; }
-		if (object == null || getClass() != object.getClass()) { return false; }
-
-		MethodWrapper<?> that = (MethodWrapper<?>) object;
-
-		return method != null ? method.equals(that.method) : that.method == null;
-	}
-
-	@Override
-	public int hashCode() {
-		return method != null ? method.hashCode() : 0;
-	}
-
 	/**
 	 * Generates a method's signature.
 	 *
@@ -101,15 +55,65 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		return getMethodSignature(method, false);
 	}
 
+	@Override
+	public boolean exists() {
+		return this.method != null;
+	}
+
+	public String getName() {
+		return this.method.getName();
+	}
+
+	@SuppressWarnings("unchecked")
+	public R invoke(Object object, Object... args) {
+		try {
+			return (R) this.method.invoke(object, args);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public R invokeSilent(Object object, Object... args) {
+		try {
+			return (R) this.method.invoke(object, args);
+		} catch (Exception ignored) {
+		}
+		return null;
+	}
+
+	public Method getMethod() {
+		return method;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
+
+		MethodWrapper<?> that = (MethodWrapper<?>) object;
+
+		return method != null ? method.equals(that.method) : that.method == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return method != null ? method.hashCode() : 0;
+	}
+
 	public static class MethodSignature {
 		static final Pattern SIGNATURE_STRING_PATTERN = Pattern.compile("(.+) (.*)\\((.*)\\)");
 
-		private final String   returnType;
-		private final Pattern  returnTypePattern;
-		private final String   name;
-		private final Pattern  namePattern;
+		private final String returnType;
+		private final Pattern returnTypePattern;
+		private final String name;
+		private final Pattern namePattern;
 		private final String[] parameterTypes;
-		private final String   signature;
+		private final String signature;
 
 		public MethodSignature(String returnType, String name, String[] parameterTypes) {
 			this.returnType = returnType;
@@ -155,7 +159,9 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		}
 
 		public static MethodSignature fromString(String signatureString) {
-			if (signatureString == null) { return null; }
+			if (signatureString == null) {
+				return null;
+			}
 			Matcher matcher = SIGNATURE_STRING_PATTERN.matcher(signatureString);
 			if (matcher.find()) {
 				if (matcher.groupCount() != 3) {
@@ -206,7 +212,9 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		 * @return whether the signatures match
 		 */
 		public boolean matches(MethodSignature other) {
-			if (other == null) { return false; }
+			if (other == null) {
+				return false;
+			}
 
 			//if (!returnType.equals(other.returnType)) {
 			//	if (!isReturnTypeWildcard()) { return false; }
@@ -227,7 +235,9 @@ public class MethodWrapper<R> extends WrapperAbstract {
 			if (!namePattern.matcher(other.name).matches()) {
 				return false;
 			}
-			if (parameterTypes.length != other.parameterTypes.length) { return false; }
+			if (parameterTypes.length != other.parameterTypes.length) {
+				return false;
+			}
 			for (int i = 0; i < parameterTypes.length; i++) {
 				if (!Pattern.compile(getParameterType(i).replace("?", "\\w").replace("*", "\\w*")).matcher(other.getParameterType(i)).matches()) {
 					return false;

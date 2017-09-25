@@ -12,7 +12,7 @@ import java.util.List;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class ResolverQuery {
 
-	private String     name;
+	private String name;
 	private Class<?>[] types;
 
 	public ResolverQuery(String name, Class<?>... types) {
@@ -29,6 +29,10 @@ public class ResolverQuery {
 		this.types = types;
 	}
 
+	public static Builder builder() {
+		return new Builder();
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -39,12 +43,18 @@ public class ResolverQuery {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) { return true; }
-		if (o == null || getClass() != o.getClass()) { return false; }
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		ResolverQuery that = (ResolverQuery) o;
 
-		if (name != null ? !name.equals(that.name) : that.name != null) { return false; }
+		if (name != null ? !name.equals(that.name) : that.name != null) {
+			return false;
+		}
 		// Probably incorrect - comparing Object[] arrays with Arrays.equals
 		return Arrays.equals(types, that.types);
 
@@ -63,10 +73,6 @@ public class ResolverQuery {
 				"name='" + name + '\'' +
 				", types=" + Arrays.toString(types) +
 				'}';
-	}
-
-	public static Builder builder() {
-		return new Builder();
 	}
 
 	/**

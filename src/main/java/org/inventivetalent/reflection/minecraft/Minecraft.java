@@ -21,10 +21,8 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Minecraft {
-	static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
-
 	public static final Version VERSION;
-
+	static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
 	private static NMSClassResolver nmsClassResolver = new NMSClassResolver();
 	private static OBCClassResolver obcClassResolver = new OBCClassResolver();
 	private static Class<?> NmsEntity;
@@ -77,6 +75,18 @@ public class Minecraft {
 		return null;
 	}
 
+	public static Object newEnumInstance(Class clazz, Class[] types, Object[] values) throws ReflectiveOperationException {
+		Constructor constructor = new ConstructorResolver(clazz).resolve(types);
+		Field accessorField = new FieldResolver(Constructor.class).resolve("constructorAccessor");
+		ConstructorAccessor constructorAccessor = (ConstructorAccessor) accessorField.get(constructor);
+		if (constructorAccessor == null) {
+			new MethodResolver(Constructor.class).resolve("acquireConstructorAccessor").invoke(constructor);
+			constructorAccessor = (ConstructorAccessor) accessorField.get(constructor);
+		}
+		return constructorAccessor.newInstance(values);
+
+	}
+
 	public enum Version {
 		UNKNOWN(-1) {
 			@Override
@@ -102,13 +112,71 @@ public class Minecraft {
 		v1_10_R1(11001),
 
 		v1_11_R1(11101),
-		
+
 		v1_12_R1(11201);
 
 		private int version;
 
 		Version(int version) {
 			this.version = version;
+		}
+
+		public static Version getVersion() {
+			String name = Bukkit.getServer().getClass().getPackage().getName();
+			String versionPackage = name.substring(name.lastIndexOf('.') + 1) + ".";
+			for (Version version : values()) {
+				if (version.matchesPackageName(versionPackage)) {
+					return version;
+				}
+			}
+			System.err.println("[ReflectionHelper] Failed to find version enum for '" + name + "'/'" + versionPackage + "'");
+
+			System.out.println("[ReflectionHelper] Generating dynamic constant...");
+			Matcher matcher = NUMERIC_VERSION_PATTERN.matcher(versionPackage);
+			while (matcher.find()) {
+				if (matcher.groupCount() < 3) {
+					continue;
+				}
+
+				String majorString = matcher.group(1);
+				String minorString = matcher.group(2);
+				if (minorString.length() == 1) {
+					minorString = "0" + minorString;
+				}
+				String patchString = matcher.group(3);
+				if (patchString.length() == 1) {
+					patchString = "0" + patchString;
+				}
+
+				String numVersionString = majorString + minorString + patchString;
+				int numVersion = Integer.parseInt(numVersionString);
+				String packge = versionPackage.substring(0, versionPackage.length() - 1);
+
+				try {
+					// Add enum value
+					Field valuesField = new FieldResolver(Version.class).resolve("$VALUES");
+					Version[] oldValues = (Version[]) valuesField.get(null);
+					Version[] newValues = new Version[oldValues.length + 1];
+					System.arraycopy(oldValues, 0, newValues, 0, oldValues.length);
+					Version dynamicVersion = (Version) newEnumInstance(Version.class, new Class[]{
+							String.class,
+							int.class,
+							int.class}, new Object[]{
+							packge,
+							newValues.length - 1,
+							numVersion});
+					newValues[newValues.length - 1] = dynamicVersion;
+					valuesField.set(null, newValues);
+
+					System.out.println("[ReflectionHelper] Injected dynamic version " + packge + " (#" + numVersion + ").");
+					System.out.println("[ReflectionHelper] Please inform inventivetalent about the outdated version, as this is not guaranteed to work.");
+					return dynamicVersion;
+				} catch (ReflectiveOperationException e) {
+					e.printStackTrace();
+				}
+			}
+
+			return UNKNOWN;
 		}
 
 		/**
@@ -147,72 +215,10 @@ public class Minecraft {
 			return packageName.toLowerCase().contains(name().toLowerCase());
 		}
 
-		public static Version getVersion() {
-			String name = Bukkit.getServer().getClass().getPackage().getName();
-			String versionPackage = name.substring(name.lastIndexOf('.') + 1) + ".";
-			for (Version version : values()) {
-				if (version.matchesPackageName(versionPackage)) { return version; }
-			}
-			System.err.println("[ReflectionHelper] Failed to find version enum for '" + name + "'/'" + versionPackage + "'");
-
-			System.out.println("[ReflectionHelper] Generating dynamic constant...");
-			Matcher matcher = NUMERIC_VERSION_PATTERN.matcher(versionPackage);
-			while (matcher.find()) {
-				if (matcher.groupCount() < 3) { continue; }
-
-				String majorString = matcher.group(1);
-				String minorString = matcher.group(2);
-				if (minorString.length() == 1) { minorString = "0" + minorString; }
-				String patchString = matcher.group(3);
-				if (patchString.length() == 1) { patchString = "0" + patchString; }
-
-				String numVersionString = majorString + minorString + patchString;
-				int numVersion = Integer.parseInt(numVersionString);
-				String packge = versionPackage.substring(0, versionPackage.length() - 1);
-
-				try {
-					// Add enum value
-					Field valuesField = new FieldResolver(Version.class).resolve("$VALUES");
-					Version[] oldValues = (Version[]) valuesField.get(null);
-					Version[] newValues = new Version[oldValues.length + 1];
-					System.arraycopy(oldValues, 0, newValues, 0, oldValues.length);
-					Version dynamicVersion = (Version) newEnumInstance(Version.class, new Class[] {
-							String.class,
-							int.class,
-							int.class }, new Object[] {
-							packge,
-							newValues.length - 1,
-							numVersion });
-					newValues[newValues.length - 1] = dynamicVersion;
-					valuesField.set(null, newValues);
-
-					System.out.println("[ReflectionHelper] Injected dynamic version " + packge + " (#" + numVersion + ").");
-					System.out.println("[ReflectionHelper] Please inform inventivetalent about the outdated version, as this is not guaranteed to work.");
-					return dynamicVersion;
-				} catch (ReflectiveOperationException e) {
-					e.printStackTrace();
-				}
-			}
-
-			return UNKNOWN;
-		}
-
 		@Override
 		public String toString() {
 			return name() + " (" + version() + ")";
 		}
-	}
-
-	public static Object newEnumInstance(Class clazz, Class[] types, Object[] values) throws ReflectiveOperationException {
-		Constructor constructor = new ConstructorResolver(clazz).resolve(types);
-		Field accessorField = new FieldResolver(Constructor.class).resolve("constructorAccessor");
-		ConstructorAccessor constructorAccessor = (ConstructorAccessor) accessorField.get(constructor);
-		if (constructorAccessor == null) {
-			new MethodResolver(Constructor.class).resolve("acquireConstructorAccessor").invoke(constructor);
-			constructorAccessor = (ConstructorAccessor) accessorField.get(constructor);
-		}
-		return constructorAccessor.newInstance(values);
-
 	}
 
 }

@@ -89,7 +89,9 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 		for (Constructor constructor1 : this.clazz.getDeclaredConstructors()) {
 			constructor = constructor1;
 		}
-		if (constructor != null) { return AccessUtil.setAccessible(constructor); }
+		if (constructor != null) {
+			return AccessUtil.setAccessible(constructor);
+		}
 		return null;
 	}
 

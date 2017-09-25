@@ -1,6 +1,9 @@
 package org.inventivetalent.reflection.minecraft;
 
-import org.inventivetalent.reflection.resolver.*;
+import org.inventivetalent.reflection.resolver.ConstructorResolver;
+import org.inventivetalent.reflection.resolver.FieldResolver;
+import org.inventivetalent.reflection.resolver.MethodResolver;
+import org.inventivetalent.reflection.resolver.ResolverQuery;
 import org.inventivetalent.reflection.resolver.minecraft.NMSClassResolver;
 
 import java.lang.reflect.Field;
@@ -15,12 +18,12 @@ public class DataWatcher {
 	//private static ClassResolver    classResolver    = new ClassResolver();
 	private static NMSClassResolver nmsClassResolver = new NMSClassResolver();
 
-	private static Class<?> ItemStack        = nmsClassResolver.resolveSilent("ItemStack");
+	private static Class<?> ItemStack = nmsClassResolver.resolveSilent("ItemStack");
 	private static Class<?> ChunkCoordinates = nmsClassResolver.resolveSilent("ChunkCoordinates");
-	private static Class<?> BlockPosition    = nmsClassResolver.resolveSilent("BlockPosition");
-	private static Class<?> Vector3f         = nmsClassResolver.resolveSilent("Vector3f");
-	private static Class<?> DataWatcher      = nmsClassResolver.resolveSilent("DataWatcher");
-	private static Class<?> Entity           = nmsClassResolver.resolveSilent("Entity");
+	private static Class<?> BlockPosition = nmsClassResolver.resolveSilent("BlockPosition");
+	private static Class<?> Vector3f = nmsClassResolver.resolveSilent("Vector3f");
+	private static Class<?> DataWatcher = nmsClassResolver.resolveSilent("DataWatcher");
+	private static Class<?> Entity = nmsClassResolver.resolveSilent("Entity");
 	//private static Class<?> TIntObjectMap    = classResolver.resolveSilent("gnu.trove.map.TIntObjectMap", "net.minecraft.util.gnu.trove.map.TIntObjectMap");
 
 	private static ConstructorResolver DataWacherConstructorResolver = new ConstructorResolver(DataWatcher);
@@ -28,10 +31,13 @@ public class DataWatcher {
 	private static FieldResolver DataWatcherFieldResolver = new FieldResolver(DataWatcher);
 
 	//private static MethodResolver TIntObjectMapMethodResolver = new MethodResolver(TIntObjectMap);
-	private static MethodResolver DataWatcherMethodResolver   = new MethodResolver(DataWatcher);
+	private static MethodResolver DataWatcherMethodResolver = new MethodResolver(DataWatcher);
+
+	private DataWatcher() {
+	}
 
 	public static Object newDataWatcher(Object entity) throws ReflectiveOperationException {
-		return DataWacherConstructorResolver.resolve(new Class[] { Entity }).newInstance(entity);
+		return DataWacherConstructorResolver.resolve(new Class[]{Entity}).newInstance(entity);
 	}
 
 	public static Object setValue(Object dataWatcher, int index, Object dataWatcherObject/*1.9*/, Object value) throws ReflectiveOperationException {
@@ -107,7 +113,7 @@ public class DataWatcher {
 	 */
 	public static class V1_9 {
 
-		static Class<?> DataWatcherItem   = nmsClassResolver.resolveSilent("DataWatcher$Item");//>= 1.9 only
+		static Class<?> DataWatcherItem = nmsClassResolver.resolveSilent("DataWatcher$Item");//>= 1.9 only
 		static Class<?> DataWatcherObject = nmsClassResolver.resolveSilent("DataWatcherObject");//>= 1.9 only
 
 		static ConstructorResolver DataWatcherItemConstructorResolver;//>=1.9 only
@@ -116,7 +122,9 @@ public class DataWatcher {
 		static FieldResolver DataWatcherObjectFieldResolver;//>=1.9 only
 
 		public static Object newDataWatcherItem(Object dataWatcherObject, Object value) throws ReflectiveOperationException {
-			if (DataWatcherItemConstructorResolver == null) { DataWatcherItemConstructorResolver = new ConstructorResolver(DataWatcherItem); }
+			if (DataWatcherItemConstructorResolver == null) {
+				DataWatcherItemConstructorResolver = new ConstructorResolver(DataWatcherItem);
+			}
 			return DataWatcherItemConstructorResolver.resolveFirstConstructor().newInstance(dataWatcherObject, value);
 		}
 
@@ -154,7 +162,9 @@ public class DataWatcher {
 		}
 
 		public static Object getItemObject(Object item) throws ReflectiveOperationException {
-			if (DataWatcherItemFieldResolver == null) { DataWatcherItemFieldResolver = new FieldResolver(DataWatcherItem); }
+			if (DataWatcherItemFieldResolver == null) {
+				DataWatcherItemFieldResolver = new FieldResolver(DataWatcherItem);
+			}
 			return DataWatcherItemFieldResolver.resolve("a").get(item);
 		}
 
@@ -172,7 +182,9 @@ public class DataWatcher {
 		}
 
 		public static Type getItemType(Object item) throws ReflectiveOperationException {
-			if (DataWatcherObjectFieldResolver == null) { DataWatcherObjectFieldResolver = new FieldResolver(DataWatcherObject); }
+			if (DataWatcherObjectFieldResolver == null) {
+				DataWatcherObjectFieldResolver = new FieldResolver(DataWatcherObject);
+			}
 			Object object = getItemObject(item);
 			Object serializer = DataWatcherObjectFieldResolver.resolve("b").get(object);
 			Type[] genericInterfaces = serializer.getClass().getGenericInterfaces();
@@ -189,7 +201,9 @@ public class DataWatcher {
 		}
 
 		public static Object getItemValue(Object item) throws ReflectiveOperationException {
-			if (DataWatcherItemFieldResolver == null) { DataWatcherItemFieldResolver = new FieldResolver(DataWatcherItem); }
+			if (DataWatcherItemFieldResolver == null) {
+				DataWatcherItemFieldResolver = new FieldResolver(DataWatcherItem);
+			}
 			return DataWatcherItemFieldResolver.resolve("b").get(item);
 		}
 
@@ -371,11 +385,13 @@ public class DataWatcher {
 		}
 
 		public static Object newWatchableObject(int type, int index, Object value) throws ReflectiveOperationException {
-			if (WatchableObjectConstructorResolver == null) { WatchableObjectConstructorResolver = new ConstructorResolver(WatchableObject); }
-			return WatchableObjectConstructorResolver.resolve(new Class[] {
+			if (WatchableObjectConstructorResolver == null) {
+				WatchableObjectConstructorResolver = new ConstructorResolver(WatchableObject);
+			}
+			return WatchableObjectConstructorResolver.resolve(new Class[]{
 					int.class,
 					int.class,
-					Object.class }).newInstance(type, index, value);
+					Object.class}).newInstance(type, index, value);
 		}
 
 		@SuppressWarnings("unchecked")
@@ -395,22 +411,25 @@ public class DataWatcher {
 		}
 
 		public static int getWatchableObjectIndex(Object object) throws ReflectiveOperationException {
-			if (WatchableObjectFieldResolver == null) { WatchableObjectFieldResolver = new FieldResolver(WatchableObject); }
+			if (WatchableObjectFieldResolver == null) {
+				WatchableObjectFieldResolver = new FieldResolver(WatchableObject);
+			}
 			return WatchableObjectFieldResolver.resolve("b").getInt(object);
 		}
 
 		public static int getWatchableObjectType(Object object) throws ReflectiveOperationException {
-			if (WatchableObjectFieldResolver == null) { WatchableObjectFieldResolver = new FieldResolver(WatchableObject); }
+			if (WatchableObjectFieldResolver == null) {
+				WatchableObjectFieldResolver = new FieldResolver(WatchableObject);
+			}
 			return WatchableObjectFieldResolver.resolve("a").getInt(object);
 		}
 
 		public static Object getWatchableObjectValue(Object object) throws ReflectiveOperationException {
-			if (WatchableObjectFieldResolver == null) { WatchableObjectFieldResolver = new FieldResolver(WatchableObject); }
+			if (WatchableObjectFieldResolver == null) {
+				WatchableObjectFieldResolver = new FieldResolver(WatchableObject);
+			}
 			return WatchableObjectFieldResolver.resolve("c").get(object);
 		}
 
-	}
-
-	private DataWatcher() {
 	}
 }

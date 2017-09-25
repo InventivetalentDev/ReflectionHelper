@@ -19,7 +19,9 @@ public abstract class MemberResolver<T extends Member> extends ResolverAbstract<
 	protected Class<?> clazz;
 
 	public MemberResolver(Class<?> clazz) {
-		if (clazz == null) { throw new IllegalArgumentException("class cannot be null"); }
+		if (clazz == null) {
+			throw new IllegalArgumentException("class cannot be null");
+		}
 		this.clazz = clazz;
 	}
 

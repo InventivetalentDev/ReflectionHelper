@@ -17,7 +17,7 @@ public abstract class AccessUtil {
 	 *
 	 * @param field Field to set accessible
 	 * @return the Field
-	 * @throws ReflectiveOperationException  (usually never)
+	 * @throws ReflectiveOperationException (usually never)
 	 */
 	public static Field setAccessible(Field field) throws ReflectiveOperationException {
 		field.setAccessible(true);
@@ -32,7 +32,7 @@ public abstract class AccessUtil {
 	 *
 	 * @param method Method to set accessible
 	 * @return the Method
-	 * @throws ReflectiveOperationException  (usually never)
+	 * @throws ReflectiveOperationException (usually never)
 	 */
 	public static Method setAccessible(Method method) throws ReflectiveOperationException {
 		method.setAccessible(true);
@@ -44,7 +44,7 @@ public abstract class AccessUtil {
 	 *
 	 * @param constructor Constructor to set accessible
 	 * @return the Constructor
-	 * @throws ReflectiveOperationException  (usually never)
+	 * @throws ReflectiveOperationException (usually never)
 	 */
 	public static Constructor setAccessible(Constructor constructor) throws ReflectiveOperationException {
 		constructor.setAccessible(true);

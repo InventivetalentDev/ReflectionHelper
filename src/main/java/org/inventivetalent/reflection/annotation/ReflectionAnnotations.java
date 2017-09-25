@@ -26,7 +26,9 @@ public class ReflectionAnnotations {
 	}
 
 	public void load(Object toLoad) {
-		if (toLoad == null) { throw new IllegalArgumentException("toLoad cannot be null"); }
+		if (toLoad == null) {
+			throw new IllegalArgumentException("toLoad cannot be null");
+		}
 
 		ClassResolver classResolver = new ClassResolver();
 
@@ -43,7 +45,9 @@ public class ReflectionAnnotations {
 
 			if (classAnnotation != null) {
 				List<String> nameList = parseAnnotationVersions(Class.class, classAnnotation);
-				if (nameList.isEmpty()) { throw new IllegalArgumentException("@Class names cannot be empty"); }
+				if (nameList.isEmpty()) {
+					throw new IllegalArgumentException("@Class names cannot be empty");
+				}
 				String[] names = nameList.toArray(new String[nameList.size()]);
 				for (int i = 0; i < names.length; i++) {// Replace NMS & OBC
 					names[i] = names[i]
@@ -67,7 +71,9 @@ public class ReflectionAnnotations {
 				}
 			} else if (fieldAnnotation != null) {
 				List<String> nameList = parseAnnotationVersions(Field.class, fieldAnnotation);
-				if (nameList.isEmpty()) { throw new IllegalArgumentException("@Field names cannot be empty"); }
+				if (nameList.isEmpty()) {
+					throw new IllegalArgumentException("@Field names cannot be empty");
+				}
 				String[] names = nameList.toArray(new String[nameList.size()]);
 				try {
 					FieldResolver fieldResolver = new FieldResolver(parseClass(Field.class, fieldAnnotation, toLoad));
@@ -87,7 +93,9 @@ public class ReflectionAnnotations {
 				}
 			} else {
 				List<String> nameList = parseAnnotationVersions(Method.class, methodAnnotation);
-				if (nameList.isEmpty()) { throw new IllegalArgumentException("@Method names cannot be empty"); }
+				if (nameList.isEmpty()) {
+					throw new IllegalArgumentException("@Method names cannot be empty");
+				}
 				String[] names = nameList.toArray(new String[nameList.size()]);
 
 				boolean isSignature = names[0].contains(" ");// Only signatures can contain spaces (e.g. "void aMethod()")
@@ -170,7 +178,9 @@ public class ReflectionAnnotations {
 			String className = (String) clazz.getMethod("className").invoke(annotation);
 			Matcher matcher = classRefPattern.matcher(className);
 			while (matcher.find()) {
-				if (matcher.groupCount() != 1) { continue; }
+				if (matcher.groupCount() != 1) {
+					continue;
+				}
 				String fieldName = matcher.group(1);// It's a reference to a previously loaded class
 				java.lang.reflect.Field field = toLoad.getClass().getField(fieldName);
 				if (ClassWrapper.class.isAssignableFrom(field.getType())) {
