@@ -11,12 +11,18 @@
     <name>ReflectionHelper</name>
     <description>API for accessing various classes and their members using reflection.</description>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.2</version>
                 <configuration>
+                    <fork>true</fork>
+                    <compilerArgument>-XDignore.symbol.file</compilerArgument>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>

@@ -66,9 +66,9 @@ public class ReflectionTest {
 		MethodWrapper.MethodSignature signature = MethodWrapper.MethodSignature.of(ReflectionTest.class.getMethod("genericDummyMethod", Thread.class, Exception.class), false);
 		assertEquals("Method", signature.getReturnType());
 		assertEquals("genericDummyMethod", signature.getName());
-		assertArrayEquals(new String[] {
+		assertArrayEquals(new String[]{
 				"Thread",
-				"Exception" }, signature.getParameterTypes());
+				"Exception"}, signature.getParameterTypes());
 	}
 
 	@Test
