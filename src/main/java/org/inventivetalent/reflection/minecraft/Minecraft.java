@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 /**
  * Helper class to access minecraft/bukkit specific objects
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Minecraft {
 	static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
 
@@ -71,7 +72,7 @@ public class Minecraft {
 	public static Object getHandleSilent(Object object) {
 		try {
 			return getHandle(object);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}

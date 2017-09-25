@@ -8,6 +8,8 @@ import java.lang.reflect.Constructor;
 /**
  * Resolver for constructors
  */
+
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class ConstructorResolver extends MemberResolver<Constructor> {
 
 	public ConstructorResolver(Class<?> clazz) {
@@ -33,10 +35,12 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public ConstructorWrapper resolveIndexWrapper(int index) {
 		return new ConstructorWrapper<>(resolveIndexSilent(index));
 	}
 
+	@SuppressWarnings("unchecked")
 	public ConstructorWrapper resolveWrapper(Class<?>[]... types) {
 		return new ConstructorWrapper<>(resolveSilent(types));
 	}
@@ -44,7 +48,7 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 	public Constructor resolveSilent(Class<?>[]... types) {
 		try {
 			return resolve(types);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -75,7 +79,7 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 	public Constructor resolveFirstConstructorSilent() {
 		try {
 			return resolveFirstConstructor();
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -92,7 +96,7 @@ public class ConstructorResolver extends MemberResolver<Constructor> {
 	public Constructor resolveLastConstructorSilent() {
 		try {
 			return resolveLastConstructor();
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}

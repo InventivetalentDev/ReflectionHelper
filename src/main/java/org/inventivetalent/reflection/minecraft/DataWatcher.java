@@ -9,25 +9,26 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Map;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class DataWatcher {
 
-	static ClassResolver    classResolver    = new ClassResolver();
-	static NMSClassResolver nmsClassResolver = new NMSClassResolver();
+	//private static ClassResolver    classResolver    = new ClassResolver();
+	private static NMSClassResolver nmsClassResolver = new NMSClassResolver();
 
-	static Class<?> ItemStack        = nmsClassResolver.resolveSilent("ItemStack");
-	static Class<?> ChunkCoordinates = nmsClassResolver.resolveSilent("ChunkCoordinates");
-	static Class<?> BlockPosition    = nmsClassResolver.resolveSilent("BlockPosition");
-	static Class<?> Vector3f         = nmsClassResolver.resolveSilent("Vector3f");
-	static Class<?> DataWatcher      = nmsClassResolver.resolveSilent("DataWatcher");
-	static Class<?> Entity           = nmsClassResolver.resolveSilent("Entity");
-	static Class<?> TIntObjectMap    = classResolver.resolveSilent("gnu.trove.map.TIntObjectMap", "net.minecraft.util.gnu.trove.map.TIntObjectMap");
+	private static Class<?> ItemStack        = nmsClassResolver.resolveSilent("ItemStack");
+	private static Class<?> ChunkCoordinates = nmsClassResolver.resolveSilent("ChunkCoordinates");
+	private static Class<?> BlockPosition    = nmsClassResolver.resolveSilent("BlockPosition");
+	private static Class<?> Vector3f         = nmsClassResolver.resolveSilent("Vector3f");
+	private static Class<?> DataWatcher      = nmsClassResolver.resolveSilent("DataWatcher");
+	private static Class<?> Entity           = nmsClassResolver.resolveSilent("Entity");
+	//private static Class<?> TIntObjectMap    = classResolver.resolveSilent("gnu.trove.map.TIntObjectMap", "net.minecraft.util.gnu.trove.map.TIntObjectMap");
 
-	static ConstructorResolver DataWacherConstructorResolver = new ConstructorResolver(DataWatcher);
+	private static ConstructorResolver DataWacherConstructorResolver = new ConstructorResolver(DataWatcher);
 
-	static FieldResolver DataWatcherFieldResolver = new FieldResolver(DataWatcher);
+	private static FieldResolver DataWatcherFieldResolver = new FieldResolver(DataWatcher);
 
-	static MethodResolver TIntObjectMapMethodResolver = new MethodResolver(TIntObjectMap);
-	static MethodResolver DataWatcherMethodResolver   = new MethodResolver(DataWatcher);
+	//private static MethodResolver TIntObjectMapMethodResolver = new MethodResolver(TIntObjectMap);
+	private static MethodResolver DataWatcherMethodResolver   = new MethodResolver(DataWatcher);
 
 	public static Object newDataWatcher(Object entity) throws ReflectiveOperationException {
 		return DataWacherConstructorResolver.resolve(new Class[] { Entity }).newInstance(entity);
@@ -123,6 +124,7 @@ public class DataWatcher {
 			return setItem(dataWatcher, index, newDataWatcherItem(dataWatcherObject, value));
 		}
 
+		@SuppressWarnings("unchecked")
 		public static Object setItem(Object dataWatcher, int index, Object dataWatcherItem) throws ReflectiveOperationException {
 			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolveByLastTypeSilent(Map.class).get(dataWatcher);
 			map.put(index, dataWatcherItem);
@@ -134,10 +136,10 @@ public class DataWatcher {
 			return dataWatcher;
 		}
 
-		//		public static Object getValue(Object dataWatcher, int index) throws ReflectiveOperationException {
-		//			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolve("c").get(dataWatcher);
-		//			return map.get(index);
-		//		}
+		//public static Object getValue(Object dataWatcher, int index) throws ReflectiveOperationException {
+		//	Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolve("c").get(dataWatcher);
+		//	return map.get(index);
+		//}
 
 		public static Object getItem(Object dataWatcher, Object dataWatcherObject) throws ReflectiveOperationException {
 			return DataWatcherMethodResolver.resolve(new ResolverQuery("c", DataWatcherObject)).invoke(dataWatcher, dataWatcherObject);
@@ -156,6 +158,7 @@ public class DataWatcher {
 			return DataWatcherItemFieldResolver.resolve("a").get(item);
 		}
 
+		@SuppressWarnings("unchecked")
 		public static int getItemIndex(Object dataWatcher, Object item) throws ReflectiveOperationException {
 			int index = -1;//Return -1 if the item is not in the DataWatcher
 			Map<Integer, Object> map = (Map<Integer, Object>) DataWatcherFieldResolver.resolveByLastTypeSilent(Map.class).get(dataWatcher);
@@ -375,6 +378,7 @@ public class DataWatcher {
 					Object.class }).newInstance(type, index, value);
 		}
 
+		@SuppressWarnings("unchecked")
 		public static Object setValue(Object dataWatcher, int index, Object value) throws ReflectiveOperationException {
 			int type = getValueType(value);
 

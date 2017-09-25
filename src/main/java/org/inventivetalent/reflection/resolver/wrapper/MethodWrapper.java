@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class MethodWrapper<R> extends WrapperAbstract {
 
 	private final Method method;
@@ -22,6 +23,7 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		return this.method.getName();
 	}
 
+	@SuppressWarnings("unchecked")
 	public R invoke(Object object, Object... args) {
 		try {
 			return (R) this.method.invoke(object, args);
@@ -30,10 +32,11 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public R invokeSilent(Object object, Object... args) {
 		try {
 			return (R) this.method.invoke(object, args);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -50,7 +53,6 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		MethodWrapper<?> that = (MethodWrapper<?>) object;
 
 		return method != null ? method.equals(that.method) : that.method == null;
-
 	}
 
 	@Override
@@ -206,18 +208,18 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		public boolean matches(MethodSignature other) {
 			if (other == null) { return false; }
 
-			//			if (!returnType.equals(other.returnType)) {
-			//				if (!isReturnTypeWildcard()) { return false; }
-			//			}
-			//			if (!name.equals(other.name)) {
-			//				if (!isNameWildcard()) { return false; }
-			//			}
-			//			if (parameterTypes.length != other.parameterTypes.length) { return false; }
-			//			for (int i = 0; i < parameterTypes.length; i++) {
-			//				if (!getParameterType(i).equals(other.getParameterType(i))) {
-			//					if (!isParameterWildcard(i)) { return false; }
-			//				}
-			//			}
+			//if (!returnType.equals(other.returnType)) {
+			//	if (!isReturnTypeWildcard()) { return false; }
+			//}
+			//if (!name.equals(other.name)) {
+			//	if (!isNameWildcard()) { return false; }
+			//}
+			//if (parameterTypes.length != other.parameterTypes.length) { return false; }
+			//for (int i = 0; i < parameterTypes.length; i++) {
+			//	if (!getParameterType(i).equals(other.getParameterType(i))) {
+			//		if (!isParameterWildcard(i)) { return false; }
+			//	}
+			//}
 
 			if (!returnTypePattern.matcher(other.returnType).matches()) {
 				return false;
@@ -237,16 +239,23 @@ public class MethodWrapper<R> extends WrapperAbstract {
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o) { return true; }
-			if (o == null || getClass() != o.getClass()) { return false; }
+			if (this == o) {
+				return true;
+			}
+			if (o == null || getClass() != o.getClass()) {
+				return false;
+			}
 
 			MethodSignature signature1 = (MethodSignature) o;
 
-			if (!returnType.equals(signature1.returnType)) { return false; }
-			if (!name.equals(signature1.name)) { return false; }
+			if (!returnType.equals(signature1.returnType)) {
+				return false;
+			}
+			if (!name.equals(signature1.name)) {
+				return false;
+			}
 			// Probably incorrect - comparing Object[] arrays with Arrays.equals
-			if (!Arrays.equals(parameterTypes, signature1.parameterTypes)) { return false; }
-			return signature.equals(signature1.signature);
+			return Arrays.equals(parameterTypes, signature1.parameterTypes) && signature.equals(signature1.signature);
 
 		}
 
