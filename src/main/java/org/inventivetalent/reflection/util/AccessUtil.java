@@ -9,6 +9,9 @@ import java.lang.reflect.Method;
  */
 public abstract class AccessUtil {
 
+	private AccessUtil() {
+	}
+
 	/**
 	 * Sets the field accessible and removes final modifiers
 	 *

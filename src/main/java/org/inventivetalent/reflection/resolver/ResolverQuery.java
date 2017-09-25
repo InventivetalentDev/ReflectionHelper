@@ -9,6 +9,7 @@ import java.util.List;
  *
  * @see org.inventivetalent.reflection.resolver.ResolverQuery.Builder
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class ResolverQuery {
 
 	private String     name;
@@ -73,7 +74,7 @@ public class ResolverQuery {
 	 */
 	public static class Builder {
 
-		private List<ResolverQuery> queryList = new ArrayList<ResolverQuery>();
+		private List<ResolverQuery> queryList = new ArrayList<>();
 
 		private Builder() {
 		}

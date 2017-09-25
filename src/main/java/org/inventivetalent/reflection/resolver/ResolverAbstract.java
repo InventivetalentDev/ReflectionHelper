@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @see FieldResolver
  * @see MethodResolver
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class ResolverAbstract<T> {
 
 	protected final Map<ResolverQuery, T> resolvedObjects = new ConcurrentHashMap<ResolverQuery, T>();
@@ -26,7 +27,7 @@ public abstract class ResolverAbstract<T> {
 	protected T resolveSilent(ResolverQuery... queries) {
 		try {
 			return resolve(queries);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
