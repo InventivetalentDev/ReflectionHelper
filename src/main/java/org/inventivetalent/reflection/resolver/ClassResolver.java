@@ -7,6 +7,7 @@ import org.inventivetalent.reflection.resolver.wrapper.ClassWrapper;
  */
 public class ClassResolver extends ResolverAbstract<Class> {
 
+	@SuppressWarnings("unchecked")
 	public ClassWrapper resolveWrapper(String... names) {
 		return new ClassWrapper<>(resolveSilent(names));
 	}
@@ -14,7 +15,7 @@ public class ClassResolver extends ResolverAbstract<Class> {
 	public Class resolveSilent(String... names) {
 		try {
 			return resolve(names);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}

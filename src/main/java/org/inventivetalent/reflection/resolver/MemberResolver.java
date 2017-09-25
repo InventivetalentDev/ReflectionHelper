@@ -12,12 +12,16 @@ import java.lang.reflect.Member;
  * @see FieldResolver
  * @see MethodResolver
  */
+
+@SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class MemberResolver<T extends Member> extends ResolverAbstract<T> {
 
 	protected Class<?> clazz;
 
 	public MemberResolver(Class<?> clazz) {
-		if (clazz == null) { throw new IllegalArgumentException("class cannot be null"); }
+		if (clazz == null) {
+			throw new IllegalArgumentException("class cannot be null");
+		}
 		this.clazz = clazz;
 	}
 

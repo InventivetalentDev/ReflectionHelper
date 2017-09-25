@@ -2,6 +2,7 @@ package org.inventivetalent.reflection.resolver.wrapper;
 
 import java.lang.reflect.Constructor;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class ConstructorWrapper<R> extends WrapperAbstract {
 
 	private final Constructor<R> constructor;
@@ -26,7 +27,7 @@ public class ConstructorWrapper<R> extends WrapperAbstract {
 	public R newInstanceSilent(Object... args) {
 		try {
 			return this.constructor.newInstance(args);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -41,8 +42,12 @@ public class ConstructorWrapper<R> extends WrapperAbstract {
 
 	@Override
 	public boolean equals(Object object) {
-		if (this == object) { return true; }
-		if (object == null || getClass() != object.getClass()) { return false; }
+		if (this == object) {
+			return true;
+		}
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
 
 		ConstructorWrapper<?> that = (ConstructorWrapper<?>) object;
 

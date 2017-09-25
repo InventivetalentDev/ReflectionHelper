@@ -9,9 +9,10 @@ import java.util.List;
  *
  * @see org.inventivetalent.reflection.resolver.ResolverQuery.Builder
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class ResolverQuery {
 
-	private String     name;
+	private String name;
 	private Class<?>[] types;
 
 	public ResolverQuery(String name, Class<?>... types) {
@@ -28,6 +29,10 @@ public class ResolverQuery {
 		this.types = types;
 	}
 
+	public static Builder builder() {
+		return new Builder();
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -38,12 +43,18 @@ public class ResolverQuery {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) { return true; }
-		if (o == null || getClass() != o.getClass()) { return false; }
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		ResolverQuery that = (ResolverQuery) o;
 
-		if (name != null ? !name.equals(that.name) : that.name != null) { return false; }
+		if (name != null ? !name.equals(that.name) : that.name != null) {
+			return false;
+		}
 		// Probably incorrect - comparing Object[] arrays with Arrays.equals
 		return Arrays.equals(types, that.types);
 
@@ -64,16 +75,12 @@ public class ResolverQuery {
 				'}';
 	}
 
-	public static Builder builder() {
-		return new Builder();
-	}
-
 	/**
 	 * Builder class for {@link ResolverQuery} Access using {@link ResolverQuery#builder()}
 	 */
 	public static class Builder {
 
-		private List<ResolverQuery> queryList = new ArrayList<ResolverQuery>();
+		private List<ResolverQuery> queryList = new ArrayList<>();
 
 		private Builder() {
 		}

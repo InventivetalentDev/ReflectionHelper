@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 /**
  * Resolver for fields
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class FieldResolver extends MemberResolver<Field> {
 
 	public FieldResolver(Class<?> clazz) {
@@ -44,7 +45,7 @@ public class FieldResolver extends MemberResolver<Field> {
 	public Field resolveSilent(String... names) {
 		try {
 			return resolve(names);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -63,7 +64,7 @@ public class FieldResolver extends MemberResolver<Field> {
 	public Field resolveSilent(ResolverQuery... queries) {
 		try {
 			return resolve(queries);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -121,7 +122,7 @@ public class FieldResolver extends MemberResolver<Field> {
 	public Field resolveByFirstTypeSilent(Class<?> type) {
 		try {
 			return resolveByFirstType(type);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -141,14 +142,16 @@ public class FieldResolver extends MemberResolver<Field> {
 				field = field1;
 			}
 		}
-		if (field == null) { throw new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz); }
+		if (field == null) {
+			throw new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz);
+		}
 		return AccessUtil.setAccessible(field);
 	}
 
 	public Field resolveByLastTypeSilent(Class<?> type) {
 		try {
 			return resolveByLastType(type);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}

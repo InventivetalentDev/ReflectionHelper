@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @see FieldResolver
  * @see MethodResolver
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class ResolverAbstract<T> {
 
 	protected final Map<ResolverQuery, T> resolvedObjects = new ConcurrentHashMap<ResolverQuery, T>();
@@ -26,7 +27,7 @@ public abstract class ResolverAbstract<T> {
 	protected T resolveSilent(ResolverQuery... queries) {
 		try {
 			return resolve(queries);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -40,10 +41,14 @@ public abstract class ResolverAbstract<T> {
 	 * @throws IllegalArgumentException     if the given possibilities are empty
 	 */
 	protected T resolve(ResolverQuery... queries) throws ReflectiveOperationException {
-		if (queries == null || queries.length <= 0) { throw new IllegalArgumentException("Given possibilities are empty"); }
+		if (queries == null || queries.length <= 0) {
+			throw new IllegalArgumentException("Given possibilities are empty");
+		}
 		for (ResolverQuery query : queries) {
 			//Object is already resolved, return it directly
-			if (resolvedObjects.containsKey(query)) { return resolvedObjects.get(query); }
+			if (resolvedObjects.containsKey(query)) {
+				return resolvedObjects.get(query);
+			}
 
 			//Object is not yet resolved, try to find it
 			try {

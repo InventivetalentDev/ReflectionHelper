@@ -2,6 +2,7 @@ package org.inventivetalent.reflection.resolver.wrapper;
 
 import java.lang.reflect.Field;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class FieldWrapper<R> extends WrapperAbstract {
 
 	private final Field field;
@@ -19,6 +20,7 @@ public class FieldWrapper<R> extends WrapperAbstract {
 		return this.field.getName();
 	}
 
+	@SuppressWarnings("unchecked")
 	public R get(Object object) {
 		try {
 			return (R) this.field.get(object);
@@ -27,10 +29,11 @@ public class FieldWrapper<R> extends WrapperAbstract {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public R getSilent(Object object) {
 		try {
 			return (R) this.field.get(object);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -46,7 +49,7 @@ public class FieldWrapper<R> extends WrapperAbstract {
 	public void setSilent(Object object, R value) {
 		try {
 			this.field.set(object, value);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 	}
 
@@ -56,14 +59,16 @@ public class FieldWrapper<R> extends WrapperAbstract {
 
 	@Override
 	public boolean equals(Object object) {
-		if (this == object) { return true; }
-		if (object == null || getClass() != object.getClass()) { return false; }
+		if (this == object) {
+			return true;
+		}
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
 
 		FieldWrapper<?> that = (FieldWrapper<?>) object;
 
-		if (field != null ? !field.equals(that.field) : that.field != null) { return false; }
-
-		return true;
+		return field != null ? field.equals(that.field) : that.field == null;
 	}
 
 	@Override

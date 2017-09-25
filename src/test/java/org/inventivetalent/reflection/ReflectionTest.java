@@ -1,12 +1,14 @@
-package org.inventivetalent.reflectionhelper.test;
+package org.inventivetalent.reflection;
 
 import org.inventivetalent.reflection.resolver.wrapper.MethodWrapper;
+import org.junit.Test;
 
 import java.lang.reflect.Method;
 
 import static org.junit.Assert.*;
 
-public class Test {
+@SuppressWarnings({"unused", "WeakerAccess"})
+public class ReflectionTest {
 
 	public double primitiveDummyMethod(String aString, double returnValue) {
 		return returnValue;
@@ -35,41 +37,41 @@ public class Test {
 		return 0;
 	}
 
-	@org.junit.Test
+	@Test
 	public void primitiveSignatureTest() throws ReflectiveOperationException {
-		String signature = MethodWrapper.getMethodSignature(Test.class.getMethod("primitiveDummyMethod", String.class, double.class));
+		String signature = MethodWrapper.getMethodSignature(ReflectionTest.class.getMethod("primitiveDummyMethod", String.class, double.class));
 		assertEquals("double primitiveDummyMethod(String,double)", signature);
 	}
 
-	@org.junit.Test
+	@Test
 	public void genericSignatureTest() throws ReflectiveOperationException {
-		String signature = MethodWrapper.getMethodSignature(Test.class.getMethod("genericDummyMethod", Thread.class, Exception.class));
+		String signature = MethodWrapper.getMethodSignature(ReflectionTest.class.getMethod("genericDummyMethod", Thread.class, Exception.class));
 		assertEquals("Method genericDummyMethod(Thread,Exception)", signature);
 	}
 
-	@org.junit.Test
+	@Test
 	public void voidSignatureTest() throws ReflectiveOperationException {
-		String signature = MethodWrapper.getMethodSignature(Test.class.getMethod("voidDummyMethod", Character.class, Class.class, String.class));
+		String signature = MethodWrapper.getMethodSignature(ReflectionTest.class.getMethod("voidDummyMethod", Character.class, Class.class, String.class));
 		assertEquals("void voidDummyMethod(Character,Class,String)", signature);
 	}
 
-	@org.junit.Test
+	@Test
 	public void fullNameSignatureTest() throws ReflectiveOperationException {
-		String signature = MethodWrapper.getMethodSignature(Test.class.getMethod("genericDummyMethod", Thread.class, Exception.class), true);
+		String signature = MethodWrapper.getMethodSignature(ReflectionTest.class.getMethod("genericDummyMethod", Thread.class, Exception.class), true);
 		assertEquals("java.lang.reflect.Method genericDummyMethod(java.lang.Thread,java.lang.Exception)", signature);
 	}
 
-	@org.junit.Test
+	@Test
 	public void signatureObjectTest() throws ReflectiveOperationException {
-		MethodWrapper.MethodSignature signature = MethodWrapper.MethodSignature.of(Test.class.getMethod("genericDummyMethod", Thread.class, Exception.class), false);
+		MethodWrapper.MethodSignature signature = MethodWrapper.MethodSignature.of(ReflectionTest.class.getMethod("genericDummyMethod", Thread.class, Exception.class), false);
 		assertEquals("Method", signature.getReturnType());
 		assertEquals("genericDummyMethod", signature.getName());
-		assertArrayEquals(new String[] {
+		assertArrayEquals(new String[]{
 				"Thread",
-				"Exception" }, signature.getParameterTypes());
+				"Exception"}, signature.getParameterTypes());
 	}
 
-	@org.junit.Test
+	@Test
 	public void signatureFromStringTest() {
 		MethodWrapper.MethodSignature signature = MethodWrapper.MethodSignature.fromString("java.lang.reflect.Method genericDummyMethod(java.lang.Thread,java.lang.Exception)");
 		assertEquals("java.lang.reflect.Method", signature.getReturnType());
@@ -78,13 +80,13 @@ public class Test {
 		assertEquals("java.lang.Exception", signature.getParameterType(1));
 	}
 
-	@org.junit.Test
+	@Test
 	public void wildcardTest() throws ReflectiveOperationException {
 		MethodWrapper.MethodSignature wildcardSignature = MethodWrapper.MethodSignature.fromString("* wildcardMethod*(String)");
-		MethodWrapper.MethodSignature testSignature1 = MethodWrapper.MethodSignature.of(Test.class.getMethod("wildcardMethod1", String.class), false);
-		MethodWrapper.MethodSignature testSignature2 = MethodWrapper.MethodSignature.of(Test.class.getMethod("wildcardMethod2", String.class), false);
-		MethodWrapper.MethodSignature testSignature3 = MethodWrapper.MethodSignature.of(Test.class.getMethod("wildcardMethod3", boolean.class), false);
-		MethodWrapper.MethodSignature testSignature4 = MethodWrapper.MethodSignature.of(Test.class.getMethod("wildCardMethod4", String.class), false);
+		MethodWrapper.MethodSignature testSignature1 = MethodWrapper.MethodSignature.of(ReflectionTest.class.getMethod("wildcardMethod1", String.class), false);
+		MethodWrapper.MethodSignature testSignature2 = MethodWrapper.MethodSignature.of(ReflectionTest.class.getMethod("wildcardMethod2", String.class), false);
+		MethodWrapper.MethodSignature testSignature3 = MethodWrapper.MethodSignature.of(ReflectionTest.class.getMethod("wildcardMethod3", boolean.class), false);
+		MethodWrapper.MethodSignature testSignature4 = MethodWrapper.MethodSignature.of(ReflectionTest.class.getMethod("wildCardMethod4", String.class), false);
 
 		assertTrue(wildcardSignature.matches(testSignature1));
 		assertTrue(wildcardSignature.matches(testSignature2));

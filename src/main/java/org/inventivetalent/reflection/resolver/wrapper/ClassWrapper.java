@@ -1,5 +1,6 @@
 package org.inventivetalent.reflection.resolver.wrapper;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class ClassWrapper<R> extends WrapperAbstract {
 
 	private final Class<R> clazz;
@@ -32,15 +33,19 @@ public class ClassWrapper<R> extends WrapperAbstract {
 	public R newInstanceSilent() {
 		try {
 			return this.clazz.newInstance();
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
 
 	@Override
 	public boolean equals(Object object) {
-		if (this == object) { return true; }
-		if (object == null || getClass() != object.getClass()) { return false; }
+		if (this == object) {
+			return true;
+		}
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
 
 		ClassWrapper<?> that = (ClassWrapper<?>) object;
 

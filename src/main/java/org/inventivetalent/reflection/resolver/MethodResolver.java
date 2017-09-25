@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 /**
  * Resolver for methods
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class MethodResolver extends MemberResolver<Method> {
 
 	public MethodResolver(Class<?> clazz) {
@@ -18,7 +19,21 @@ public class MethodResolver extends MemberResolver<Method> {
 		super(className);
 	}
 
-	public Method resolveSignature(String... signatures)throws ReflectiveOperationException {
+	static boolean ClassListEqual(Class<?>[] l1, Class<?>[] l2) {
+		boolean equal = true;
+		if (l1.length != l2.length) {
+			return false;
+		}
+		for (int i = 0; i < l1.length; i++) {
+			if (l1[i] != l2[i]) {
+				equal = false;
+				break;
+			}
+		}
+		return equal;
+	}
+
+	public Method resolveSignature(String... signatures) throws ReflectiveOperationException {
 		for (Method method : clazz.getDeclaredMethods()) {
 			String methodSignature = MethodWrapper.getMethodSignature(method);
 			for (String s : signatures) {
@@ -72,7 +87,7 @@ public class MethodResolver extends MemberResolver<Method> {
 	public Method resolveSilent(String... names) {
 		try {
 			return resolve(names);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -112,17 +127,5 @@ public class MethodResolver extends MemberResolver<Method> {
 	@Override
 	protected NoSuchMethodException notFoundException(String joinedNames) {
 		return new NoSuchMethodException("Could not resolve method for " + joinedNames + " in class " + this.clazz);
-	}
-
-	static boolean ClassListEqual(Class<?>[] l1, Class<?>[] l2) {
-		boolean equal = true;
-		if (l1.length != l2.length) { return false; }
-		for (int i = 0; i < l1.length; i++) {
-			if (l1[i] != l2[i]) {
-				equal = false;
-				break;
-			}
-		}
-		return equal;
 	}
 }
