@@ -19,6 +19,10 @@ public class Test {
 	public void voidDummyMethod(Character aCharacter, Class aClass, String aString) {
 	}
 
+	public String[] complexDummyMethod(Boolean[][] booleans, Object[] objects) {
+		return null;
+	}
+
 	public int wildcardMethod1(String string) {
 		return 0;
 	}
@@ -60,13 +64,20 @@ public class Test {
 	}
 
 	@org.junit.Test
+	public void complexSignatureTest() throws ReflectiveOperationException {
+		String signature = MethodWrapper.getMethodSignature(Test.class.getMethod("complexDummyMethod", Boolean[][].class, Object[].class), true);
+		assertEquals("[Ljava.lang.String; complexDummyMethod([[Ljava.lang.Boolean;,[Ljava.lang.Object;)", signature);
+	}
+
+	@org.junit.Test
 	public void signatureObjectTest() throws ReflectiveOperationException {
 		MethodWrapper.MethodSignature signature = MethodWrapper.MethodSignature.of(Test.class.getMethod("genericDummyMethod", Thread.class, Exception.class), false);
 		assertEquals("Method", signature.getReturnType());
 		assertEquals("genericDummyMethod", signature.getName());
 		assertArrayEquals(new String[] {
 				"Thread",
-				"Exception" }, signature.getParameterTypes());
+				"Exception"
+		}, signature.getParameterTypes());
 	}
 
 	@org.junit.Test

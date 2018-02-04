@@ -111,7 +111,11 @@ public class MethodWrapper<R> extends WrapperAbstract {
 
 		public MethodSignature(String returnType, String name, String[] parameterTypes) {
 			this.returnType = returnType;
-			this.returnTypePattern = Pattern.compile(returnType.replace("?", "\\w").replace("*", "\\w*"));
+			this.returnTypePattern = Pattern.compile(returnType
+					.replace("?", "\\w")
+					.replace("*", "\\w*")
+					.replace("[", "\\[")
+					.replace("]", "\\]"));
 			this.name = name;
 			this.namePattern = Pattern.compile(name.replace("?", "\\w").replace("*", "\\w*"));
 			this.parameterTypes = parameterTypes;
