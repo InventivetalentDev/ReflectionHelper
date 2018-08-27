@@ -104,7 +104,8 @@ public class Minecraft {
 		
 		v1_12_R1(11201),
 
-		v1_13_R1(11301);
+		v1_13_R1(11301),
+		v1_13_R2(11302);
 
 		private int version;
 
