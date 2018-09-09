@@ -26,10 +26,11 @@ public class Minecraft {
 
 	private static NMSClassResolver nmsClassResolver = new NMSClassResolver();
 	private static OBCClassResolver obcClassResolver = new OBCClassResolver();
-	private static Class<?> NmsEntity;
-	private static Class<?> CraftEntity;
+	private static Class<?>         NmsEntity;
+	private static Class<?>         CraftEntity;
 
 	static {
+		System.out.println("[ReflectionHelper] I am loaded from package " + Minecraft.class.getPackage().getName());
 		VERSION = Version.getVersion();
 		System.out.println("[ReflectionHelper] Version is " + VERSION);
 
@@ -101,7 +102,7 @@ public class Minecraft {
 		v1_10_R1(11001),
 
 		v1_11_R1(11101),
-		
+
 		v1_12_R1(11201),
 
 		v1_13_R1(11301),
@@ -181,10 +182,12 @@ public class Minecraft {
 					Version dynamicVersion = (Version) newEnumInstance(Version.class, new Class[] {
 							String.class,
 							int.class,
-							int.class }, new Object[] {
+							int.class
+					}, new Object[] {
 							packge,
 							newValues.length - 1,
-							numVersion });
+							numVersion
+					});
 					newValues[newValues.length - 1] = dynamicVersion;
 					valuesField.set(null, newValues);
 
