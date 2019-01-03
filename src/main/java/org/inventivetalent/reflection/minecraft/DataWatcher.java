@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class DataWatcher {
 
-	static ClassResolver    classResolver    = new ClassResolver();
 	static NMSClassResolver nmsClassResolver = new NMSClassResolver();
 
 	static Class<?> ItemStack        = nmsClassResolver.resolveSilent("ItemStack");
@@ -20,13 +19,11 @@ public class DataWatcher {
 	static Class<?> Vector3f         = nmsClassResolver.resolveSilent("Vector3f");
 	static Class<?> DataWatcher      = nmsClassResolver.resolveSilent("DataWatcher");
 	static Class<?> Entity           = nmsClassResolver.resolveSilent("Entity");
-	static Class<?> TIntObjectMap    = classResolver.resolveSilent("gnu.trove.map.TIntObjectMap", "net.minecraft.util.gnu.trove.map.TIntObjectMap");
 
 	static ConstructorResolver DataWacherConstructorResolver = new ConstructorResolver(DataWatcher);
 
 	static FieldResolver DataWatcherFieldResolver = new FieldResolver(DataWatcher);
 
-	static MethodResolver TIntObjectMapMethodResolver = new MethodResolver(TIntObjectMap);
 	static MethodResolver DataWatcherMethodResolver   = new MethodResolver(DataWatcher);
 
 	public static Object newDataWatcher(Object entity) throws ReflectiveOperationException {
