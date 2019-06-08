@@ -1,5 +1,6 @@
 package org.inventivetalent.reflectionhelper.test;
 
+import org.inventivetalent.reflection.minecraft.Minecraft;
 import org.inventivetalent.reflection.resolver.wrapper.MethodWrapper;
 
 import java.lang.reflect.Method;
@@ -101,6 +102,11 @@ public class Test {
 		assertTrue(wildcardSignature.matches(testSignature2));
 		assertFalse(wildcardSignature.matches(testSignature3));
 		assertFalse(wildcardSignature.matches(testSignature4));
+	}
+
+	@org.junit.Test
+	public void sanityTest() {
+		Minecraft.Version.runSanityCheck();
 	}
 
 }

@@ -152,6 +152,15 @@ public class Minecraft {
 			return packageName.toLowerCase().contains(name().toLowerCase());
 		}
 
+		public static void runSanityCheck() {
+			assert v1_14_R1.newerThan(v1_13_R2);
+			assert v1_13_R2.olderThan(v1_14_R1);
+
+			assert v1_13_R2.newerThan(v1_8_R1);
+
+			assert v1_13_R2.newerThan(v1_8_R1) && v1_13_R2.olderThan(v1_14_R1);
+		}
+
 		public static Version getVersion() {
 			String name = Bukkit.getServer().getClass().getPackage().getName();
 			String versionPackage = name.substring(name.lastIndexOf('.') + 1) + ".";
