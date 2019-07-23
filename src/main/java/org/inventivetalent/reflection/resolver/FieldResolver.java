@@ -127,6 +127,39 @@ public class FieldResolver extends MemberResolver<Field> {
 	}
 
 	/**
+	 * Attempts to find the first field which extends/implements the specified type
+	 *
+	 * @param type Type to find
+	 * @return the Field
+	 * @throws ReflectiveOperationException (usually never)
+	 * @see #resolveByLastType(Class)
+	 */
+	public Field resolveByFirstExtendingType(Class<?> type) throws ReflectiveOperationException {
+		for (Field field : this.clazz.getDeclaredFields()) {
+			if(type.isAssignableFrom(field.getType())) {
+				return AccessUtil.setAccessible(field);
+			}
+		}
+		throw new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz);
+	}
+
+	/**
+	 * Attempts to find the first field which extends/implements the specified type
+	 *
+	 * @param type Type to find
+	 * @return the Field
+	 * @see #resolveByLastTypeSilent(Class)
+	 */
+	public Field resolveByFirstExtendingTypeSilent(Class<?> type) {
+		try {
+			return resolveByFirstExtendingType(type);
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+
+	/**
 	 * Attempts to find the last field of the specified type
 	 *
 	 * @param type Type to find
@@ -148,6 +181,33 @@ public class FieldResolver extends MemberResolver<Field> {
 	public Field resolveByLastTypeSilent(Class<?> type) {
 		try {
 			return resolveByLastType(type);
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	/**
+	 * Attempts to find the last field which extends/implements the specified type
+	 *
+	 * @param type Type to find
+	 * @return the Field
+	 * @throws ReflectiveOperationException (usually never)
+	 * @see #resolveByFirstType(Class)
+	 */
+	public Field resolveByLastExtendingType(Class<?> type) throws ReflectiveOperationException {
+		Field field = null;
+		for (Field field1 : this.clazz.getDeclaredFields()) {
+			if (type.isAssignableFrom(field1.getType())) {
+				field = field1;
+			}
+		}
+		if (field == null) { throw new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz); }
+		return AccessUtil.setAccessible(field);
+	}
+
+	public Field resolveByLastExtendingTypeSilent(Class<?> type) {
+		try {
+			return resolveByLastExtendingType(type);
 		} catch (Exception e) {
 		}
 		return null;
