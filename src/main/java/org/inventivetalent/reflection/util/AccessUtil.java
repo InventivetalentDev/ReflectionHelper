@@ -23,7 +23,7 @@ public abstract class AccessUtil {
 			modifiersField.setAccessible(true);
 			modifiersField.setInt(field, field.getModifiers() & 0xFFFFFFEF);
 		} catch (NoSuchFieldException e) {
-			if (e.getCause() != null && e.getCause().getMessage() != null &&  e.getCause().getMessage().equals("modifiers")) {
+			if ("modifiers".equals(e.getMessage()) || (e.getCause() != null && e.getCause().getMessage() != null &&  e.getCause().getMessage().equals("modifiers"))) {
 				System.err.println("Failed to remove final modifier from " + field);
 			} else {
 				throw e;
