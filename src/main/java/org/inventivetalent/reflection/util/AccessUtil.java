@@ -3,6 +3,7 @@ package org.inventivetalent.reflection.util;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * Helper class to set fields, methods &amp; constructors accessible
@@ -18,13 +19,25 @@ public abstract class AccessUtil {
 	 */
 	public static Field setAccessible(Field field) throws ReflectiveOperationException {
 		field.setAccessible(true);
+		int modifiers = field.getModifiers();
 		try {
 			Field modifiersField = Field.class.getDeclaredField("modifiers");
 			modifiersField.setAccessible(true);
-			modifiersField.setInt(field, field.getModifiers() & 0xFFFFFFEF);
+			modifiersField.setInt(field, modifiers & ~Modifier.FINAL);
 		} catch (NoSuchFieldException e) {
 			if ("modifiers".equals(e.getMessage()) || (e.getCause() != null && e.getCause().getMessage() != null &&  e.getCause().getMessage().equals("modifiers"))) {
-				System.err.println("Failed to remove final modifier from " + field);
+				// https://github.com/ViaVersion/ViaVersion/blob/e07c994ddc50e00b53b728d08ab044e66c35c30f/bungee/src/main/java/us/myles/ViaVersion/bungee/platform/BungeeViaInjector.java
+				// Java 12 compatibility *this is fine*
+				Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
+				getDeclaredFields0.setAccessible(true);
+				Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
+				for (Field classField : fields) {
+					if ("modifiers".equals(classField.getName())) {
+						classField.setAccessible(true);
+						classField.set(field, modifiers & ~Modifier.FINAL);
+						break;
+					}
+				}
 			} else {
 				throw e;
 			}
