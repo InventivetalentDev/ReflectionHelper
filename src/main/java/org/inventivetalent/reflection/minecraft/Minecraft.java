@@ -50,7 +50,7 @@ public class Minecraft {
      * @return the current NMS/OBC version (format <code>&lt;version&gt;.</code>
      */
     public static String getVersion() {
-        return VERSION.name() + ".";
+        return MINECRAFT_VERSION.packageName() + ".";
     }
 
     public static Object getHandle(Object object) throws ReflectiveOperationException {
