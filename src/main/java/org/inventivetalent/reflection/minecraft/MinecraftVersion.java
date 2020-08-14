@@ -113,7 +113,7 @@ public class MinecraftVersion {
 
             String numVersionString = majorString + minorString + patchString;
             int numVersion = Integer.parseInt(numVersionString);
-            String packageName = versionPackage.substring(0, versionPackage.length() - 1);
+            String packageName = "v" + versionPackage.substring(1).toUpperCase();
 
             //dynamic register version
             System.out.println("[ReflectionHelper] Injected dynamic version " + packageName + " (#" + numVersion + ").");
