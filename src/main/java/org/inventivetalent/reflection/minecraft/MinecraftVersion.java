@@ -9,9 +9,9 @@ public class MinecraftVersion {
     public static final MinecraftVersion VERSION;
 
     static {
-        System.out.println("[ReflectionHelper] I am loaded from package " + Minecraft.class.getPackage().getName());
+        System.out.println("[ReflectionHelper/MinecraftVersion] I am loaded from package " + Minecraft.class.getPackage().getName());
         VERSION = MinecraftVersion.getVersion();
-        System.out.println("[ReflectionHelper] Version is " + VERSION);
+        System.out.println("[ReflectionHelper/MinecraftVersion] Version is " + VERSION);
     }
 
     private final String packageName;
