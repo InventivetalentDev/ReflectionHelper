@@ -14,8 +14,8 @@ public class MinecraftVersion {
         System.out.println("[ReflectionHelper] Version is " + VERSION);
     }
 
-    private String packageName;
-    private int version;
+    private final String packageName;
+    private final int version;
 
     MinecraftVersion(String packageName, int version) {
         this.packageName = packageName;
