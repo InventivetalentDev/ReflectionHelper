@@ -73,6 +73,10 @@ public class MinecraftVersion {
         return newerThan(oldVersion) && olderThan(newVersion);
     }
 
+    public boolean matchesPackageName(String packageName) {
+        return this.packageName.toLowerCase().contains(packageName.toLowerCase());
+    }
+
     @Override
     public String toString() {
         return packageName.toLowerCase() + " (" + version() + ")";
@@ -82,8 +86,9 @@ public class MinecraftVersion {
         String name = Bukkit.getServer().getClass().getPackage().getName();
         String versionPackage = name.substring(name.lastIndexOf('.') + 1) + ".";
         for (Minecraft.Version version : Minecraft.Version.values()) {
-            if (version.matchesPackageName(versionPackage)) {
-                return new MinecraftVersion(version.name(), version.version());
+            MinecraftVersion minecraftVersion = version.minecraft();
+            if (minecraftVersion.matchesPackageName(versionPackage)) {
+                return minecraftVersion;
             }
         }
         System.err.println("[ReflectionHelper] Failed to find version enum for '" + name + "'/'" + versionPackage + "'");

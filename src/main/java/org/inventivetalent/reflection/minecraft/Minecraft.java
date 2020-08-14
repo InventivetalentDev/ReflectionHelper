@@ -21,7 +21,6 @@ import java.util.regex.Pattern;
 public class Minecraft {
     public static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
 
-    @Deprecated
     public static final Version VERSION;
     public static final MinecraftVersion MINECRAFT_VERSION = MinecraftVersion.VERSION;
 
@@ -78,7 +77,6 @@ public class Minecraft {
         return null;
     }
 
-    @Deprecated
     public enum Version {
         UNKNOWN(-1) {
             @Override
@@ -124,17 +122,19 @@ public class Minecraft {
 
         v1_19_R1(11901);
 
-        private int version;
+        private final int versionId;
+        private final MinecraftVersion version;
 
         Version(int version) {
-            this.version = version;
+            this.versionId = version;
+            this.version = new MinecraftVersion(name(), version);
         }
 
         /**
          * @return the version-number
          */
         public int version() {
-            return version;
+            return versionId;
         }
 
         /**
@@ -167,6 +167,13 @@ public class Minecraft {
 
         public boolean matchesPackageName(String packageName) {
             return packageName.toLowerCase().contains(name().toLowerCase());
+        }
+
+        /**
+         * @return the minecraft version
+         */
+        public MinecraftVersion minecraft() {
+            return version;
         }
 
         @Deprecated
