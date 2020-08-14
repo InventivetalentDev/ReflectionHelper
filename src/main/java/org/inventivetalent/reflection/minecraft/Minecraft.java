@@ -129,7 +129,7 @@ public class Minecraft {
         private final MinecraftVersion version;
 
         Version(int version) {
-            this.version = new MinecraftVersion(this);
+            this.version = new MinecraftVersion(name(), version);
         }
 
         /**
