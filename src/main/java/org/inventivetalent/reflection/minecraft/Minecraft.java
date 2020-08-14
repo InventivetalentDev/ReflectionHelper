@@ -34,9 +34,7 @@ public class Minecraft {
     private static Class<?> CraftEntity;
 
     static {
-        System.out.println("[ReflectionHelper] I am loaded from package " + Minecraft.class.getPackage().getName());
         VERSION = Version.getVersion();
-        System.out.println("[ReflectionHelper] Version is " + VERSION);
 
         try {
             NmsEntity = nmsClassResolver.resolve("Entity");
