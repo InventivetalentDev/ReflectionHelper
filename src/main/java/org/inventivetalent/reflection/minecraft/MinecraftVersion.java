@@ -22,10 +22,6 @@ public class MinecraftVersion {
         this.version = version;
     }
 
-    MinecraftVersion(Minecraft.Version version) {
-        this(version.name(), version.version());
-    }
-
     /**
      * @return the version-number
      */
