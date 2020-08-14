@@ -115,7 +115,6 @@ public class Minecraft {
         v1_15_R1(11501),
 
         v1_16_R1(11601),
-        v1_16_R2(11602),
 
         /// (Potentially) Upcoming versions
         v1_17_R1(11701),
@@ -179,7 +178,7 @@ public class Minecraft {
         @Deprecated
         public static Version getVersion() {
             String name = Bukkit.getServer().getClass().getPackage().getName();
-            String versionPackage = name.substring(name.lastIndexOf('.') + 1) + ".";
+            String versionPackage = name.substring(name.lastIndexOf('.') + 1);
             for (Version version : values()) {
                 if (version.matchesPackageName(versionPackage)) { return version; }
             }
@@ -198,7 +197,7 @@ public class Minecraft {
 
                 String numVersionString = majorString + minorString + patchString;
                 int numVersion = Integer.parseInt(numVersionString);
-                String packge = versionPackage.substring(0, versionPackage.length() - 1);
+                String packge = versionPackage;
 
                 try {
                     // Add enum value
