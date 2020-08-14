@@ -126,11 +126,9 @@ public class Minecraft {
 
         v1_19_R1(11901);
 
-        private final int versionId;
         private final MinecraftVersion version;
 
         Version(int version) {
-            this.versionId = version;
             this.version = new MinecraftVersion(this);
         }
 
@@ -138,7 +136,7 @@ public class Minecraft {
          * @return the version-number
          */
         public int version() {
-            return versionId;
+            return version.version();
         }
 
         /**
