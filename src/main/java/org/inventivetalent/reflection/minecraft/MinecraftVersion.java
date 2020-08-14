@@ -92,9 +92,9 @@ public class MinecraftVersion {
                 return minecraftVersion;
             }
         }
-        System.err.println("[ReflectionHelper] Failed to find version enum for '" + name + "'/'" + versionPackage + "'");
+        System.err.println("[ReflectionHelper/MinecraftVersion] Failed to find version enum for '" + name + "'/'" + versionPackage + "'");
 
-        System.out.println("[ReflectionHelper] Generating dynamic constant...");
+        System.out.println("[ReflectionHelper/MinecraftVersion] Generating dynamic constant...");
         Matcher matcher = Minecraft.NUMERIC_VERSION_PATTERN.matcher(versionPackage);
         while (matcher.find()) {
             if (matcher.groupCount() < 3) {
@@ -116,12 +116,12 @@ public class MinecraftVersion {
             String packageName = "v" + versionPackage.substring(1).toUpperCase();
 
             //dynamic register version
-            System.out.println("[ReflectionHelper] Injected dynamic version " + packageName + " (#" + numVersion + ").");
-            System.out.println("[ReflectionHelper] Please inform inventivetalent about the outdated version, as this is not guaranteed to work.");
+            System.out.println("[ReflectionHelper/MinecraftVersion] Injected dynamic version " + packageName + " (#" + numVersion + ").");
+            System.out.println("[ReflectionHelper/MinecraftVersion] Please inform inventivetalent about the outdated version, as this is not guaranteed to work.");
             return new MinecraftVersion(packageName, numVersion);
         }
 
-        System.err.println("[ReflectionHelper] Failed to create dynamic version for " + versionPackage);
+        System.err.println("[ReflectionHelper/MinecraftVersion] Failed to create dynamic version for " + versionPackage);
 
         return new MinecraftVersion("UNKNOWN", -1);
     }
