@@ -80,7 +80,7 @@ public class MinecraftVersion {
 
     @Override
     public String toString() {
-        return packageName.toLowerCase() + " (" + version() + ")";
+        return packageName + " (" + version() + ")";
     }
 
     public static MinecraftVersion getVersion() {
