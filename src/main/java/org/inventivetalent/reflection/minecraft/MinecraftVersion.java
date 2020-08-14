@@ -6,14 +6,6 @@ import java.util.regex.Matcher;
 
 public class MinecraftVersion {
 
-    public static final MinecraftVersion VERSION;
-
-    static {
-        System.out.println("[ReflectionHelper] I am loaded from package " + Minecraft.class.getPackage().getName());
-        VERSION = MinecraftVersion.getVersion();
-        System.out.println("[ReflectionHelper] Version is " + VERSION);
-    }
-
     private String packageName;
     private int version;
 

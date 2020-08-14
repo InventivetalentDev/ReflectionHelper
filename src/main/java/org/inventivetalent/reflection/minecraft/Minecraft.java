@@ -22,7 +22,6 @@ public class Minecraft {
     public static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
 
     public static final Version VERSION;
-    public static final MinecraftVersion MINECRAFT_VERSION = MinecraftVersion.VERSION;
 
     private static NMSClassResolver nmsClassResolver = new NMSClassResolver();
     private static OBCClassResolver obcClassResolver = new OBCClassResolver();
