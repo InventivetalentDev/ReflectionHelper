@@ -22,6 +22,7 @@ public class MinecraftVersion {
         this.version = version;
     }
 
+    // Used by SantiyCheck
     MinecraftVersion(Minecraft.Version version) {
         this(version.name(), version.version());
     }
