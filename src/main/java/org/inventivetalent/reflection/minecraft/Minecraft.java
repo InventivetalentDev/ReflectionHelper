@@ -21,6 +21,10 @@ import java.util.regex.Pattern;
 public class Minecraft {
     public static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
 
+    /**
+     * @deprecated use {@link MinecraftVersion#VERSION} instead
+     */
+    @Deprecated
     public static final Version VERSION;
     public static final MinecraftVersion MINECRAFT_VERSION = MinecraftVersion.VERSION;
 
