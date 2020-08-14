@@ -2,10 +2,15 @@ package org.inventivetalent.reflection.minecraft;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.inventivetalent.reflection.resolver.ConstructorResolver;
+import org.inventivetalent.reflection.resolver.FieldResolver;
+import org.inventivetalent.reflection.resolver.MethodResolver;
 import org.inventivetalent.reflection.resolver.minecraft.NMSClassResolver;
 import org.inventivetalent.reflection.resolver.minecraft.OBCClassResolver;
 import org.inventivetalent.reflection.util.AccessUtil;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,7 +19,7 @@ import java.util.regex.Pattern;
  * Helper class to access minecraft/bukkit specific objects
  */
 public class Minecraft {
-    static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
+    public static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
 
     public static final MinecraftVersion VERSION;
 
@@ -25,7 +30,7 @@ public class Minecraft {
 
     static {
         System.out.println("[ReflectionHelper] I am loaded from package " + Minecraft.class.getPackage().getName());
-        VERSION = VersionConstant.getVersion();
+        VERSION = MinecraftVersion.getVersion();
         System.out.println("[ReflectionHelper] Version is " + VERSION);
 
         try {
@@ -71,7 +76,7 @@ public class Minecraft {
         return null;
     }
 
-    public enum VersionConstant {
+    public enum Version {
 
         UNKNOWN(-1),
 
@@ -105,66 +110,9 @@ public class Minecraft {
         v1_16_R1(11601),
         v1_16_R2(11602);
 
-        private MinecraftVersion version;
-
-        VersionConstant(int version) {
-            this.version = new MinecraftVersion(name(), version);
-        }
-
-        /**
-         * @return the minecraft version
-         */
-        public MinecraftVersion minecraft() {
-            return version;
-        }
-
-        public static MinecraftVersion getVersion() {
-            String name = Bukkit.getServer().getClass().getPackage().getName();
-            String versionPackage = name.substring(name.lastIndexOf('.') + 1) + ".";
-            for (VersionConstant version : values()) {
-                MinecraftVersion minecraftVersion = version.minecraft();
-                if (minecraftVersion.matchesPackageName(versionPackage)) {
-                    return minecraftVersion;
-                }
-            }
-            System.err.println("[ReflectionHelper] Failed to find version enum for '" + name + "'/'" + versionPackage + "'");
-
-            System.out.println("[ReflectionHelper] Generating dynamic constant...");
-            Matcher matcher = NUMERIC_VERSION_PATTERN.matcher(versionPackage);
-            while (matcher.find()) {
-                if (matcher.groupCount() < 3) {
-                    continue;
-                }
-
-                String majorString = matcher.group(1);
-                String minorString = matcher.group(2);
-                if (minorString.length() == 1) {
-                    minorString = "0" + minorString;
-                }
-                String patchString = matcher.group(3);
-                if (patchString.length() == 1) {
-                    patchString = "0" + patchString;
-                }
-
-                String numVersionString = majorString + minorString + patchString;
-                int numVersion = Integer.parseInt(numVersionString);
-                String packageName = versionPackage.substring(0, versionPackage.length() - 1);
-
-                //dynamic register version
-                return new MinecraftVersion(packageName, numVersion);
-            }
-
-            return UNKNOWN.minecraft();
-        }
-    }
-
-    public static class MinecraftVersion {
-
-        private String packageName;
         private int version;
 
-        MinecraftVersion(String packageName, int version) {
-            this.packageName = packageName;
+        Version(int version) {
             this.version = version;
         }
 
@@ -176,42 +124,21 @@ public class Minecraft {
         }
 
         /**
-         * @return the package name
-         */
-        public String packageName() {
-            return packageName;
-        }
-
-        /**
          * @param version the version to check
          * @return <code>true</code> if this version is older than the specified version
          */
-        public boolean olderThan(MinecraftVersion version) {
+        @Deprecated
+        public boolean olderThan(Version version) {
             return version() < version.version();
         }
 
         /**
          * @param version the version to check
-         * @return <code>true</code> if this version is older than the specified version
-         */
-        public boolean olderThan(VersionConstant version) {
-            return olderThan(version.minecraft());
-        }
-
-        /**
-         * @param version the version to check
          * @return <code>true</code> if this version is newer than the specified version
          */
-        public boolean newerThan(MinecraftVersion version) {
+        @Deprecated
+        public boolean newerThan(Version version) {
             return version() >= version.version();
-        }
-
-        /**
-         * @param version the version to check
-         * @return <code>true</code> if this version is newer than the specified version
-         */
-        public boolean newerThan(VersionConstant version) {
-            return newerThan(version.minecraft());
         }
 
         /**
@@ -219,17 +146,83 @@ public class Minecraft {
          * @param newVersion The newer version to check
          * @return <code>true</code> if this version is newer than the oldVersion and older that the newVersion
          */
-        public boolean inRange(MinecraftVersion oldVersion, MinecraftVersion newVersion) {
+        @Deprecated
+        public boolean inRange(Version oldVersion, Version newVersion) {
             return newerThan(oldVersion) && olderThan(newVersion);
         }
 
         public boolean matchesPackageName(String packageName) {
-            return packageName.toLowerCase().contains(packageName.toLowerCase());
+            return packageName.toLowerCase().contains(name().toLowerCase());
+        }
+
+        @Deprecated
+        public static Version getVersion() {
+            String name = Bukkit.getServer().getClass().getPackage().getName();
+            String versionPackage = name.substring(name.lastIndexOf('.') + 1) + ".";
+            for (Version version : values()) {
+                if (version.matchesPackageName(versionPackage)) { return version; }
+            }
+            System.err.println("[ReflectionHelper] Failed to find version enum for '" + name + "'/'" + versionPackage + "'");
+
+            System.out.println("[ReflectionHelper] Generating dynamic constant...");
+            Matcher matcher = NUMERIC_VERSION_PATTERN.matcher(versionPackage);
+            while (matcher.find()) {
+                if (matcher.groupCount() < 3) { continue; }
+
+                String majorString = matcher.group(1);
+                String minorString = matcher.group(2);
+                if (minorString.length() == 1) { minorString = "0" + minorString; }
+                String patchString = matcher.group(3);
+                if (patchString.length() == 1) { patchString = "0" + patchString; }
+
+                String numVersionString = majorString + minorString + patchString;
+                int numVersion = Integer.parseInt(numVersionString);
+                String packge = versionPackage.substring(0, versionPackage.length() - 1);
+
+                try {
+                    // Add enum value
+                    Field valuesField = new FieldResolver(Version.class).resolve("$VALUES");
+                    Version[] oldValues = (Version[]) valuesField.get(null);
+                    Version[] newValues = new Version[oldValues.length + 1];
+                    System.arraycopy(oldValues, 0, newValues, 0, oldValues.length);
+                    Version dynamicVersion = (Version) newEnumInstance(Version.class, new Class[] {
+                            String.class,
+                            int.class,
+                            int.class
+                    }, new Object[] {
+                            packge,
+                            newValues.length - 1,
+                            numVersion
+                    });
+                    newValues[newValues.length - 1] = dynamicVersion;
+                    valuesField.set(null, newValues);
+
+                    System.out.println("[ReflectionHelper] Injected dynamic version " + packge + " (#" + numVersion + ").");
+                    System.out.println("[ReflectionHelper] Please inform inventivetalent about the outdated version, as this is not guaranteed to work.");
+                    return dynamicVersion;
+                } catch (ReflectiveOperationException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return UNKNOWN;
         }
 
         @Override
         public String toString() {
-            return packageName.toLowerCase() + " (" + version() + ")";
+            return name() + " (" + version() + ")";
         }
+    }
+
+    @Deprecated
+    public static Object newEnumInstance(Class clazz, Class[] types, Object[] values) throws ReflectiveOperationException {
+        Constructor constructor = new ConstructorResolver(clazz).resolve(types);
+        Field accessorField = new FieldResolver(Constructor.class).resolve("constructorAccessor");
+        Object constructorAccessor = accessorField.get(constructor);
+        if (constructorAccessor == null) {
+            new MethodResolver(Constructor.class).resolve("acquireConstructorAccessor").invoke(constructor);
+            constructorAccessor = accessorField.get(constructor);
+        }
+        return new MethodResolver(constructorAccessor.getClass()).resolve("newInstance").invoke(constructorAccessor, (Object) values);
     }
 }

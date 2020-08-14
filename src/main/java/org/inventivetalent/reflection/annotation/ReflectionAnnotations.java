@@ -136,7 +136,7 @@ public class ReflectionAnnotations {
 
 		try {
 			String[] names = (String[]) clazz.getMethod("value").invoke(annotation);
-			Minecraft.VersionConstant[] versions = (Minecraft.VersionConstant[]) clazz.getMethod("versions").invoke(annotation);
+			Minecraft.Version[] versions = (Minecraft.Version[]) clazz.getMethod("versions").invoke(annotation);
 
 			if (versions.length == 0) {// No versions specified -> directly use the names
 				for (String name : names) {
@@ -147,13 +147,12 @@ public class ReflectionAnnotations {
 					throw new RuntimeException("versions array cannot have more elements than the names (" + clazz + ")");
 				}
 				for (int i = 0; i < versions.length; i++) {
-					Minecraft.MinecraftVersion version = versions[i].minecraft();
-					if (Minecraft.VERSION == version) {// Wohoo, perfect match!
+					if (Minecraft.VERSION.equal(versions[i])) {// Wohoo, perfect match!
 						list.add(names[i]);
 					} else {
-						if (names[i].startsWith(">") && Minecraft.VERSION.newerThan(version)) {// Match if the current version is newer
+						if (names[i].startsWith(">") && Minecraft.VERSION.newerThan(versions[i])) {// Match if the current version is newer
 							list.add(names[i].substring(1));
-						} else if (names[i].startsWith("<") && Minecraft.VERSION.olderThan(version)) {// Match if the current version is older
+						} else if (names[i].startsWith("<") && Minecraft.VERSION.olderThan(versions[i])) {// Match if the current version is older
 							list.add(names[i].substring(1));
 						}
 					}
