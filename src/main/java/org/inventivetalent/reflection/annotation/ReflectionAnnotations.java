@@ -1,6 +1,7 @@
 package org.inventivetalent.reflection.annotation;
 
 import org.inventivetalent.reflection.minecraft.Minecraft;
+import org.inventivetalent.reflection.minecraft.MinecraftVersion;
 import org.inventivetalent.reflection.resolver.ClassResolver;
 import org.inventivetalent.reflection.resolver.FieldResolver;
 import org.inventivetalent.reflection.resolver.MethodResolver;
@@ -45,8 +46,8 @@ public class ReflectionAnnotations {
 				String[] names = nameList.toArray(new String[nameList.size()]);
 				for (int i = 0; i < names.length; i++) {// Replace NMS & OBC
 					names[i] = names[i]
-							.replace("{nms}", "net.minecraft.server." + Minecraft.VERSION.packageName())
-							.replace("{obc}", "org.bukkit.craftbukkit." + Minecraft.VERSION.packageName());
+							.replace("{nms}", "net.minecraft.server." + MinecraftVersion.VERSION.packageName())
+							.replace("{obc}", "org.bukkit.craftbukkit." + MinecraftVersion.VERSION.packageName());
 				}
 				try {
 					if (ClassWrapper.class.isAssignableFrom(field.getType())) {
@@ -147,7 +148,7 @@ public class ReflectionAnnotations {
 					throw new RuntimeException("versions array cannot have more elements than the names (" + clazz + ")");
 				}
 				for (int i = 0; i < versions.length; i++) {
-					if (Minecraft.VERSION.equal(versions[i])) {// Wohoo, perfect match!
+					if (MinecraftVersion.VERSION.equal(versions[i])) {// Wohoo, perfect match!
 						list.add(names[i]);
 					} else {
 						if (names[i].startsWith(">") && Minecraft.VERSION.newerThan(versions[i])) {// Match if the current version is newer

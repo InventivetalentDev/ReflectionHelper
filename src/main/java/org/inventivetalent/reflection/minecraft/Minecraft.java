@@ -21,7 +21,8 @@ import java.util.regex.Pattern;
 public class Minecraft {
     public static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
 
-    public static final MinecraftVersion VERSION;
+    @Deprecated
+    public static final Version VERSION;
 
     private static NMSClassResolver nmsClassResolver = new NMSClassResolver();
     private static OBCClassResolver obcClassResolver = new OBCClassResolver();
@@ -30,7 +31,7 @@ public class Minecraft {
 
     static {
         System.out.println("[ReflectionHelper] I am loaded from package " + Minecraft.class.getPackage().getName());
-        VERSION = MinecraftVersion.getVersion();
+        VERSION = Version.getVersion();
         System.out.println("[ReflectionHelper] Version is " + VERSION);
 
         try {
@@ -45,7 +46,7 @@ public class Minecraft {
      * @return the current NMS/OBC version (format <code>&lt;version&gt;.</code>
      */
     public static String getVersion() {
-        return VERSION.packageName() + ".";
+        return VERSION.name() + ".";
     }
 
     public static Object getHandle(Object object) throws ReflectiveOperationException {
@@ -76,9 +77,14 @@ public class Minecraft {
         return null;
     }
 
+    @Deprecated
     public enum Version {
-
-        UNKNOWN(-1),
+        UNKNOWN(-1) {
+            @Override
+            public boolean matchesPackageName(String packageName) {
+                return false;
+            }
+        },
 
         v1_7_R1(10701),
         v1_7_R2(10702),
@@ -108,7 +114,14 @@ public class Minecraft {
         v1_15_R1(11501),
 
         v1_16_R1(11601),
-        v1_16_R2(11602);
+        v1_16_R2(11602),
+
+        /// (Potentially) Upcoming versions
+        v1_17_R1(11701),
+
+        v1_18_R1(11801),
+
+        v1_19_R1(11901);
 
         private int version;
 
