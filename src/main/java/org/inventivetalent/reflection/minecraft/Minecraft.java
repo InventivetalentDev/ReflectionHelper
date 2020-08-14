@@ -26,6 +26,7 @@ public class Minecraft {
      */
     @Deprecated
     public static final Version VERSION;
+    public static final MinecraftVersion MINECRAFT_VERSION = MinecraftVersion.VERSION;
 
     private static NMSClassResolver nmsClassResolver = new NMSClassResolver();
     private static OBCClassResolver obcClassResolver = new OBCClassResolver();
