@@ -8,7 +8,6 @@ import org.inventivetalent.reflection.resolver.MethodResolver;
 import org.inventivetalent.reflection.resolver.minecraft.NMSClassResolver;
 import org.inventivetalent.reflection.resolver.minecraft.OBCClassResolver;
 import org.inventivetalent.reflection.util.AccessUtil;
-import sun.reflect.ConstructorAccessor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -110,11 +109,12 @@ public class Minecraft {
 
 		v1_14_R1(11401),
 
-		/// (Potentially) Upcoming versions
 		v1_15_R1(11501),
 
 		v1_16_R1(11601),
+		v1_16_R2(11602),
 
+		/// (Potentially) Upcoming versions
 		v1_17_R1(11701),
 
 		v1_18_R1(11801),
@@ -233,12 +233,12 @@ public class Minecraft {
 	public static Object newEnumInstance(Class clazz, Class[] types, Object[] values) throws ReflectiveOperationException {
 		Constructor constructor = new ConstructorResolver(clazz).resolve(types);
 		Field accessorField = new FieldResolver(Constructor.class).resolve("constructorAccessor");
-		ConstructorAccessor constructorAccessor = (ConstructorAccessor) accessorField.get(constructor);
+		Object constructorAccessor = accessorField.get(constructor);
 		if (constructorAccessor == null) {
 			new MethodResolver(Constructor.class).resolve("acquireConstructorAccessor").invoke(constructor);
-			constructorAccessor = (ConstructorAccessor) accessorField.get(constructor);
+			constructorAccessor = accessorField.get(constructor);
 		}
-		return constructorAccessor.newInstance(values);
+		return new MethodResolver(constructorAccessor.getClass()).resolve("newInstance").invoke(constructorAccessor, (Object) values);
 
 	}
 
