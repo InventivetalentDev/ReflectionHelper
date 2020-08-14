@@ -121,6 +121,8 @@ public class MinecraftVersion {
             return new MinecraftVersion(packageName, numVersion);
         }
 
+        System.err.println("[ReflectionHelper] Failed to create dynamic version for " + versionPackage);
+
         return new MinecraftVersion("UNKNOWN", -1);
     }
 }
