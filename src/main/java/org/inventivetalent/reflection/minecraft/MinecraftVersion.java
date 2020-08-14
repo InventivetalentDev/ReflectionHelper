@@ -85,7 +85,7 @@ public class MinecraftVersion {
 
     public static MinecraftVersion getVersion() {
         String name = Bukkit.getServer().getClass().getPackage().getName();
-        String versionPackage = name.substring(name.lastIndexOf('.') + 1) + ".";
+        String versionPackage = name.substring(name.lastIndexOf('.') + 1);
         for (Minecraft.Version version : Minecraft.Version.values()) {
             MinecraftVersion minecraftVersion = version.minecraft();
             if (minecraftVersion.matchesPackageName(versionPackage)) {
