@@ -37,6 +37,12 @@ public class Minecraft {
         VERSION = Version.getVersion();
 
         try {
+            Version.runSanityCheck();
+        } catch (Exception e) {
+            throw new RuntimeException("Sanity check which should always succeed just failed! Am I crazy?!", e);
+        }
+
+        try {
             NmsEntity = nmsClassResolver.resolve("Entity");
             CraftEntity = obcClassResolver.resolve("entity.CraftEntity");
         } catch (ReflectiveOperationException e) {
@@ -173,6 +179,15 @@ public class Minecraft {
          */
         public MinecraftVersion minecraft() {
             return version;
+        }
+
+        static void runSanityCheck() {
+            assert v1_14_R1.newerThan(v1_13_R2);
+            assert v1_13_R2.olderThan(v1_14_R1);
+
+            assert v1_13_R2.newerThan(v1_8_R1);
+
+            assert v1_13_R2.newerThan(v1_8_R1) && v1_13_R2.olderThan(v1_14_R1);
         }
 
         @Deprecated
