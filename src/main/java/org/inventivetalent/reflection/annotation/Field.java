@@ -33,7 +33,7 @@ public @interface Field {
 	 *
 	 * @return Array of versions for the class names
 	 */
-	Minecraft.Version[] versions() default {};
+	Minecraft.VersionConstant[] versions() default {};
 
 	/**
 	 * Whether to ignore any reflection exceptions thrown. Defaults to <code>true</code>
