@@ -131,7 +131,7 @@ public class Minecraft {
 
         Version(int version) {
             this.versionId = version;
-            this.version = new MinecraftVersion(name(), version);
+            this.version = new MinecraftVersion(this);
         }
 
         /**
