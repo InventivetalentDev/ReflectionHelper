@@ -34,7 +34,13 @@ public class Minecraft {
     private static Class<?> CraftEntity;
 
     static {
-        VERSION = Version.getVersion();
+        Version tempVersion = Version.UNKNOWN;
+        try {
+            tempVersion = Version.getVersion();
+        } catch (Exception e) {
+            System.out.println("[ReflectionHelper] Failed to get legacy version");
+        }
+        VERSION = tempVersion;
 
         try {
             Version.runSanityCheck();

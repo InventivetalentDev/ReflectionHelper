@@ -10,7 +10,11 @@ public class MinecraftVersion {
 
     static {
         System.out.println("[ReflectionHelper/MinecraftVersion] I am loaded from package " + Minecraft.class.getPackage().getName());
-        VERSION = MinecraftVersion.getVersion();
+        try {
+            VERSION = MinecraftVersion.getVersion();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get version", e);
+        }
         System.out.println("[ReflectionHelper/MinecraftVersion] Version is " + VERSION);
     }
 
