@@ -127,6 +127,7 @@ public class Minecraft {
         v1_15_R1(11501),
 
         v1_16_R1(11601),
+        v1_16_R2(11602),
 
         /// (Potentially) Upcoming versions
         v1_17_R1(11701),
