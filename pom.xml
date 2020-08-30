@@ -97,10 +97,5 @@
             <id>sonatype-nexus-snapshots</id>
             <url>https://repo.inventivetalent.org/content/repositories/snapshots/</url>
         </snapshotRepository>
-        <repository>
-           <id>github</id>
-           <name>GitHub Packages</name>
-           <url>https://maven.pkg.github.com/InventivetalentDev/ReflectionHelper</url>
-        </repository>
     </distributionManagement>
 </project>
