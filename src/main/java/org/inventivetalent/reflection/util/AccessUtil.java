@@ -17,8 +17,16 @@ public abstract class AccessUtil {
 	 * @return the Field
 	 * @throws ReflectiveOperationException (usually never)
 	 */
+
 	public static Field setAccessible(Field field) throws ReflectiveOperationException {
+		return setAccessible(field, false);
+	}
+
+	public static Field setAccessible(Field field, boolean readOnly) throws ReflectiveOperationException {
 		field.setAccessible(true);
+		if (readOnly) {
+			return field;
+		}
 		int modifiers = field.getModifiers();
 		try {
 			Field modifiersField = Field.class.getDeclaredField("modifiers");
