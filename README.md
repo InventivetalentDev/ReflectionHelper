@@ -1,5 +1,6 @@
 # ReflectionHelper
 
+[![Release](https://jitpack.io/v/org.inventivetalent/reflectionhelper.svg)](https://jitpack.io/#org.inventivetalent/reflectionhelper)
 [![Build Status](https://travis-ci.org/InventivetalentDev/ReflectionHelper.svg?branch=master)](https://travis-ci.org/InventivetalentDev/ReflectionHelper)
 
 API for accessing various classes and their members using reflection.
