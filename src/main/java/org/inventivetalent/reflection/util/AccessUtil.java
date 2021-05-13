@@ -47,19 +47,25 @@ public abstract class AccessUtil {
                         modifiersField.setInt(field, newModifiers);
                     }
                 } catch (Exception e2) {
-                    // https://github.com/ViaVersion/ViaVersion/blob/e07c994ddc50e00b53b728d08ab044e66c35c30f/bungee/src/main/java/us/myles/ViaVersion/bungee/platform/BungeeViaInjector.java
-                    // Java 12 compatibility *this is fine*
-                    Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
-                    getDeclaredFields0.setAccessible(true);
-                    Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
-                    for (Field classField : fields) {
-                        if ("modifiers".equals(classField.getName())) {
-                            classField.setAccessible(true);
-                            classField.set(field, modifiers & ~Modifier.FINAL);
-                            break;
+                    try {
+                        // https://github.com/ViaVersion/ViaVersion/blob/e07c994ddc50e00b53b728d08ab044e66c35c30f/bungee/src/main/java/us/myles/ViaVersion/bungee/platform/BungeeViaInjector.java
+                        // Java 12 compatibility *this is fine*
+                        Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
+                        getDeclaredFields0.setAccessible(true);
+                        Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
+                        for (Field classField : fields) {
+                            if ("modifiers".equals(classField.getName())) {
+                                classField.setAccessible(true);
+                                classField.set(field, modifiers & ~Modifier.FINAL);
+                                break;
+                            }
                         }
+                    } catch (Exception e3) {
                     }
                 }
+            }
+            if (Modifier.isFinal(field.getModifiers())) {
+                System.err.println("[ReflectionHelper] Failed to make " + field + " non-final");
             }
         }
         return field;
