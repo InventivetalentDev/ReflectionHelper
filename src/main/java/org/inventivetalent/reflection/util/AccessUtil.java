@@ -33,29 +33,31 @@ public abstract class AccessUtil {
             return field;
         }
         int modifiers = field.getModifiers();
-        try {
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(field, modifiers & ~Modifier.FINAL);
-        } catch (NoSuchFieldException e1) {
+        if (Modifier.isFinal(modifiers)) {
             try {
-                int newModifiers = field.getModifiers() & ~Modifier.FINAL;
-                if (modifiersVarHandle != null) {
-                    ((VarHandle) modifiersVarHandle).set(field, newModifiers);
-                } else {
-                    modifiersField.setInt(field, newModifiers);
-                }
-            } catch (Exception e2) {
-                // https://github.com/ViaVersion/ViaVersion/blob/e07c994ddc50e00b53b728d08ab044e66c35c30f/bungee/src/main/java/us/myles/ViaVersion/bungee/platform/BungeeViaInjector.java
-                // Java 12 compatibility *this is fine*
-                Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
-                getDeclaredFields0.setAccessible(true);
-                Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
-                for (Field classField : fields) {
-                    if ("modifiers".equals(classField.getName())) {
-                        classField.setAccessible(true);
-                        classField.set(field, modifiers & ~Modifier.FINAL);
-                        break;
+                Field modifiersField = Field.class.getDeclaredField("modifiers");
+                modifiersField.setAccessible(true);
+                modifiersField.setInt(field, modifiers & ~Modifier.FINAL);
+            } catch (NoSuchFieldException e1) {
+                try {
+                    int newModifiers = field.getModifiers() & ~Modifier.FINAL;
+                    if (modifiersVarHandle != null) {
+                        ((VarHandle) modifiersVarHandle).set(field, newModifiers);
+                    } else {
+                        modifiersField.setInt(field, newModifiers);
+                    }
+                } catch (Exception e2) {
+                    // https://github.com/ViaVersion/ViaVersion/blob/e07c994ddc50e00b53b728d08ab044e66c35c30f/bungee/src/main/java/us/myles/ViaVersion/bungee/platform/BungeeViaInjector.java
+                    // Java 12 compatibility *this is fine*
+                    Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
+                    getDeclaredFields0.setAccessible(true);
+                    Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
+                    for (Field classField : fields) {
+                        if ("modifiers".equals(classField.getName())) {
+                            classField.setAccessible(true);
+                            classField.set(field, modifiers & ~Modifier.FINAL);
+                            break;
+                        }
                     }
                 }
             }
