@@ -52,7 +52,6 @@ public class FieldResolver extends MemberResolver<Field> {
 		return new FieldAccessor(resolveSilent(names));
 	}
 
-	@Deprecated
 	public Field resolveSilent(String... names) {
 		try {
 			return resolve(names);
@@ -62,7 +61,6 @@ public class FieldResolver extends MemberResolver<Field> {
 		return null;
 	}
 
-	@Deprecated
 	public Field resolve(String... names) throws NoSuchFieldException {
 		ResolverQuery.Builder builder = ResolverQuery.builder();
 		for (String name : names)
@@ -74,7 +72,6 @@ public class FieldResolver extends MemberResolver<Field> {
 		}
 	}
 
-	@Deprecated
 	public Field resolveSilent(ResolverQuery... queries) {
 		try {
 			return resolve(queries);
@@ -84,7 +81,6 @@ public class FieldResolver extends MemberResolver<Field> {
 		return null;
 	}
 
-	@Deprecated
 	public Field resolve(ResolverQuery... queries) throws NoSuchFieldException {
 		try {
 			return super.resolve(queries);
