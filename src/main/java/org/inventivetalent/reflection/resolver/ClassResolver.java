@@ -1,6 +1,7 @@
 package org.inventivetalent.reflection.resolver;
 
 import org.inventivetalent.reflection.resolver.wrapper.ClassWrapper;
+import org.inventivetalent.reflection.util.AccessUtil;
 
 /**
  * Default {@link ClassResolver}
@@ -15,6 +16,7 @@ public class ClassResolver extends ResolverAbstract<Class> {
 		try {
 			return resolve(names);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
 	}

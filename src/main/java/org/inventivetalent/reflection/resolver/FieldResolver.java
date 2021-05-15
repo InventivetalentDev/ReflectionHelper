@@ -45,6 +45,7 @@ public class FieldResolver extends MemberResolver<Field> {
 		try {
 			return resolve(names);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
 	}
@@ -64,6 +65,7 @@ public class FieldResolver extends MemberResolver<Field> {
 		try {
 			return resolve(queries);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
 	}

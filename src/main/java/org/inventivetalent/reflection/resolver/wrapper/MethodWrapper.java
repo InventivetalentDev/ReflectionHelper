@@ -1,5 +1,7 @@
 package org.inventivetalent.reflection.resolver.wrapper;
 
+import org.inventivetalent.reflection.util.AccessUtil;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -34,6 +36,7 @@ public class MethodWrapper<R> extends WrapperAbstract {
 		try {
 			return (R) this.method.invoke(object, args);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
 	}

@@ -1,5 +1,7 @@
 package org.inventivetalent.reflection.resolver.wrapper;
 
+import org.inventivetalent.reflection.util.AccessUtil;
+
 import java.lang.reflect.Constructor;
 
 public class ConstructorWrapper<R> extends WrapperAbstract {
@@ -27,6 +29,7 @@ public class ConstructorWrapper<R> extends WrapperAbstract {
 		try {
 			return this.constructor.newInstance(args);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
 	}

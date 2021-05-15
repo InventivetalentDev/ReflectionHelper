@@ -73,6 +73,7 @@ public class MethodResolver extends MemberResolver<Method> {
 		try {
 			return resolve(names);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
 	}

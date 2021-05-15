@@ -1,5 +1,7 @@
 package org.inventivetalent.reflection.resolver;
 
+import org.inventivetalent.reflection.util.AccessUtil;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,6 +29,7 @@ public abstract class ResolverAbstract<T> {
 		try {
 			return resolve(queries);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
 	}

@@ -1,5 +1,7 @@
 package org.inventivetalent.reflection.resolver.wrapper;
 
+import org.inventivetalent.reflection.util.AccessUtil;
+
 public class ClassWrapper<R> extends WrapperAbstract {
 
 	private final Class<R> clazz;
@@ -33,6 +35,7 @@ public class ClassWrapper<R> extends WrapperAbstract {
 		try {
 			return this.clazz.newInstance();
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
 	}

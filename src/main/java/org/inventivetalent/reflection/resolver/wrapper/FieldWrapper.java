@@ -1,5 +1,7 @@
 package org.inventivetalent.reflection.resolver.wrapper;
 
+import org.inventivetalent.reflection.util.AccessUtil;
+
 import java.lang.reflect.Field;
 
 public class FieldWrapper<R> extends WrapperAbstract {
@@ -31,6 +33,7 @@ public class FieldWrapper<R> extends WrapperAbstract {
 		try {
 			return (R) this.field.get(object);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
 	}
@@ -47,6 +50,7 @@ public class FieldWrapper<R> extends WrapperAbstract {
 		try {
 			this.field.set(object, value);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 	}
 
