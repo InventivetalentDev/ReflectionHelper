@@ -33,11 +33,13 @@ public class FieldResolver extends MemberResolver<Field> {
 		return null;
 	}
 
+	@Deprecated
 	@Override
 	public FieldWrapper resolveIndexWrapper(int index) {
 		return new FieldWrapper<>(resolveIndexSilent(index));
 	}
 
+	@Deprecated
 	public FieldWrapper resolveWrapper(String... names) {
 		return new FieldWrapper<>(resolveSilent(names));
 	}
@@ -50,6 +52,7 @@ public class FieldResolver extends MemberResolver<Field> {
 		return new FieldAccessor(resolveSilent(names));
 	}
 
+	@Deprecated
 	public Field resolveSilent(String... names) {
 		try {
 			return resolve(names);
@@ -59,6 +62,7 @@ public class FieldResolver extends MemberResolver<Field> {
 		return null;
 	}
 
+	@Deprecated
 	public Field resolve(String... names) throws NoSuchFieldException {
 		ResolverQuery.Builder builder = ResolverQuery.builder();
 		for (String name : names)
@@ -70,6 +74,7 @@ public class FieldResolver extends MemberResolver<Field> {
 		}
 	}
 
+	@Deprecated
 	public Field resolveSilent(ResolverQuery... queries) {
 		try {
 			return resolve(queries);
@@ -79,6 +84,7 @@ public class FieldResolver extends MemberResolver<Field> {
 		return null;
 	}
 
+	@Deprecated
 	public Field resolve(ResolverQuery... queries) throws NoSuchFieldException {
 		try {
 			return super.resolve(queries);
@@ -122,6 +128,10 @@ public class FieldResolver extends MemberResolver<Field> {
 		throw new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz);
 	}
 
+	public FieldAccessor resolveByFirstTypeAccessor(Class<?> type) {
+		return new FieldAccessor(resolveByFirstTypeSilent(type));
+	}
+
 	/**
 	 * Attempts to find the first field of the specified type
 	 *
@@ -133,6 +143,7 @@ public class FieldResolver extends MemberResolver<Field> {
 		try {
 			return resolveByFirstType(type);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
 	}
@@ -154,6 +165,7 @@ public class FieldResolver extends MemberResolver<Field> {
 		throw new NoSuchFieldException("Could not resolve field of type '" + type.toString() + "' in class " + this.clazz);
 	}
 
+
 	/**
 	 * Attempts to find the first field which extends/implements the specified type
 	 *
@@ -165,8 +177,13 @@ public class FieldResolver extends MemberResolver<Field> {
 		try {
 			return resolveByFirstExtendingType(type);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
+	}
+
+	public FieldAccessor resolveByFirstExtendingTypeAccessor(Class<?> type) {
+		return new FieldAccessor(resolveByFirstExtendingTypeSilent(type));
 	}
 
 
@@ -193,8 +210,13 @@ public class FieldResolver extends MemberResolver<Field> {
 		try {
 			return resolveByLastType(type);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
+	}
+
+	public FieldAccessor resolveByLastTypeAccessor(Class<?> type) {
+		return new FieldAccessor(resolveByLastTypeSilent(type));
 	}
 
 	/**
@@ -220,8 +242,13 @@ public class FieldResolver extends MemberResolver<Field> {
 		try {
 			return resolveByLastExtendingType(type);
 		} catch (Exception e) {
+			if (AccessUtil.VERBOSE) { e.printStackTrace(); }
 		}
 		return null;
+	}
+
+	public FieldAccessor resolveByLastExtendingTypeAccessor(Class<?> type) {
+		return new FieldAccessor(resolveByLastExtendingTypeSilent(type));
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package org.inventivetalent.reflection.util;
 
-import sun.misc.Unsafe;
-
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.reflect.*;
@@ -35,7 +33,6 @@ public abstract class AccessUtil {
     }
 
     private static Field setAccessible(Field field, boolean readOnly, boolean privileged) throws ReflectiveOperationException {
-        System.out.println(field);
         try {
             field.setAccessible(true);
         } catch (InaccessibleObjectException e) {
@@ -61,7 +58,6 @@ public abstract class AccessUtil {
             return field;
         }
         removeFinal(field, privileged);
-        System.out.println(field);
         return field;
     }
 
@@ -89,16 +85,6 @@ public abstract class AccessUtil {
                             System.err.println("removeFinalNativeDeclaredFields");
                             e3.printStackTrace();
                         }
-                        //                        try {
-                        //                            // fuck this shit
-                        //                            Unsafe unsafe = getUnsafe();
-                        //                            long offset = unsafe.objectFieldOffset(iteratedModifiersField);
-                        //                            unsafe.putObject(iteratedModifiersField, offset, modifiers & ~Modifier.FINAL);
-                        //                        } catch (Exception e4) {
-                        if (VERBOSE) {
-                            System.err.println("unsafe");
-                            e3.printStackTrace();
-                        }
                         if (!privileged) {
                             AccessController.doPrivileged((PrivilegedAction<Field>) () -> {
                                 try {
@@ -113,11 +99,10 @@ public abstract class AccessUtil {
                             });
                             return;
                         }
-                        //                        }
                     }
                 }
             }
-            if (Modifier.isFinal(field.getModifiers())) {
+            if (VERBOSE && Modifier.isFinal(field.getModifiers())) {
                 System.err.println("[ReflectionHelper] Failed to make " + field + " non-final");
             }
         }
@@ -204,18 +189,6 @@ public abstract class AccessUtil {
             return modifiersField;
         } catch (NoSuchFieldException ignored) {}
         return null;
-    }
-
-    private static Unsafe getUnsafe() throws ReflectiveOperationException {
-        Field field = Unsafe.class.getDeclaredField("theUnsafe");
-        field.setAccessible(true);
-        return (Unsafe) field.get(null);
-    }
-
-    private static void unsafeSetFieldValue(Field field, Object value) throws ReflectiveOperationException {
-        Unsafe unsafe = getUnsafe();
-        long offset = unsafe.objectFieldOffset(field);
-        unsafe.putObject(field, offset, value);
     }
 
     static {
