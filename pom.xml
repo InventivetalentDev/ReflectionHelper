@@ -51,7 +51,6 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.inventivetalent:reflectionhelper**</include>
-                                    <include>org.jooq*:joor*</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -80,12 +79,6 @@
             <artifactId>spigot-api</artifactId>
             <version>1.9-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>joor</artifactId>
-            <version>0.9.13</version>
         </dependency>
 
         <dependency>
