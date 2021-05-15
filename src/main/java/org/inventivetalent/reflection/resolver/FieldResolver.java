@@ -1,5 +1,6 @@
 package org.inventivetalent.reflection.resolver;
 
+import org.inventivetalent.reflection.accessor.FieldAccessor;
 import org.inventivetalent.reflection.resolver.wrapper.FieldWrapper;
 import org.inventivetalent.reflection.util.AccessUtil;
 
@@ -39,6 +40,14 @@ public class FieldResolver extends MemberResolver<Field> {
 
 	public FieldWrapper resolveWrapper(String... names) {
 		return new FieldWrapper<>(resolveSilent(names));
+	}
+
+	public FieldAccessor resolveIndexAccessor(int index) {
+		return new FieldAccessor(resolveIndexSilent(index));
+	}
+
+	public FieldAccessor resolveAccessor(String... names) {
+		return new FieldAccessor(resolveSilent(names));
 	}
 
 	public Field resolveSilent(String... names) {
