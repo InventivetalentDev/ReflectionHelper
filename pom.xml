@@ -65,6 +65,10 @@
             <url>https://repo.inventivetalent.org/repository/public/</url>
         </repository>
         <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
             <id>md_5-repo</id>
             <url>http://repo.md-5.net/content/repositories/public/</url>
         </repository>
