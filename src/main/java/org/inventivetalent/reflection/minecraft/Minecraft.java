@@ -130,7 +130,12 @@ public class Minecraft {
         v1_16_R2(11602),
         v1_16_R3(11603),
 
-        v1_17_PLUS(11701); // dropped the version package name
+        /// (Potentially) Upcoming versions
+        v1_17_R1(11701),
+
+        v1_18_R1(11801),
+
+        v1_19_R1(11901);
 
         private final MinecraftVersion version;
 
