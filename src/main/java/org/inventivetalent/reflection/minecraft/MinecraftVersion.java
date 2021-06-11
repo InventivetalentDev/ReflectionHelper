@@ -20,10 +20,19 @@ public class MinecraftVersion {
 
     private final String packageName;
     private final int version;
+    private final boolean nmsHasVersion;
+    private final boolean obcHasVersion;
 
-    MinecraftVersion(String packageName, int version) {
+
+    MinecraftVersion(String packageName, int version, boolean nmsHasVersion, boolean obcHasVersion) {
         this.packageName = packageName;
         this.version = version;
+        this.nmsHasVersion = nmsHasVersion;
+        this.obcHasVersion = obcHasVersion;
+    }
+
+    MinecraftVersion(String packageName, int version) {
+        this(packageName, version, true, true);
     }
 
     // Used by SantiyCheck
@@ -39,10 +48,31 @@ public class MinecraftVersion {
     }
 
     /**
-     * @return the package name
+     * @deprecated use {@link #nmsPackageName()} / {@link #obcPackageName()} instead
      */
+    @Deprecated
     public String packageName() {
         return packageName;
+    }
+
+    /**
+     * @return NMS package name + .
+     */
+    public String nmsPackageName() {
+        if (nmsHasVersion) {
+            return packageName + ".";
+        }
+        return "";
+    }
+
+    /**
+     * @return OBC package name + .
+     */
+    public String obcPackageName() {
+        if (obcHasVersion) {
+            return packageName + ".";
+        }
+        return "";
     }
 
     /**

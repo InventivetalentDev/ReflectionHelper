@@ -59,8 +59,23 @@ public class Minecraft {
     /**
      * @return the current NMS/OBC version (format <code>&lt;version&gt;.</code>
      */
+    @Deprecated
     public static String getVersion() {
         return MINECRAFT_VERSION.packageName() + ".";
+    }
+
+    /**
+     * @return the current NMS version (format <code>&lt;version&gt;.</code>
+     */
+    public static String getNMSVersion() {
+        return MINECRAFT_VERSION.nmsPackageName();
+    }
+
+    /**
+     * @return the current OBC version (format <code>&lt;version&gt;.</code>
+     */
+    public static String getOBCVersion() {
+        return MINECRAFT_VERSION.obcPackageName();
     }
 
     public static Object getHandle(Object object) throws ReflectiveOperationException {
@@ -130,17 +145,21 @@ public class Minecraft {
         v1_16_R2(11602),
         v1_16_R3(11603),
 
-        /// (Potentially) Upcoming versions
-        v1_17_R1(11701),
+        v1_17_R1(11701, false, true),
 
+        /// (Potentially) Upcoming versions
         v1_18_R1(11801),
 
         v1_19_R1(11901);
 
         private final MinecraftVersion version;
 
+        Version(int version, boolean nmsHasVersion, boolean obcHasVersion) {
+            this.version = new MinecraftVersion(name(), version, nmsHasVersion, obcHasVersion);
+        }
+
         Version(int version) {
-            this.version = new MinecraftVersion(name(), version);
+            this(version, true, true);
         }
 
         /**
