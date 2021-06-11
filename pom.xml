@@ -62,7 +62,7 @@
     <repositories>
         <repository>
             <id>inventive-repo</id>
-            <url>http://repo.inventivetalent.org/content/groups/public/</url>
+            <url>https://repo.inventivetalent.org/repository/public/</url>
         </repository>
         <repository>
             <id>md_5-repo</id>
