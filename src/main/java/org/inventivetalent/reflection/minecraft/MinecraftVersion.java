@@ -116,7 +116,15 @@ public class MinecraftVersion {
     }
 
     public static MinecraftVersion getVersion() {
-        String name = Bukkit.getServer().getClass().getPackage().getName();
+        Class serverClass;
+        try {
+            serverClass = Bukkit.getServer().getClass();
+        } catch (Exception e) {
+            System.err.println("[ReflectionHelper/MinecraftVersion] Failed to get bukkit server class: " + e.getMessage());
+            System.err.println("[ReflectionHelper/MinecraftVersion] Assuming we're in a test environment!");
+            return null;
+        }
+        String name = serverClass.getPackage().getName();
         String versionPackage = name.substring(name.lastIndexOf('.') + 1);
         for (Minecraft.Version version : Minecraft.Version.values()) {
             MinecraftVersion minecraftVersion = version.minecraft();

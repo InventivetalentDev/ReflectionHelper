@@ -1,5 +1,6 @@
 package org.inventivetalent.reflectionhelper.test;
 
+import org.inventivetalent.reflection.minecraft.Minecraft;
 import org.inventivetalent.reflection.resolver.wrapper.MethodWrapper;
 
 import java.lang.reflect.Method;
@@ -101,6 +102,12 @@ public class Test {
 		assertTrue(wildcardSignature.matches(testSignature2));
 		assertFalse(wildcardSignature.matches(testSignature3));
 		assertFalse(wildcardSignature.matches(testSignature4));
+	}
+
+	@org.junit.Test
+	public void versionTest() {
+		assertEquals("net.minecraft.server.v1_16_R3", Minecraft.Version.v1_16_R3.minecraft().getNmsPackage());
+		assertEquals("net.minecraft", Minecraft.Version.v1_17_R1.minecraft().getNmsPackage());
 	}
 
 }
