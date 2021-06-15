@@ -65,17 +65,17 @@ public class Minecraft {
     }
 
     /**
-     * @return the current NMS version (format <code>&lt;version&gt;.</code>
+     * @return the current NMS version package
      */
-    public static String getNMSVersion() {
-        return MINECRAFT_VERSION.nmsPackageName();
+    public static String getNMSPackage() {
+        return MINECRAFT_VERSION.getNmsPackage();
     }
 
     /**
-     * @return the current OBC version (format <code>&lt;version&gt;.</code>
+     * @return the current OBC package
      */
-    public static String getOBCVersion() {
-        return MINECRAFT_VERSION.obcPackageName();
+    public static String getOBCPackage() {
+        return MINECRAFT_VERSION.getObcPackage();
     }
 
     public static Object getHandle(Object object) throws ReflectiveOperationException {
@@ -145,7 +145,7 @@ public class Minecraft {
         v1_16_R2(11602),
         v1_16_R3(11603),
 
-        v1_17_R1(11701, false, true),
+        v1_17_R1(11701, "net.minecraft", "org.bukkit.craftbukkit.%s"),
 
         /// (Potentially) Upcoming versions
         v1_18_R1(11801),
@@ -154,12 +154,12 @@ public class Minecraft {
 
         private final MinecraftVersion version;
 
-        Version(int version, boolean nmsHasVersion, boolean obcHasVersion) {
-            this.version = new MinecraftVersion(name(), version, nmsHasVersion, obcHasVersion);
+        Version(int version, String nmsFormat, String obcFormat) {
+            this.version = new MinecraftVersion(name(), version, nmsFormat, obcFormat);
         }
 
         Version(int version) {
-            this(version, true, true);
+            this.version = new MinecraftVersion(name(), version);
         }
 
         /**

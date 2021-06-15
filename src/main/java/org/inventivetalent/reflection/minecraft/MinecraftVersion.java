@@ -20,19 +20,23 @@ public class MinecraftVersion {
 
     private final String packageName;
     private final int version;
-    private final boolean nmsHasVersion;
-    private final boolean obcHasVersion;
+    private final String nmsFormat;
+    private final String obcFormat;
+    private final String nmsPackage;
+    private final String obcPackage;
 
 
-    MinecraftVersion(String packageName, int version, boolean nmsHasVersion, boolean obcHasVersion) {
+    MinecraftVersion(String packageName, int version, String nmsFormat, String obcFormat) {
         this.packageName = packageName;
         this.version = version;
-        this.nmsHasVersion = nmsHasVersion;
-        this.obcHasVersion = obcHasVersion;
+        this.nmsFormat = nmsFormat;
+        this.obcFormat = obcFormat;
+        this.nmsPackage = String.format(this.nmsFormat, packageName);
+        this.obcPackage = String.format(this.obcFormat, packageName);
     }
 
     MinecraftVersion(String packageName, int version) {
-        this(packageName, version, true, true);
+        this(packageName, version, "net.minecraft.server.%s", "org.bukkit.craftbukkit.%s");
     }
 
     // Used by SantiyCheck
@@ -48,7 +52,7 @@ public class MinecraftVersion {
     }
 
     /**
-     * @deprecated use {@link #nmsPackageName()} / {@link #obcPackageName()} instead
+     * @deprecated use {@link #getNmsPackage()} / {@link #getObcPackage()} instead
      */
     @Deprecated
     public String packageName() {
@@ -56,23 +60,17 @@ public class MinecraftVersion {
     }
 
     /**
-     * @return NMS package name + .
+     * @return the full package name for net.minecraft....
      */
-    public String nmsPackageName() {
-        if (nmsHasVersion) {
-            return packageName + ".";
-        }
-        return "";
+    public String getNmsPackage() {
+        return nmsPackage;
     }
 
     /**
-     * @return OBC package name + .
+     * @return the full package name for org.bukkit....
      */
-    public String obcPackageName() {
-        if (obcHasVersion) {
-            return packageName + ".";
-        }
-        return "";
+    public String getObcPackage() {
+        return obcPackage;
     }
 
     /**

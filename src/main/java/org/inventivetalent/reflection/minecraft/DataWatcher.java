@@ -13,12 +13,12 @@ public class DataWatcher {
 
 	static NMSClassResolver nmsClassResolver = new NMSClassResolver();
 
-	static Class<?> ItemStack        = nmsClassResolver.resolveSilent("ItemStack");
+	static Class<?> ItemStack        = nmsClassResolver.resolveSilent("ItemStack", "world.item.ItemStack");
 	static Class<?> ChunkCoordinates = nmsClassResolver.resolveSilent("ChunkCoordinates");
 	static Class<?> BlockPosition    = nmsClassResolver.resolveSilent("BlockPosition");
 	static Class<?> Vector3f         = nmsClassResolver.resolveSilent("Vector3f");
-	static Class<?> DataWatcher      = nmsClassResolver.resolveSilent("DataWatcher");
-	static Class<?> Entity           = nmsClassResolver.resolveSilent("Entity");
+	static Class<?> DataWatcher      = nmsClassResolver.resolveSilent("DataWatcher", "network.syncher");
+	static Class<?> Entity           = nmsClassResolver.resolveSilent("Entity", "world.entity.Entity");
 
 	static ConstructorResolver DataWacherConstructorResolver = new ConstructorResolver(DataWatcher);
 
