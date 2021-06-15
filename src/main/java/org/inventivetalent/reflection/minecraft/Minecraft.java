@@ -49,7 +49,7 @@ public class Minecraft {
         }
 
         try {
-            NmsEntity = nmsClassResolver.resolve("Entity");
+            NmsEntity = nmsClassResolver.resolve("Entity", "world.entity.Entity");
             CraftEntity = obcClassResolver.resolve("entity.CraftEntity");
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
