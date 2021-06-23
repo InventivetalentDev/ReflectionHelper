@@ -24,19 +24,20 @@ public class MinecraftVersion {
     private final String obcFormat;
     private final String nmsPackage;
     private final String obcPackage;
+    private final boolean nmsVersionPrefix;
 
-
-    MinecraftVersion(String packageName, int version, String nmsFormat, String obcFormat) {
+    MinecraftVersion(String packageName, int version, String nmsFormat, String obcFormat, boolean nmsVersionPrefix) {
         this.packageName = packageName;
         this.version = version;
         this.nmsFormat = nmsFormat;
         this.obcFormat = obcFormat;
         this.nmsPackage = String.format(this.nmsFormat, packageName);
         this.obcPackage = String.format(this.obcFormat, packageName);
+        this.nmsVersionPrefix = nmsVersionPrefix;
     }
 
     MinecraftVersion(String packageName, int version) {
-        this(packageName, version, "net.minecraft.server.%s", "org.bukkit.craftbukkit.%s");
+        this(packageName, version, "net.minecraft.server.%s", "org.bukkit.craftbukkit.%s", true);
     }
 
     // Used by SantiyCheck
@@ -71,6 +72,13 @@ public class MinecraftVersion {
      */
     public String getObcPackage() {
         return obcPackage;
+    }
+
+    /**
+     * @return if the nms package name has version prefix
+     */
+    public boolean hasNMSVersionPrefix() {
+        return nmsVersionPrefix;
     }
 
     /**

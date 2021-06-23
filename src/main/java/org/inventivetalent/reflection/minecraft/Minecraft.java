@@ -145,7 +145,7 @@ public class Minecraft {
         v1_16_R2(11602),
         v1_16_R3(11603),
 
-        v1_17_R1(11701, "net.minecraft", "org.bukkit.craftbukkit.%s"),
+        v1_17_R1(11701, "net.minecraft", "org.bukkit.craftbukkit.%s", false),
 
         /// (Potentially) Upcoming versions
         v1_18_R1(11801),
@@ -154,8 +154,8 @@ public class Minecraft {
 
         private final MinecraftVersion version;
 
-        Version(int version, String nmsFormat, String obcFormat) {
-            this.version = new MinecraftVersion(name(), version, nmsFormat, obcFormat);
+        Version(int version, String nmsFormat, String obcFormat, boolean nmsVersionPrefix) {
+            this.version = new MinecraftVersion(name(), version, nmsFormat, obcFormat, nmsVersionPrefix);
         }
 
         Version(int version) {
