@@ -201,85 +201,85 @@ public class DataWatcher {
             /**
              * Byte
              */
-            ENTITY_FLAG("Entity", 57, 0 /*"ax", "ay"*/),
+            ENTITY_FLAG("world.entity.Entity", 57, 0 /*"ax", "ay"*/),
             /**
              * Integer
              */
-            ENTITY_AIR_TICKS("Entity", 58, 1/*"ay", "az"*/),
+            ENTITY_AIR_TICKS("world.entity.Entity", 58, 1/*"ay", "az"*/),
             /**
              * String
              */
-            ENTITY_NAME("Entity", 59, 2/*"az", "aA"*/),
+            ENTITY_NAME("world.entity.Entity", 59, 2/*"az", "aA"*/),
             /**
              * Byte &lt; 1.9 Boolean &gt; 1.9
              */
-            ENTITY_NAME_VISIBLE("Entity", 60, 3/*"aA", "aB"*/),
+            ENTITY_NAME_VISIBLE("world.entity.Entity", 60, 3/*"aA", "aB"*/),
             /**
              * Boolean
              */
-            ENTITY_SILENT("Entity", 61, 4/*"aB", "aC"*/),
+            ENTITY_SILENT("world.entity.Entity", 61, 4/*"aB", "aC"*/),
 
             //////////
 
             //TODO: Add EntityLiving#as (Byte)
-            ENTITY_as("EntityLiving", 2, 0/* "as", "at"*/),
+            ENTITY_as("world.entity.EntityLiving", 2, 0/* "as", "at"*/),
 
             /**
              * Float
              */
-            ENTITY_LIVING_HEALTH("EntityLiving", "HEALTH"),
+            ENTITY_LIVING_HEALTH("world.entity.EntityLiving", "HEALTH"),
 
             //TODO: Add EntityLiving#f (Integer) - Maybe active potions?
-            ENTITY_LIVING_f("EntityLiving", 4, 2/*"f"*/),
+            ENTITY_LIVING_f("world.entity.EntityLiving", 4, 2/*"f"*/),
 
             //TODO: Add EntityLiving#g (Boolean) - Maybe ambient potions?
-            ENTITY_LIVING_g("EntityLiving", 5, 3/*"g"*/),
+            ENTITY_LIVING_g("world.entity.EntityLiving", 5, 3/*"g"*/),
 
             //TODO: Add EntityLiving#h (Integer)
-            ENTITY_LIVING_h("EntityLiving", 6, 4/*"h"*/),
+            ENTITY_LIVING_h("world.entity.EntityLiving", 6, 4/*"h"*/),
 
             //////////
 
             /**
              * Byte
              */
-            ENTITY_INSENTIENT_FLAG("EntityInsentient", 0, 0/* "a"*/),
+            ENTITY_INSENTIENT_FLAG("world.entity.EntityInsentient", 0, 0/* "a"*/),
 
             ///////////
 
             /**
              * Integer
              */
-            ENTITY_SLIME_SIZE("EntitySlime", 0, 0/* "bt", "bu"*/),
+            ENTITY_SLIME_SIZE("world.entity.monster.EntitySlime", 0, 0/* "bt", "bu"*/),
 
             /////////////
 
             //TODO: Add EntityWither#a (Integer)
-            ENTITY_WITHER_a("EntityWither", 0, 0/*"a"*/),
+            ENTITY_WITHER_a("world.entity.boss.wither.EntityWither", 0, 0/*"a"*/),
 
             //TODO:  Add EntityWither#b (Integer)
-            ENTITY_WIHER_b("EntityWither", 1, 1/*"b"*/),
+            ENTITY_WIHER_b("world.entity.boss.wither.EntityWither", 1, 1/*"b"*/),
 
             //TODO: Add EntityWither#c (Integer)
-            ENTITY_WITHER_c("EntityWither", 2, 2/*"c"*/),
+            ENTITY_WITHER_c("world.entity.boss.wither.EntityWither", 2, 2/*"c"*/),
 
             //TODO: Add EntityWither#bv (Integer) - (DataWatcherObject<Integer>[] bv, seems to be an array of {a, b, c})
-            ENTITY_WITHER_bv("EntityWither", 3, 3/*"bv", "bw"*/),
+            ENTITY_WITHER_bv("world.entity.boss.wither.EntityWither", 3, 3/*"bv", "bw"*/),
 
             //TODO: Add EntityWither#bw (Integer)
-            ENTITY_WITHER_bw("EntityWither", 4, 4/*"bw", "bx"*/),
+            ENTITY_WITHER_bw("world.entity.boss.wither.EntityWither", 4, 4/*"bw", "bx"*/),
 
             //////////
 
-            ENTITY_AGEABLE_CHILD("EntityAgeable", 0, 0),
+            ENTITY_AGEABLE_CHILD("world.entity.EntityAgeable", 0, 0),
 
             ///////////
 
-            ENTITY_HORSE_STATUS("EntityHorse", 3, 0),
-            ENTITY_HORSE_HORSE_TYPE("EntityHorse", 4, 1),
-            ENTITY_HORSE_HORSE_VARIANT("EntityHorse", 5, 2),
-            ENTITY_HORSE_OWNER_UUID("EntityHorse", 6, 3),
-            ENTITY_HORSE_HORSE_ARMOR("EntityHorse", 7, 4),
+            ENTITY_HORSE_STATUS("world.entity.animal.horse.EntityHorse", 3, 0),
+            ENTITY_HORSE_HORSE_TYPE("world.entity.animal.horse.EntityHorse", 4, 1),
+            ENTITY_HORSE_HORSE_VARIANT("world.entity.animal.horse.EntityHorse", 5, 2),
+            ENTITY_HORSE_OWNER_UUID("world.entity.animal.horse.EntityHorse", 6, 3),
+            ENTITY_HORSE_HORSE_ARMOR("world.entity.animal.horse.EntityHorse", 7, 4),
 
             /////////
 
@@ -287,22 +287,22 @@ public class DataWatcher {
             /**
              * Float
              */
-            ENTITY_HUMAN_ABSORPTION_HEARTS("EntityHuman", 0, 0 /*"a"*/),
+            ENTITY_HUMAN_ABSORPTION_HEARTS("world.entity.player.EntityHuman", 0, 0 /*"a"*/),
 
             /**
              * Integer
              */
-            ENTITY_HUMAN_SCORE("EntityHuman", 1, 1 /*"b"*/),
+            ENTITY_HUMAN_SCORE("world.entity.player.EntityHuman", 1, 1 /*"b"*/),
 
             /**
              * Byte
              */
-            ENTITY_HUMAN_SKIN_LAYERS("EntityHuman", 2, 2 /*"bp", "bq"*/),
+            ENTITY_HUMAN_SKIN_LAYERS("world.entity.player.EntityHuman", 2, 2 /*"bp", "bq"*/),
 
             /**
              * Byte (0 = left, 1 = right)
              */
-            ENTITY_HUMAN_MAIN_HAND("EntityHuman", 3, 3/*"bq", "br"*/);
+            ENTITY_HUMAN_MAIN_HAND("world.entity.player.EntityHuman", 3, 3/*"bq", "br"*/);
 
             private Object type;
 
