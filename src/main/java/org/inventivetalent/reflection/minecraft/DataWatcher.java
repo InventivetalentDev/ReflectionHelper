@@ -357,7 +357,6 @@ public class DataWatcher {
                     this.type = new FieldResolver(clazz).resolveAccessor(dataWatcherFields.get(offset)).get(null);
                 } catch (Exception e) {
                     System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + ignored + " (offset: " + offset + ", fields: " + dataWatcherFields + ")");
-                    e.printStackTrace();
                 }
             }
 
