@@ -9,7 +9,9 @@ import org.inventivetalent.reflection.resolver.minecraft.NMSClassResolver;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class DataWatcher {
@@ -201,11 +203,13 @@ public class DataWatcher {
             /**
              * Byte
              */
+            @Deprecated
             ENTITY_FLAG("world.entity.Entity", 57, 0 /*"ax", "ay"*/),
+            ENTITY_SHARED_FLAGS("world.entity.Entity", 57, 0),
             /**
              * Integer
              */
-            ENTITY_AIR_TICKS("world.entity.Entity", 58, 1/*"ay", "az"*/),
+            ENTITY_AIR_TICKS("world.entity.Entity", 58, 1),
             /**
              * String
              */
@@ -219,24 +223,34 @@ public class DataWatcher {
              */
             ENTITY_SILENT("world.entity.Entity", 61, 4/*"aB", "aC"*/),
 
+            ENTITY_NO_GRAVITY("world.entity.Entity", 0, 5),
+
+            ENTITY_POSE("world.entity.Entity", 0, 6),
+
+            ENTITY_TICKS_FROZEN("world.entity.Entity", 0, 7),
+
             //////////
 
-            //TODO: Add EntityLiving#as (Byte)
-            ENTITY_as("world.entity.EntityLiving", 2, 0/* "as", "at"*/),
+            ENTITY_LIVING_FLAGS("world.entity.EntityLiving", 0, 0),
 
             /**
              * Float
              */
-            ENTITY_LIVING_HEALTH("world.entity.EntityLiving", "HEALTH"),
+            ENTITY_LIVING_HEALTH("world.entity.EntityLiving", 0, 1),
 
-            //TODO: Add EntityLiving#f (Integer) - Maybe active potions?
+            @Deprecated
             ENTITY_LIVING_f("world.entity.EntityLiving", 4, 2/*"f"*/),
+            ENTITY_LIVING_COLOR("world.entity.EntityLiving", 4, 2),
 
-            //TODO: Add EntityLiving#g (Boolean) - Maybe ambient potions?
+            @Deprecated
             ENTITY_LIVING_g("world.entity.EntityLiving", 5, 3/*"g"*/),
+            ENTITY_LIVING_AMBIENCE("world.entity.EntityLiving", 5, 3),
 
-            //TODO: Add EntityLiving#h (Integer)
+            @Deprecated
             ENTITY_LIVING_h("world.entity.EntityLiving", 6, 4/*"h"*/),
+            ENTITY_LIVING_ARROW_COUNT("world.entity.EntityLiving", 6, 4),
+
+            ENTITY_LIVING_STINGER_COUNT("world.entity.EntityLiving", 6, 5),
 
             //////////
 
@@ -254,31 +268,50 @@ public class DataWatcher {
 
             /////////////
 
-            //TODO: Add EntityWither#a (Integer)
+            @Deprecated
             ENTITY_WITHER_a("world.entity.boss.wither.EntityWither", 0, 0/*"a"*/),
+            ENTITY_WITHER_TARGET_A("world.entity.boss.wither.EntityWither", 0, 0),
 
-            //TODO:  Add EntityWither#b (Integer)
+            @Deprecated
             ENTITY_WIHER_b("world.entity.boss.wither.EntityWither", 1, 1/*"b"*/),
+            ENTITY_WITHER_TARGET_B("world.entity.boss.wither.EntityWither", 1, 1),
 
-            //TODO: Add EntityWither#c (Integer)
+            @Deprecated
             ENTITY_WITHER_c("world.entity.boss.wither.EntityWither", 2, 2/*"c"*/),
+            ENTITY_WITHER_TARGET_C("world.entity.boss.wither.EntityWither", 2, 2),
 
-            //TODO: Add EntityWither#bv (Integer) - (DataWatcherObject<Integer>[] bv, seems to be an array of {a, b, c})
+            @Deprecated
             ENTITY_WITHER_bv("world.entity.boss.wither.EntityWither", 3, 3/*"bv", "bw"*/),
+            ENTITY_WITHER_TARGETS("world.entity.boss.wither.EntityWither", 3, 3),
 
-            //TODO: Add EntityWither#bw (Integer)
+            @Deprecated
             ENTITY_WITHER_bw("world.entity.boss.wither.EntityWither", 4, 4/*"bw", "bx"*/),
+            ENTITY_WITHER_ID("world.entity.boss.wither.EntityWither", 4, 4),
 
             //////////
 
             ENTITY_AGEABLE_CHILD("world.entity.EntityAgeable", 0, 0),
 
+            //////////
+
+            ENTITY_HORSE_CHESTED_ID("world.entity.animal.horse.EntityHorseChestedAbstract", 0, 0),
+
             ///////////
 
+            ENTITY_HORSE_ABSTRACT_FLAGS("world.entity.animal.horse.EntityHorseAbstract", 0, 0),
+            ENTITY_HORSE_ABSTRACT_OWNER_UUID("world.entity.animal.horse.EntityHorseAbstract", 0, 1),
+
+            ENTITY_HORSE_TYPE_VARIANT("world.entity.animal.horse", 0, 0),
+
+            @Deprecated
             ENTITY_HORSE_STATUS("world.entity.animal.horse.EntityHorse", 3, 0),
+            @Deprecated
             ENTITY_HORSE_HORSE_TYPE("world.entity.animal.horse.EntityHorse", 4, 1),
+            @Deprecated
             ENTITY_HORSE_HORSE_VARIANT("world.entity.animal.horse.EntityHorse", 5, 2),
+            @Deprecated
             ENTITY_HORSE_OWNER_UUID("world.entity.animal.horse.EntityHorse", 6, 3),
+            @Deprecated
             ENTITY_HORSE_HORSE_ARMOR("world.entity.animal.horse.EntityHorse", 7, 4),
 
             /////////
@@ -302,7 +335,11 @@ public class DataWatcher {
             /**
              * Byte (0 = left, 1 = right)
              */
-            ENTITY_HUMAN_MAIN_HAND("world.entity.player.EntityHuman", 3, 3/*"bq", "br"*/);
+            ENTITY_HUMAN_MAIN_HAND("world.entity.player.EntityHuman", 3, 3/*"bq", "br"*/),
+
+            ENTITY_HUMAN_SHOULDER_LEFT("world.entity.player.EntityHuman", 0, 4),
+            ENTITY_HUMAN_SHOULDER_RIGHT("world.entity.player.EntityHuman", 0, 5),
+            ;
 
             private Object type;
 
@@ -310,9 +347,7 @@ public class DataWatcher {
                 try {
                     this.type = new FieldResolver(nmsClassResolver.resolve(className)).resolve(fieldNames).get(null);
                 } catch (Exception e) {
-                    if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_9_R1)) {
-                        System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " " + Arrays.toString(fieldNames));
-                    }
+                    System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " " + Arrays.toString(fieldNames));
                 }
             }
 
@@ -320,27 +355,25 @@ public class DataWatcher {
                 try {
                     this.type = new FieldResolver(nmsClassResolver.resolve(className)).resolveIndex(index).get(null);
                 } catch (Exception e) {
-                    if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_9_R1)) {
-                        System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + index);
-                    }
+                    System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + index);
                 }
             }
 
-            ValueType(String className, int index, int offset) {
-                int firstObject = 0;
+            ValueType(String className, int ignored, int offset) {
+                int fieldIndex = 0;
+                List<String> dataWatcherFields = new ArrayList<>();
                 try {
                     Class<?> clazz = nmsClassResolver.resolve(className);
                     for (Field field : clazz.getDeclaredFields()) {
                         if ("DataWatcherObject".equals(field.getType().getSimpleName())) {
-                            break;
+                            dataWatcherFields.add(field.getName());
                         }
-                        firstObject++;
+                        fieldIndex++;
+                        if (dataWatcherFields.size() > offset) break;
                     }
-                    this.type = new FieldResolver(clazz).resolveIndex(firstObject + offset).get(null);
+                    this.type = new FieldResolver(clazz).resolveAccessor(dataWatcherFields.get(fieldIndex)).get(null);
                 } catch (Exception e) {
-                    if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_9_R1)) {
-                        System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + index + " (" + firstObject + "+" + offset + ")");
-                    }
+                    System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + ignored + " (offset: " + offset + ", fields: " + dataWatcherFields + ")");
                 }
             }
 
@@ -352,6 +385,7 @@ public class DataWatcher {
                 return type;
             }
         }
+
     }
 
     /**
@@ -413,4 +447,5 @@ public class DataWatcher {
 
     private DataWatcher() {
     }
+
 }
