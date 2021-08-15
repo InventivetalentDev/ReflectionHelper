@@ -281,12 +281,8 @@ public class DataWatcher {
             ENTITY_WITHER_TARGET_C("world.entity.boss.wither.EntityWither", 2, 2),
 
             @Deprecated
-            ENTITY_WITHER_bv("world.entity.boss.wither.EntityWither", 3, 3/*"bv", "bw"*/),
-            ENTITY_WITHER_TARGETS("world.entity.boss.wither.EntityWither", 3, 3),
-
-            @Deprecated
-            ENTITY_WITHER_bw("world.entity.boss.wither.EntityWither", 4, 4/*"bw", "bx"*/),
-            ENTITY_WITHER_ID("world.entity.boss.wither.EntityWither", 4, 4),
+            ENTITY_WITHER_bw("world.entity.boss.wither.EntityWither", 3, 3/*"bw", "bx"*/),
+            ENTITY_WITHER_ID("world.entity.boss.wither.EntityWither", 3, 3),
 
             //////////
 
@@ -301,18 +297,7 @@ public class DataWatcher {
             ENTITY_HORSE_ABSTRACT_FLAGS("world.entity.animal.horse.EntityHorseAbstract", 0, 0),
             ENTITY_HORSE_ABSTRACT_OWNER_UUID("world.entity.animal.horse.EntityHorseAbstract", 0, 1),
 
-            ENTITY_HORSE_TYPE_VARIANT("world.entity.animal.horse", 0, 0),
-
-            @Deprecated
-            ENTITY_HORSE_STATUS("world.entity.animal.horse.EntityHorse", 3, 0),
-            @Deprecated
-            ENTITY_HORSE_HORSE_TYPE("world.entity.animal.horse.EntityHorse", 4, 1),
-            @Deprecated
-            ENTITY_HORSE_HORSE_VARIANT("world.entity.animal.horse.EntityHorse", 5, 2),
-            @Deprecated
-            ENTITY_HORSE_OWNER_UUID("world.entity.animal.horse.EntityHorse", 6, 3),
-            @Deprecated
-            ENTITY_HORSE_HORSE_ARMOR("world.entity.animal.horse.EntityHorse", 7, 4),
+            ENTITY_HORSE_TYPE_VARIANT("world.entity.animal.horse.EntityHorse", 0, 0),
 
             /////////
 
@@ -360,7 +345,6 @@ public class DataWatcher {
             }
 
             ValueType(String className, int ignored, int offset) {
-                int fieldIndex = 0;
                 List<String> dataWatcherFields = new ArrayList<>();
                 try {
                     Class<?> clazz = nmsClassResolver.resolve(className);
@@ -368,12 +352,11 @@ public class DataWatcher {
                         if ("DataWatcherObject".equals(field.getType().getSimpleName())) {
                             dataWatcherFields.add(field.getName());
                         }
-                        fieldIndex++;
-                        if (dataWatcherFields.size() > offset) break;
+                        if (dataWatcherFields.size() > offset + 1) break;
                     }
                     this.type = new FieldResolver(clazz).resolveAccessor(dataWatcherFields.get(offset)).get(null);
                 } catch (Exception e) {
-                    System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + ignored + " (name: " + dataWatcherFields.get(0) + ", offset: " + offset + ", fields: " + dataWatcherFields + ")");
+                    System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + ignored + " (offset: " + offset + ", fields: " + dataWatcherFields + ")");
                     e.printStackTrace();
                 }
             }
