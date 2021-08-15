@@ -371,7 +371,7 @@ public class DataWatcher {
                         fieldIndex++;
                         if (dataWatcherFields.size() > offset) break;
                     }
-                    this.type = new FieldResolver(clazz).resolveAccessor(dataWatcherFields.get(fieldIndex)).get(null);
+                    this.type = new FieldResolver(clazz).resolveAccessor(dataWatcherFields.get(offset)).get(null);
                 } catch (Exception e) {
                     System.err.println("[ReflectionHelper] Failed to find DataWatcherObject for " + className + " #" + ignored + " (name: " + dataWatcherFields.get(0) + ", offset: " + offset + ", fields: " + dataWatcherFields + ")");
                     e.printStackTrace();
