@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
  * Helper class to access minecraft/bukkit specific objects
  */
 public class Minecraft {
+
     public static final Pattern NUMERIC_VERSION_PATTERN = Pattern.compile("v([0-9])_([0-9]*)_R([0-9])");
 
     /**
@@ -145,12 +146,14 @@ public class Minecraft {
         v1_16_R2(11602),
         v1_16_R3(11603),
 
-        v1_17_R1(11701, "net.minecraft", "org.bukkit.craftbukkit.%s", false),
+        v1_17_R1(11701),
 
-        /// (Potentially) Upcoming versions
         v1_18_R1(11801),
 
-        v1_19_R1(11901);
+        /// (Potentially) Upcoming versions
+        v1_19_R1(11901),
+
+        v1_20_R1(12001);
 
         private final MinecraftVersion version;
 
@@ -159,7 +162,11 @@ public class Minecraft {
         }
 
         Version(int version) {
-            this.version = new MinecraftVersion(name(), version);
+            if (version >= 11701) { // 1.17+ new class package name format
+                this.version = new MinecraftVersion(name(), version, "net.minecraft", "org.bukkit.craftbukkit.%s", false);
+            } else {
+                this.version = new MinecraftVersion(name(), version);
+            }
         }
 
         /**
@@ -222,20 +229,20 @@ public class Minecraft {
             String name = Bukkit.getServer().getClass().getPackage().getName();
             String versionPackage = name.substring(name.lastIndexOf('.') + 1);
             for (Version version : values()) {
-                if (version.matchesPackageName(versionPackage)) { return version; }
+                if (version.matchesPackageName(versionPackage)) {return version;}
             }
             System.err.println("[ReflectionHelper] Failed to find version enum for '" + name + "'/'" + versionPackage + "'");
 
             System.out.println("[ReflectionHelper] Generating dynamic constant...");
             Matcher matcher = NUMERIC_VERSION_PATTERN.matcher(versionPackage);
             while (matcher.find()) {
-                if (matcher.groupCount() < 3) { continue; }
+                if (matcher.groupCount() < 3) {continue;}
 
                 String majorString = matcher.group(1);
                 String minorString = matcher.group(2);
-                if (minorString.length() == 1) { minorString = "0" + minorString; }
+                if (minorString.length() == 1) {minorString = "0" + minorString;}
                 String patchString = matcher.group(3);
-                if (patchString.length() == 1) { patchString = "0" + patchString; }
+                if (patchString.length() == 1) {patchString = "0" + patchString;}
 
                 String numVersionString = majorString + minorString + patchString;
                 int numVersion = Integer.parseInt(numVersionString);
@@ -247,11 +254,11 @@ public class Minecraft {
                     Version[] oldValues = (Version[]) valuesField.get(null);
                     Version[] newValues = new Version[oldValues.length + 1];
                     System.arraycopy(oldValues, 0, newValues, 0, oldValues.length);
-                    Version dynamicVersion = (Version) newEnumInstance(Version.class, new Class[] {
+                    Version dynamicVersion = (Version) newEnumInstance(Version.class, new Class[]{
                             String.class,
                             int.class,
                             int.class
-                    }, new Object[] {
+                    }, new Object[]{
                             packge,
                             newValues.length - 1,
                             numVersion
@@ -287,4 +294,5 @@ public class Minecraft {
         }
         return new MethodResolver(constructorAccessor.getClass()).resolve("newInstance").invoke(constructorAccessor, (Object) values);
     }
+
 }
