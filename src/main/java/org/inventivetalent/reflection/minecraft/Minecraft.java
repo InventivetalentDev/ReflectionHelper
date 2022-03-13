@@ -276,6 +276,8 @@ public class Minecraft {
                     System.out.println("[ReflectionHelper] Please inform inventivetalent about the outdated version, as this is not guaranteed to work.");
                     return dynamicVersion;
                 } catch (ReflectiveOperationException e) {
+                    System.out.println("[ReflectionHelper] Failed to create deprecated dynamic version");
+                    System.out.println("[ReflectionHelper] If the above (ReflectionHelper/MinecraftVersion) succeeded, you can ignore this.");
                     e.printStackTrace();
                 }
             }
