@@ -35,6 +35,11 @@ public class Minecraft {
     private static Class<?> CraftEntity;
 
     static {
+        try {
+            MinecraftVersion.getVersion();
+        } catch (Exception e) {
+        }
+
         Version tempVersion = Version.UNKNOWN;
         try {
             tempVersion = Version.getVersion();
