@@ -163,9 +163,14 @@ public class MinecraftVersion {
             int numVersion = Integer.parseInt(numVersionString);
             String packageName = "v" + versionPackage.substring(1).toUpperCase();
 
+            boolean postOneSeventeen = numVersion > 11701;
+
             //dynamic register version
             System.out.println("[ReflectionHelper/MinecraftVersion] Injected dynamic version " + packageName + " (#" + numVersion + ").");
             System.out.println("[ReflectionHelper/MinecraftVersion] Please inform inventivetalent about the outdated version, as this is not guaranteed to work.");
+            if (postOneSeventeen) { // new nms package format for 1.17+
+                return new MinecraftVersion(packageName, numVersion, "net.minecraft", "org.bukkit.craftbukkit.%s", false);
+            }
             return new MinecraftVersion(packageName, numVersion);
         }
 
