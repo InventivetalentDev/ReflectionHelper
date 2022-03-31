@@ -94,7 +94,7 @@ public class MinecraftVersion {
      * @return <code>true</code> if this version is equals than the specified version
      */
     public boolean equal(Minecraft.Version version) {
-        return version() < version.version();
+        return version() == version.version();
     }
 
     /**
