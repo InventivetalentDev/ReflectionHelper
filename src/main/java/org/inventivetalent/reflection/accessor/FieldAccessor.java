@@ -14,6 +14,7 @@ public class FieldAccessor {
 
     public FieldAccessor(Field field) {
         this.field = field;
+        if (field == null) return;
         try {
             field.setAccessible(true);
         } catch (Exception e) {
@@ -21,6 +22,10 @@ public class FieldAccessor {
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean hasField() {
+        return field != null;
     }
 
     public boolean isStatic() {
