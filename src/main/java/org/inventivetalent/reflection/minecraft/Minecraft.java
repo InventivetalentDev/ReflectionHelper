@@ -158,6 +158,7 @@ public class Minecraft {
 
         v1_19_R1(11901),
         v1_19_R2(11902),
+        v1_19_R3(11904),
 
         /// (Potentially) Upcoming versions
         v1_20_R1(12001),
