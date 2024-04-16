@@ -16,24 +16,46 @@ import static org.junit.Assert.assertNotNull;
 
 public class ResolverTest {
 
-	@Test
-	public void basic() throws ReflectiveOperationException{
-		ClassResolver classResolver = new ClassResolver();
-		Class clazz = classResolver.resolve("org.inventivetalent.reflection.resolver.wrapper.ClassWrapper");
-		assertNotNull(clazz);
-		assertEquals(ClassWrapper.class, clazz);
+    @Test
+    public void basic() throws ReflectiveOperationException {
+        ClassResolver classResolver = new ClassResolver();
+        Class clazz = classResolver.resolve("org.inventivetalent.reflection.resolver.wrapper.ClassWrapper");
+        assertNotNull(clazz);
+        assertEquals(ClassWrapper.class, clazz);
 
-		FieldResolver fieldResolver = new FieldResolver(clazz);
-		Field field = fieldResolver.resolve("clazz");
-		assertNotNull(field);
+        FieldResolver fieldResolver = new FieldResolver(clazz);
+        Field field = fieldResolver.resolve("clazz");
+        assertNotNull(field);
 
-		ConstructorResolver constructorResolver = new ConstructorResolver(clazz);
-		Constructor constructor = constructorResolver.resolveFirstConstructor();
-		assertNotNull(constructor);
+        ConstructorResolver constructorResolver = new ConstructorResolver(clazz);
+        Constructor constructor = constructorResolver.resolveFirstConstructor();
+        assertNotNull(constructor);
 
-		MethodResolver methodResolver = new MethodResolver(clazz);
-		Method method = methodResolver.resolve("newInstance");
-		assertNotNull(method);
-	}
+        MethodResolver methodResolver = new MethodResolver(clazz);
+        Method method = methodResolver.resolve("newInstance");
+        assertNotNull(method);
+    }
+
+    @Test
+    public void resolveSuperField() throws NoSuchFieldException, NoSuchMethodException {
+        FieldResolver fieldResolver = new FieldResolver(SubClass.class);
+        Field field = fieldResolver.resolve("a");
+        assertNotNull(field);
+
+        MethodResolver methodResolver = new MethodResolver(SubClass.class);
+        Method method = methodResolver.resolve("a");
+        assertNotNull(method);
+    }
+
+    class BaseClass {
+        private String a = "base";
+
+        private void a() {
+        }
+    }
+
+    class SubClass extends BaseClass {
+        private String b = "sub";
+    }
 
 }
