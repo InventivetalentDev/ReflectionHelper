@@ -56,7 +56,8 @@ public abstract class ResolverAbstract<T> {
 				return resolved;
 			} catch (ReflectiveOperationException e) {
 				//Not found, ignore the exception
-				e.printStackTrace();
+				if (AccessUtil.VERBOSE)
+					e.printStackTrace();
 			}
 		}
 
