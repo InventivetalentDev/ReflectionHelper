@@ -125,7 +125,6 @@ public class FieldResolver extends MemberResolver<Field> {
             // If field not found in current class and its types, then check in superclass
             Class<?> superclass = clazz.getSuperclass();
             if (superclass != null) {
-                System.out.println("superclass: " + superclass.getName());
                 return resolveObject(query, superclass);
             }
         }
